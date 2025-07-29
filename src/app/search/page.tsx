@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Search, Filter } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FoodCard from '@/components/FoodCard';
 import Footer from '@/components/Footer';
-import RegionSelector from '@/components/RegionSelector';
-import { FoodItem } from '@/types';
+import { FoodItem, SearchFilters } from '@/types';
 
-// Mock data for demonstration
+// Mock data - complete list with all 24 items
 const mockFoodItems: FoodItem[] = [
   // Pizza Category
   {
@@ -55,7 +56,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Biryani Category
   {
     _id: '4',
@@ -102,7 +102,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Indian Category
   {
     _id: '7',
@@ -149,7 +148,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Burger Category
   {
     _id: '10',
@@ -196,7 +194,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Chinese Category
   {
     _id: '13',
@@ -243,7 +240,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // South Indian Category
   {
     _id: '16',
@@ -290,7 +286,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Dessert Category
   {
     _id: '19',
@@ -303,7 +298,7 @@ const mockFoodItems: FoodItem[] = [
     rating: 4.6,
     preparationTime: 10,
     isVegetarian: true,
-    isAvailable: false,
+    isAvailable: true,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -337,7 +332,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Fast Food Category
   {
     _id: '22',
@@ -386,242 +380,292 @@ const mockFoodItems: FoodItem[] = [
   }
 ];
 
-const mockRegions = [
-  "Delhi NCR",
-  "Mumbai",
-  "Bangalore",
-  "Hyderabad",
-  "Chennai",
-  "Kolkata"
-];
+const categories = ['All', 'Pizza', 'Biryani', 'Indian', 'Chinese', 'Burger', 'South Indian', 'Dessert', 'Fast Food'];
 
-const regionOffers: Record<string, string> = {
-  "Delhi NCR": "Get 20% off on all Pizza orders!",
-  "Mumbai": "Free dessert with every Biryani!",
-  "Bangalore": "Flat ₹50 off on orders above ₹499.",
-  "Hyderabad": "Buy 1 Get 1 Free on South Indian dishes!",
-  "Chennai": "10% off for first-time users.",
-  "Kolkata": "Free delivery on Fast Food orders!"
-};
-
-export default function Home() {
-  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedRegion, setSelectedRegion] = useState<string>(mockRegions[0]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 8;
+const SearchPage = () => {
+  const searchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const [filteredItems, setFilteredItems] = useState<FoodItem[]>([]);
+  const [displayedItems, setDisplayedItems] = useState<FoodItem[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [itemsToShow, setItemsToShow] = useState(12);
+  const [filters, setFilters] = useState<SearchFilters>({
+    category: searchParams.get('category') || 'All',
+    minPrice: undefined,
+    maxPrice: undefined,
+    isVegetarian: undefined,
+    rating: undefined,
+    sortBy: 'rating',
+    sortOrder: 'desc'
+  });
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setFoodItems(mockFoodItems);
-      setLoading(false);
-    }, 1000);
-  }, []);
+    filterAndSortItems();
+  }, [searchQuery, filters]);
 
-  // Filter and paginate food items (demo: show all for now, but could filter by region)
-  const filteredItems = foodItems; // In real app, filter by region property
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const paginatedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  useEffect(() => {
+    setDisplayedItems(filteredItems.slice(0, itemsToShow));
+  }, [filteredItems, itemsToShow]);
 
-  const categories = [
-    { name: 'Pizza', icon: '🍕', count: foodItems.filter(item => item.category === 'Pizza').length },
-    { name: 'Biryani', icon: '🍛', count: foodItems.filter(item => item.category === 'Biryani').length },
-    { name: 'Indian', icon: '🍛', count: foodItems.filter(item => item.category === 'Indian').length },
-    { name: 'Chinese', icon: '🥡', count: foodItems.filter(item => item.category === 'Chinese').length },
-    { name: 'Burger', icon: '🍔', count: foodItems.filter(item => item.category === 'Burger').length },
-    { name: 'South Indian', icon: '🥞', count: foodItems.filter(item => item.category === 'South Indian').length },
-    { name: 'Dessert', icon: '🍰', count: foodItems.filter(item => item.category === 'Dessert').length },
-    { name: 'Fast Food', icon: '🍟', count: foodItems.filter(item => item.category === 'Fast Food').length },
-  ];
+  const filterAndSortItems = () => {
+    let items = [...mockFoodItems];
+
+    // Text search
+    if (searchQuery.trim()) {
+      items = items.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (typeof item.restaurant === 'string' && 
+         item.restaurant.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+    }
+
+    // Category filter
+    if (filters.category && filters.category !== 'All') {
+      items = items.filter(item => item.category === filters.category);
+    }
+
+    // Price filter
+    if (filters.minPrice !== undefined) {
+      items = items.filter(item => item.price >= filters.minPrice!);
+    }
+    if (filters.maxPrice !== undefined) {
+      items = items.filter(item => item.price <= filters.maxPrice!);
+    }
+
+    // Vegetarian filter
+    if (filters.isVegetarian !== undefined) {
+      items = items.filter(item => item.isVegetarian === filters.isVegetarian);
+    }
+
+    // Rating filter
+    if (filters.rating !== undefined) {
+      items = items.filter(item => item.rating >= filters.rating!);
+    }
+
+    // Sorting
+    if (filters.sortBy) {
+      items.sort((a, b) => {
+        let aValue: number;
+        let bValue: number;
+
+        switch (filters.sortBy) {
+          case 'price':
+            aValue = a.price;
+            bValue = b.price;
+            break;
+          case 'rating':
+            aValue = a.rating;
+            bValue = b.rating;
+            break;
+          case 'preparationTime':
+            aValue = a.preparationTime;
+            bValue = b.preparationTime;
+            break;
+          default:
+            return 0;
+        }
+
+        return filters.sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
+      });
+    }
+
+    setFilteredItems(items);
+  };
+
+  const handleFilterChange = (key: keyof SearchFilters, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      category: 'All',
+      minPrice: undefined,
+      maxPrice: undefined,
+      isVegetarian: undefined,
+      rating: undefined,
+      sortBy: 'rating',
+      sortOrder: 'desc'
+    });
+  };
+
+  const loadMore = () => {
+    setItemsToShow(prev => prev + 12);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      {/* Hero Section with Background Video */}
-      <div className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white py-20 overflow-hidden">
-        {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-        >
-          <source src="https://res.cloudinary.com/dykqu1tie/video/upload/v1753770094/123629-728697948_medium_th7ywr.mp4" type="video/mp4" />
-        </video>
-        
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/80 to-red-600/80"></div>
-        
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Delicious Food, Delivered Fast
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Order from your favorite restaurants and get it delivered to your doorstep in minutes
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Search Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-3xl font-bold text-gray-800">
+              {searchQuery ? `Search results for "${searchQuery}"` : 'Search Food Items'}
+            </h1>
             <button
-              onClick={() => document.getElementById('food-items')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center space-x-2 text-black bg-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              Order Now
-            </button>
-            <button
-              onClick={() => document.getElementById('food-items')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-600 transition-colors"
-            >
-              View Menu
+              <Filter className="h-5 w-5" />
+              <span>Filters</span>
             </button>
           </div>
-        </div>
-      </div>
 
-      {/* Categories Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Browse by Category
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Find your favorite cuisine from our wide selection
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-          {categories.map((category) => (
-            <div
-              key={category.name}
-              onClick={() => window.location.href = `/search?category=${encodeURIComponent(category.name)}`}
-              className="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer group"
-            >
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
-                {category.icon}
-              </div>
-              <h3 className="font-semibold text-gray-800 mb-1">{category.name}</h3>
-              <p className="text-sm text-gray-500">{category.count} items</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Why Choose FoodDelivery?
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">Get your food delivered in 30 minutes or less</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🍽️</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Quality Food</h3>
-              <p className="text-gray-600">Fresh ingredients and top-rated restaurants</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💳</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Easy Payment</h3>
-              <p className="text-gray-600">Multiple payment options for your convenience</p>
-            </div>
+          {/* Search Bar */}
+          <div className="relative max-w-2xl">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black h-5 w-5" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search for food items, restaurants, cuisines..."
+              className="w-full pl-10 pr-4 py-3 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            />
           </div>
         </div>
-      </div>
 
-      {/* Food Items Section */}
-      <div id="food-items" className="max-w-7xl text-black mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Region Selector */}
-        <RegionSelector
-          regions={mockRegions}
-          selectedRegion={selectedRegion}
-          onRegionChange={region => {
-            setSelectedRegion(region);
-            setCurrentPage(1);
-          }}
-        />
-        {/* Region Offer */}
-        <div className="mb-8 text-center">
-          <span className="inline-block bg-orange-100 text-orange-700 px-6 py-2 rounded-full font-semibold text-lg shadow">
-            {regionOffers[selectedRegion]}
-          </span>
-        </div>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Popular Food Items
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Discover delicious meals from top-rated restaurants
-          </p>
-        </div>
+        {/* Filters Panel */}
+        {showFilters && (
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Category Filter */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <select
+                  value={filters.category || 'All'}
+                  onChange={(e) => handleFilterChange('category', e.target.value)}
+                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(itemsPerPage)].map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                <div className="h-48 bg-gray-300"></div>
-                <div className="p-4">
-                  <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-300 rounded mb-4"></div>
-                  <div className="h-8 bg-gray-300 rounded"></div>
+              {/* Price Range */}
+              <div>
+                <label className="block text-sm text-black font-medium text-gray-700 mb-2">Price Range</label>
+                <div className="flex space-x-2">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.minPrice || ''}
+                    onChange={(e) => handleFilterChange('minPrice', e.target.value ? Number(e.target.value) : undefined)}
+                    className="w-full px-3 py-2 border border-gray-300 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.maxPrice || ''}
+                    onChange={(e) => handleFilterChange('maxPrice', e.target.value ? Number(e.target.value) : undefined)}
+                    className="w-full px-3 py-2 border border-gray-300 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {paginatedItems.map((item) => (
-              <FoodCard key={item._id} foodItem={item} />
-            ))}
+
+              {/* Vegetarian Filter */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Diet</label>
+                <select
+                  value={filters.isVegetarian === undefined ? 'all' : filters.isVegetarian.toString()}
+                  onChange={(e) => handleFilterChange('isVegetarian', e.target.value === 'all' ? undefined : e.target.value === 'true')}
+                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+                  <option value="all">All</option>
+                  <option value="true">Vegetarian</option>
+                  <option value="false">Non-Vegetarian</option>
+                </select>
+              </div>
+
+              {/* Sort By */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                <div className="flex space-x-2">
+                  <select
+                    value={filters.sortBy || 'rating'}
+                    onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+                    className="flex-1 px-3 py-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  >
+                    <option value="rating">Rating</option>
+                    <option value="price">Price</option>
+                    <option value="preparationTime">Prep Time</option>
+                  </select>
+                  <select
+                    value={filters.sortOrder || 'desc'}
+                    onChange={(e) => handleFilterChange('sortOrder', e.target.value)}
+                    className="px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  >
+                    <option value="asc">↑</option>
+                    <option value="desc">↓</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={clearFilters}
+                className="px-4 py-2 text-orange-600 hover:text-orange-700 font-medium"
+              >
+                Clear Filters
+              </button>
+            </div>
           </div>
         )}
 
-        {/* Pagination Controls */}
-        <div className="flex justify-center items-center gap-2 mt-10">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-orange-100 transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            Previous
-          </button>
-          <span className="mx-2 font-bold text-gray-700">Page {currentPage} of {totalPages}</span>
-          <button
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-orange-100 transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            Next
-          </button>
+        {/* Results */}
+        <div className="mb-4">
+          <p className="text-gray-600">
+            {filteredItems.length} {filteredItems.length === 1 ? 'result' : 'results'} found
+          </p>
         </div>
 
-        <div className="text-center mt-12">
-          <button
-            onClick={() => window.location.href = '/search'}
-            className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
-          >
-            View All Items
-          </button>
-        </div>
+        {/* Food Items Grid */}
+        {filteredItems.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {displayedItems.map((item) => (
+                <FoodCard key={item._id} foodItem={item} />
+              ))}
+            </div>
+            
+            {/* Load More Button */}
+            {displayedItems.length < filteredItems.length && (
+              <div className="text-center mt-12">
+                <button
+                  onClick={loadMore}
+                  className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
+                >
+                  Load More ({filteredItems.length - displayedItems.length} remaining)
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <Search className="mx-auto h-24 w-24 text-gray-400 mb-4" />
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">No results found</h3>
+            <p className="text-gray-600 mb-4">
+              Try adjusting your search terms or filters
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                clearFilters();
+              }}
+              className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+            >
+              Clear Search
+            </button>
+          </div>
+        )}
       </div>
-
       <Footer />
     </div>
   );
-}
+};
+
+export default SearchPage;

@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { Star, Clock, ArrowLeft, Plus, Minus } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import FoodCard from '@/components/FoodCard';
 import Footer from '@/components/Footer';
-import RegionSelector from '@/components/RegionSelector';
 import { FoodItem } from '@/types';
+import { useCart } from '@/context/CartContext';
 
-// Mock data for demonstration
+// Mock data - complete list with all 24 items and working images
 const mockFoodItems: FoodItem[] = [
   // Pizza Category
   {
@@ -55,7 +57,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Biryani Category
   {
     _id: '4',
@@ -102,7 +103,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Indian Category
   {
     _id: '7',
@@ -149,7 +149,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Burger Category
   {
     _id: '10',
@@ -196,7 +195,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Chinese Category
   {
     _id: '13',
@@ -243,7 +241,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // South Indian Category
   {
     _id: '16',
@@ -290,7 +287,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Dessert Category
   {
     _id: '19',
@@ -303,7 +299,7 @@ const mockFoodItems: FoodItem[] = [
     rating: 4.6,
     preparationTime: 10,
     isVegetarian: true,
-    isAvailable: false,
+    isAvailable: true,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -337,7 +333,6 @@ const mockFoodItems: FoodItem[] = [
     createdAt: new Date(),
     updatedAt: new Date()
   },
-
   // Fast Food Category
   {
     _id: '22',
@@ -386,242 +381,222 @@ const mockFoodItems: FoodItem[] = [
   }
 ];
 
-const mockRegions = [
-  "Delhi NCR",
-  "Mumbai",
-  "Bangalore",
-  "Hyderabad",
-  "Chennai",
-  "Kolkata"
-];
-
-const regionOffers: Record<string, string> = {
-  "Delhi NCR": "Get 20% off on all Pizza orders!",
-  "Mumbai": "Free dessert with every Biryani!",
-  "Bangalore": "Flat ₹50 off on orders above ₹499.",
-  "Hyderabad": "Buy 1 Get 1 Free on South Indian dishes!",
-  "Chennai": "10% off for first-time users.",
-  "Kolkata": "Free delivery on Fast Food orders!"
-};
-
-export default function Home() {
-  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+const FoodDetailPage = () => {
+  const params = useParams();
+  const router = useRouter();
+  const { addItem } = useCart();
+  const [foodItem, setFoodItem] = useState<FoodItem | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [selectedRegion, setSelectedRegion] = useState<string>(mockRegions[0]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 8;
 
   useEffect(() => {
-    // Simulate API call
+    // Simulate API call to fetch food item
+    const id = params.id as string;
     setTimeout(() => {
-      setFoodItems(mockFoodItems);
+      const item = mockFoodItems.find(item => item._id === id);
+      setFoodItem(item || null);
       setLoading(false);
-    }, 1000);
-  }, []);
+    }, 500);
+  }, [params.id]);
 
-  // Filter and paginate food items (demo: show all for now, but could filter by region)
-  const filteredItems = foodItems; // In real app, filter by region property
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const paginatedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const handleAddToCart = () => {
+    if (foodItem) {
+      for (let i = 0; i < quantity; i++) {
+        addItem(foodItem);
+      }
+      router.push('/cart');
+    }
+  };
 
-  const categories = [
-    { name: 'Pizza', icon: '🍕', count: foodItems.filter(item => item.category === 'Pizza').length },
-    { name: 'Biryani', icon: '🍛', count: foodItems.filter(item => item.category === 'Biryani').length },
-    { name: 'Indian', icon: '🍛', count: foodItems.filter(item => item.category === 'Indian').length },
-    { name: 'Chinese', icon: '🥡', count: foodItems.filter(item => item.category === 'Chinese').length },
-    { name: 'Burger', icon: '🍔', count: foodItems.filter(item => item.category === 'Burger').length },
-    { name: 'South Indian', icon: '🥞', count: foodItems.filter(item => item.category === 'South Indian').length },
-    { name: 'Dessert', icon: '🍰', count: foodItems.filter(item => item.category === 'Dessert').length },
-    { name: 'Fast Food', icon: '🍟', count: foodItems.filter(item => item.category === 'Fast Food').length },
-  ];
+  const increaseQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity(prev => prev > 1 ? prev - 1 : 1);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-300 rounded mb-6 w-32"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="h-96 bg-gray-300 rounded-lg"></div>
+              <div className="space-y-4">
+                <div className="h-8 bg-gray-300 rounded"></div>
+                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                <div className="h-6 bg-gray-300 rounded w-1/2"></div>
+                <div className="h-20 bg-gray-300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!foodItem) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">Food Item Not Found</h1>
+            <button
+              onClick={() => router.back()}
+              className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      {/* Hero Section with Background Video */}
-      <div className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white py-20 overflow-hidden">
-        {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors mb-6"
         >
-          <source src="https://res.cloudinary.com/dykqu1tie/video/upload/v1753770094/123629-728697948_medium_th7ywr.mp4" type="video/mp4" />
-        </video>
-        
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/80 to-red-600/80"></div>
-        
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Delicious Food, Delivered Fast
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Order from your favorite restaurants and get it delivered to your doorstep in minutes
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => document.getElementById('food-items')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
-            >
-              Order Now
-            </button>
-            <button
-              onClick={() => document.getElementById('food-items')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-600 transition-colors"
-            >
-              View Menu
-            </button>
-          </div>
-        </div>
-      </div>
+          <ArrowLeft className="h-5 w-5" />
+          <span>Back</span>
+        </button>
 
-      {/* Categories Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Browse by Category
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Find your favorite cuisine from our wide selection
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-          {categories.map((category) => (
-            <div
-              key={category.name}
-              onClick={() => window.location.href = `/search?category=${encodeURIComponent(category.name)}`}
-              className="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer group"
-            >
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
-                {category.icon}
-              </div>
-              <h3 className="font-semibold text-gray-800 mb-1">{category.name}</h3>
-              <p className="text-sm text-gray-500">{category.count} items</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Why Choose FoodDelivery?
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">Get your food delivered in 30 minutes or less</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🍽️</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Quality Food</h3>
-              <p className="text-gray-600">Fresh ingredients and top-rated restaurants</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💳</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Easy Payment</h3>
-              <p className="text-gray-600">Multiple payment options for your convenience</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Food Items Section */}
-      <div id="food-items" className="max-w-7xl text-black mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Region Selector */}
-        <RegionSelector
-          regions={mockRegions}
-          selectedRegion={selectedRegion}
-          onRegionChange={region => {
-            setSelectedRegion(region);
-            setCurrentPage(1);
-          }}
-        />
-        {/* Region Offer */}
-        <div className="mb-8 text-center">
-          <span className="inline-block bg-orange-100 text-orange-700 px-6 py-2 rounded-full font-semibold text-lg shadow">
-            {regionOffers[selectedRegion]}
-          </span>
-        </div>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Popular Food Items
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Discover delicious meals from top-rated restaurants
-          </p>
-        </div>
-
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(itemsPerPage)].map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                <div className="h-48 bg-gray-300"></div>
-                <div className="p-4">
-                  <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-300 rounded mb-4"></div>
-                  <div className="h-8 bg-gray-300 rounded"></div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Food Image */}
+          <div className="relative">
+            <div className="relative h-96 w-full rounded-lg overflow-hidden">
+              <Image
+                src={foodItem.image}
+                alt={foodItem.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              {foodItem.isVegetarian && (
+                <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  VEG
                 </div>
+              )}
+              {!foodItem.isAvailable && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                  <span className="text-white font-semibold text-xl">Out of Stock</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Food Details */}
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                {foodItem.name}
+              </h1>
+              <p className="text-gray-600 text-lg">
+                {foodItem.description}
+              </p>
+            </div>
+
+            {/* Restaurant Info */}
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <h3 className="font-semibold text-gray-800 mb-2">Restaurant</h3>
+              <p className="text-gray-600">
+                {typeof foodItem.restaurant === 'string' 
+                  ? foodItem.restaurant 
+                  : foodItem.restaurant.name}
+              </p>
+            </div>
+
+            {/* Rating and Time */}
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <Star className="h-5 w-5 text-yellow-400 fill-current" />
+                <span className="text-lg font-semibold text-gray-800">
+                  {foodItem.rating.toFixed(1)}
+                </span>
+                <span className="text-gray-600">Rating</span>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {paginatedItems.map((item) => (
-              <FoodCard key={item._id} foodItem={item} />
-            ))}
-          </div>
-        )}
+              <div className="flex items-center space-x-2">
+                <Clock className="h-5 w-5 text-gray-400" />
+                <span className="text-gray-600">
+                  {foodItem.preparationTime} mins
+                </span>
+              </div>
+            </div>
 
-        {/* Pagination Controls */}
-        <div className="flex justify-center items-center gap-2 mt-10">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-orange-100 transition-colors ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            Previous
-          </button>
-          <span className="mx-2 font-bold text-gray-700">Page {currentPage} of {totalPages}</span>
-          <button
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-orange-100 transition-colors ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            Next
-          </button>
-        </div>
+            {/* Category */}
+            <div>
+              <span className="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+                {foodItem.category}
+              </span>
+            </div>
 
-        <div className="text-center mt-12">
-          <button
-            onClick={() => window.location.href = '/search'}
-            className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
-          >
-            View All Items
-          </button>
+            {/* Price */}
+            <div className="text-3xl font-bold text-orange-600">
+              ₹{foodItem.price}
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="flex items-center space-x-4">
+              <span className="text-lg font-semibold text-gray-800">Quantity:</span>
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={decreaseQuantity}
+                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  disabled={quantity <= 1}
+                >
+                  <Minus className="h-4 w-4 text-gray-600" />
+                </button>
+                <span className="text-xl font-semibold min-w-[3rem] text-center">
+                  {quantity}
+                </span>
+                <button
+                  onClick={increaseQuantity}
+                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <Plus className="h-4 w-4 text-gray-600" />
+                </button>
+              </div>
+            </div>
+
+            {/* Total Price */}
+            <div className="bg-gray-100 rounded-lg p-4">
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-semibold text-gray-800">Total:</span>
+                <span className="text-2xl font-bold text-orange-600">
+                  ₹{(foodItem.price * quantity).toFixed(2)}
+                </span>
+              </div>
+            </div>
+
+            {/* Add to Cart Button */}
+            <button
+              onClick={handleAddToCart}
+              disabled={!foodItem.isAvailable}
+              className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-colors ${
+                foodItem.isAvailable
+                  ? 'bg-orange-600 text-white hover:bg-orange-700'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              {foodItem.isAvailable ? 'Add to Cart' : 'Out of Stock'}
+            </button>
+          </div>
         </div>
       </div>
 
       <Footer />
     </div>
   );
-}
+};
+
+export default FoodDetailPage;
