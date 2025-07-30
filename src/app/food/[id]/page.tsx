@@ -418,18 +418,18 @@ const FoodDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background text-foreground">
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-300 rounded mb-6 w-32"></div>
+            <div className="h-8 bg-muted rounded mb-6 w-32"></div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="h-96 bg-gray-300 rounded-lg"></div>
+              <div className="h-96 bg-muted rounded-lg"></div>
               <div className="space-y-4">
-                <div className="h-8 bg-gray-300 rounded"></div>
-                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                <div className="h-6 bg-gray-300 rounded w-1/2"></div>
-                <div className="h-20 bg-gray-300 rounded"></div>
+                <div className="h-8 bg-muted rounded"></div>
+                <div className="h-4 bg-muted rounded w-3/4"></div>
+                <div className="h-6 bg-muted rounded w-1/2"></div>
+                <div className="h-20 bg-muted rounded"></div>
               </div>
             </div>
           </div>
@@ -440,14 +440,14 @@ const FoodDetailPage = () => {
 
   if (!foodItem) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">Food Item Not Found</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-4">Food Item Not Found</h1>
             <button
               onClick={() => router.back()}
-              className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary-hover transition-colors"
             >
               Go Back
             </button>
@@ -458,14 +458,14 @@ const FoodDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors mb-6"
+          className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors mb-6"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Back</span>
@@ -483,7 +483,7 @@ const FoodDetailPage = () => {
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
               {foodItem.isVegetarian && (
-                <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-4 left-4 bg-success text-success-foreground px-3 py-1 rounded-full text-sm font-semibold">
                   VEG
                 </div>
               )}
@@ -498,18 +498,18 @@ const FoodDetailPage = () => {
           {/* Food Details */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              <h1 className="text-3xl font-bold text-card-foreground mb-2">
                 {foodItem.name}
               </h1>
-              <p className="text-gray-600 text-lg">
+              <p className="text-muted-foreground text-lg">
                 {foodItem.description}
               </p>
             </div>
 
             {/* Restaurant Info */}
-            <div className="bg-white rounded-lg p-4 shadow-sm">
-              <h3 className="font-semibold text-gray-800 mb-2">Restaurant</h3>
-              <p className="text-gray-600">
+            <div className="bg-card rounded-lg p-4 shadow-sm border border-border">
+              <h3 className="font-semibold text-foreground mb-2">Restaurant</h3>
+              <p className="text-muted-foreground">
                 {typeof foodItem.restaurant === 'string' 
                   ? foodItem.restaurant 
                   : foodItem.restaurant.name}
@@ -519,15 +519,15 @@ const FoodDetailPage = () => {
             {/* Rating and Time */}
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                <span className="text-lg font-semibold text-gray-800">
+                <Star className="h-5 w-5 text-warning fill-current" />
+                <span className="text-lg font-semibold text-foreground">
                   {foodItem.rating.toFixed(1)}
                 </span>
-                <span className="text-gray-600">Rating</span>
+                <span className="text-muted-foreground">Rating</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Clock className="h-5 w-5 text-gray-400" />
-                <span className="text-gray-600">
+                <Clock className="h-5 w-5 text-muted-foreground" />
+                <span className="text-muted-foreground">
                   {foodItem.preparationTime} mins
                 </span>
               </div>
@@ -535,44 +535,44 @@ const FoodDetailPage = () => {
 
             {/* Category */}
             <div>
-              <span className="inline-block bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+              <span className="inline-block bg-warning-foreground text-warning px-3 py-1 rounded-full text-sm font-medium">
                 {foodItem.category}
               </span>
             </div>
 
             {/* Price */}
-            <div className="text-3xl font-bold text-orange-600">
+            <div className="text-3xl font-bold text-primary">
               ₹{foodItem.price}
             </div>
 
             {/* Quantity Selector */}
             <div className="flex items-center space-x-4">
-              <span className="text-lg font-semibold text-gray-800">Quantity:</span>
+              <span className="text-lg font-semibold text-foreground">Quantity:</span>
               <div className="flex items-center space-x-3">
                 <button
-                  onClick={decreaseQuantity}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                   onClick={decreaseQuantity}
+                   className="p-2 rounded-full bg-accent hover:bg-accent-hover transition-colors"
                   disabled={quantity <= 1}
                 >
-                  <Minus className="h-4 w-4 text-gray-600" />
+                  <Minus className="h-4 w-4 text-foreground" />
                 </button>
-                <span className="text-xl font-semibold min-w-[3rem] text-center">
+                <span className="text-xl font-semibold min-w-[3rem] text-center text-foreground">
                   {quantity}
                 </span>
                 <button
-                  onClick={increaseQuantity}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                   onClick={increaseQuantity}
+                   className="p-2 rounded-full bg-accent hover:bg-accent-hover transition-colors"
                 >
-                  <Plus className="h-4 w-4 text-gray-600" />
+                  <Plus className="h-4 w-4 text-foreground" />
                 </button>
               </div>
             </div>
 
             {/* Total Price */}
-            <div className="bg-gray-100 rounded-lg p-4">
+            <div className="bg-muted rounded-lg p-4">
               <div className="flex justify-between items-center">
-                <span className="text-lg font-semibold text-gray-800">Total:</span>
-                <span className="text-2xl font-bold text-orange-600">
+                <span className="text-lg font-semibold text-foreground">Total:</span>
+                <span className="text-2xl font-bold text-primary">
                   ₹{(foodItem.price * quantity).toFixed(2)}
                 </span>
               </div>
@@ -584,8 +584,8 @@ const FoodDetailPage = () => {
               disabled={!foodItem.isAvailable}
               className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-colors ${
                 foodItem.isAvailable
-                  ? 'bg-orange-600 text-white hover:bg-orange-700'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary-hover'
+                  : 'bg-muted text-muted-foreground cursor-not-allowed'
               }`}
             >
               {foodItem.isAvailable ? 'Add to Cart' : 'Out of Stock'}

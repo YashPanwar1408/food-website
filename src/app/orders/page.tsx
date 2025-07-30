@@ -57,30 +57,30 @@ const OrdersPage = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'delivered':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-success" />;
       case 'out_for_delivery':
-        return <Truck className="h-5 w-5 text-blue-500" />;
+        return <Truck className="h-5 w-5 text-primary" />;
       case 'preparing':
-        return <Clock className="h-5 w-5 text-orange-500" />;
+        return <Clock className="h-5 w-5 text-primary" />;
       case 'confirmed':
-        return <Clock className="h-5 w-5 text-blue-500" />;
+        return <Clock className="h-5 w-5 text-primary" />;
       default:
-        return <Clock className="h-5 w-5 text-gray-500" />;
+        return <Clock className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'delivered':
-        return 'text-green-600 bg-green-100';
+        return 'text-success bg-success-foreground';
       case 'out_for_delivery':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-info bg-info-foreground';
       case 'preparing':
-        return 'text-orange-600 bg-orange-100';
+        return 'text-warning bg-warning-foreground';
       case 'confirmed':
-        return 'text-blue-600 bg-blue-100';
+        return 'text-info bg-info-foreground';
       default:
-        return 'text-gray-600 bg-gray-100';
+        return 'text-muted-foreground bg-muted';
     }
   };
 
@@ -101,11 +101,11 @@ const OrdersPage = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">Please sign in to view your orders</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-4">Please sign in to view your orders</h1>
           </div>
         </div>
         <Footer />
@@ -115,18 +115,18 @@ const OrdersPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Orders</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-8">Your Orders</h1>
           <div className="space-y-6">
             {[...Array(3)].map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                <div className="h-4 bg-gray-300 rounded mb-4 w-1/4"></div>
-                <div className="h-3 bg-gray-300 rounded mb-6 w-1/6"></div>
+              <div key={index} className="bg-card rounded-lg shadow-md p-6 animate-pulse">
+                <div className="h-4 bg-muted rounded mb-4 w-1/4"></div>
+                <div className="h-3 bg-muted rounded mb-6 w-1/6"></div>
                 <div className="space-y-2">
-                  <div className="h-3 bg-gray-300 rounded w-3/4"></div>
-                  <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+                  <div className="h-3 bg-muted rounded w-3/4"></div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
                 </div>
               </div>
             ))}
@@ -138,30 +138,30 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Orders</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">Your Orders</h1>
         
         {orders.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
+            <div className="text-muted-foreground mb-4">
               <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
-            <p className="text-gray-500">When you place orders, they'll appear here.</p>
+            <h3 className="text-lg font-medium text-foreground mb-2">No orders yet</h3>
+            <p className="text-muted-foreground">When you place orders, they'll appear here.</p>
           </div>
         ) : (
           <div className="space-y-6">
             {orders.map((order) => (
-              <div key={order._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div key={order._id} className="bg-card rounded-lg shadow-md overflow-hidden">
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-800">Order #{order._id.slice(-6)}</h3>
-                      <p className="text-sm text-gray-600">
+                      <h3 className="text-lg font-semibold text-foreground">Order #{order._id.slice(-6)}</h3>
+                      <p className="text-sm text-muted-foreground">
                         {new Date(order.orderDate).toLocaleDateString()} at {new Date(order.orderDate).toLocaleTimeString()}
                       </p>
                     </div>
@@ -175,37 +175,37 @@ const OrdersPage = () => {
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-2">Items Ordered</h4>
+                      <h4 className="font-semibold text-foreground mb-2">Items Ordered</h4>
                       {order.items.map((item, index) => (
                         <div key={index} className="flex justify-between items-center py-1">
-                          <span className="text-gray-700">{item.foodItem.name}</span>
+                          <span className="text-foreground">{item.foodItem.name}</span>
                           <div className="text-right">
-                            <span className="text-sm text-gray-600">Qty: {item.quantity}</span>
-                            <div className="font-semibold text-gray-800">₹{(item.foodItem.price * item.quantity).toFixed(2)}</div>
+                            <span className="text-sm text-muted-foreground">Qty: {item.quantity}</span>
+                            <div className="font-semibold text-foreground">₹{(item.foodItem.price * item.quantity).toFixed(2)}</div>
                           </div>
                         </div>
                       ))}
                       <div className="border-t pt-2 mt-2">
                         <div className="flex justify-between items-center">
-                          <span className="font-semibold text-gray-800">Total</span>
-                          <span className="font-bold text-orange-600">₹{order.totalAmount.toFixed(2)}</span>
+                          <span className="font-semibold text-foreground">Total</span>
+                          <span className="font-bold text-primary">₹{order.totalAmount.toFixed(2)}</span>
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-2">Delivery Address</h4>
+                      <h4 className="font-semibold text-foreground mb-2">Delivery Address</h4>
                       <div className="flex items-start space-x-2 mb-4">
-                        <MapPin className="h-4 w-4 text-gray-400 mt-1 flex-shrink-0" />
-                        <p className="text-gray-700 text-sm">
+                        <MapPin className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
+                        <p className="text-foreground text-sm">
                           {order.deliveryAddress.street}, {order.deliveryAddress.city}, {order.deliveryAddress.state} {order.deliveryAddress.zipCode}, {order.deliveryAddress.country}
                         </p>
                       </div>
 
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-muted-foreground">
                         <p>Estimated Delivery: {new Date(order.estimatedDeliveryTime).toLocaleTimeString()}</p>
                         {order.status === 'delivered' && (
-                          <p className="text-green-600 font-medium">Delivered</p>
+                          <p className="text-success font-medium">Delivered</p>
                         )}
                       </div>
                     </div>

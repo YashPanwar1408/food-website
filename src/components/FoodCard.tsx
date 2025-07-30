@@ -22,7 +22,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem }) => {
 
   return (
     <Link href={`/food/${foodItem._id}`}>
-      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+      <div className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer border border-border" >
         {/* Food Image */}
         <div className="relative h-48 w-full">
           <Image
@@ -47,15 +47,15 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem }) => {
         {/* Food Details */}
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
+            <h3 className="text-lg font-semibold text-card-foreground line-clamp-1">
               {foodItem.name}
             </h3>
-            <span className="text-lg font-bold text-orange-600">
+            <span className="text-lg font-bold text-primary">
               ₹{foodItem.price}
             </span>
           </div>
 
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
             {foodItem.description}
           </p>
 
@@ -63,21 +63,21 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem }) => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-1">
               <Star className="h-4 w-4 text-yellow-400 fill-current" />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-muted-foreground">
                 {foodItem.rating.toFixed(1)}
               </span>
             </div>
             <div className="flex items-center space-x-1">
-              <Clock className="h-4 w-4 text-gray-400" />
-              <span className="text-sm text-gray-600">
-                {foodItem.preparationTime} mins
-              </span>
-            </div>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">
+              {foodItem.preparationTime} mins
+            </span>
+          </div>
           </div>
 
           {/* Category */}
           <div className="mb-3">
-            <span className="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+            <span className="inline-block bg-accent text-muted-foreground px-2 py-1 rounded-full text-xs">
               {foodItem.category}
             </span>
           </div>
@@ -88,8 +88,8 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem }) => {
             disabled={!foodItem.isAvailable}
             className={`w-full flex items-center justify-center space-x-2 py-2 px-4 rounded-lg font-semibold transition-colors ${
               foodItem.isAvailable
-                ? 'bg-orange-600 text-white hover:bg-orange-700'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ? 'bg-primary text-primary-foreground hover:bg-primary-hover'
+                : 'bg-muted-foreground text-card-foreground cursor-not-allowed'
             }`}
           >
             <Plus className="h-4 w-4" />

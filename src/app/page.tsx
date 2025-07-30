@@ -412,15 +412,13 @@ export default function Home() {
   const itemsPerPage = 8;
 
   useEffect(() => {
-    // Simulate API call
     setTimeout(() => {
       setFoodItems(mockFoodItems);
       setLoading(false);
     }, 1000);
   }, []);
 
-  // Filter and paginate food items (demo: show all for now, but could filter by region)
-  const filteredItems = foodItems; // In real app, filter by region property
+  const filteredItems = foodItems;
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const paginatedItems = filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
@@ -436,12 +434,11 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-background">
       <Navbar />
-      
-      {/* Hero Section with Background Video */}
-      <div className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white py-20 overflow-hidden">
-        {/* Background Video */}
+
+      {/* Hero Section */}
+      <div className="relative bg-orange-600 text-foreground py-20 text-center overflow-hidden">
         <video
           autoPlay
           loop
@@ -451,18 +448,10 @@ export default function Home() {
         >
           <source src="https://res.cloudinary.com/dykqu1tie/video/upload/v1753770094/123629-728697948_medium_th7ywr.mp4" type="video/mp4" />
         </video>
-        
-        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-orange-500/80 to-red-600/80"></div>
-        
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Delicious Food, Delivered Fast
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Order from your favorite restaurants and get it delivered to your doorstep in minutes
-          </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-5xl font-bold mb-4">Delicious Food, Delivered Fast</h1>
+          <p className="text-xl mb-8">Order from your favorite restaurants and get it delivered to your doorstep in minutes</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => document.getElementById('food-items')?.scrollIntoView({ behavior: 'smooth' })}
@@ -480,119 +469,77 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Categories Section */}
+      {/* Categories */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Browse by Category
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Find your favorite cuisine from our wide selection
-          </p>
+          <h2 className="text-3xl font-bold text-foreground mb-8">Browse by Category</h2>
+          <p className="text-foreground mb-12">Find your favorite cuisine from our wide selection</p>
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
           {categories.map((category) => (
             <div
               key={category.name}
               onClick={() => window.location.href = `/search?category=${encodeURIComponent(category.name)}`}
-              className="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer group"
+              className="bg-card rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow cursor-pointer group"
             >
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
-                {category.icon}
-              </div>
-              <h3 className="font-semibold text-gray-800 mb-1">{category.name}</h3>
-              <p className="text-sm text-gray-500">{category.count} items</p>
+              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{category.icon}</div>
+              <h3 className="font-semibold text-card-foreground mb-1">{category.name}</h3>
+              <p className="text-sm text-muted-foreground">{category.count} items</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="bg-white py-16">
+      {/* Features */}
+      <div className="bg-card py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Why Choose FoodDelivery?
-            </h2>
+            <h2 className="text-3xl font-bold text-card-foreground mb-4">Why Choose FoodDelivery?</h2>
           </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">⚡</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">Get your food delivered in 30 minutes or less</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🍽️</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Quality Food</h3>
-              <p className="text-gray-600">Fresh ingredients and top-rated restaurants</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💳</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Easy Payment</h3>
-              <p className="text-gray-600">Multiple payment options for your convenience</p>
-            </div>
+            <Feature icon="⚡" title="Fast Delivery" desc="Get your food delivered in 30 minutes or less" />
+            <Feature icon="🍽️" title="Quality Food" desc="Fresh ingredients and top-rated restaurants" />
+            <Feature icon="💳" title="Easy Payment" desc="Multiple payment options for your convenience" />
           </div>
         </div>
       </div>
 
-      {/* Food Items Section */}
-      <div id="food-items" className="max-w-7xl text-black mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Region Selector */}
+      {/* Food Items */}
+      <div id="food-items" className="max-w-7xl text-foreground mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <RegionSelector
           regions={mockRegions}
           selectedRegion={selectedRegion}
-          onRegionChange={region => {
+          onRegionChange={(region) => {
             setSelectedRegion(region);
             setCurrentPage(1);
           }}
         />
-        {/* Region Offer */}
         <div className="mb-8 text-center">
           <span className="inline-block bg-orange-100 text-orange-700 px-6 py-2 rounded-full font-semibold text-lg shadow">
             {regionOffers[selectedRegion]}
           </span>
         </div>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Popular Food Items
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Discover delicious meals from top-rated restaurants
-          </p>
+          <h2 className="text-3xl font-bold mb-8">Popular Food Items</h2>
+          <p className="mb-12">Discover what everyone else is loving</p>
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(itemsPerPage)].map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                <div className="h-48 bg-gray-300"></div>
-                <div className="p-4">
-                  <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-300 rounded mb-4"></div>
-                  <div className="h-8 bg-gray-300 rounded"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {loading
+            ? [...Array(itemsPerPage)].map((_, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+                  <div className="h-48 bg-gray-300"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-300 rounded mb-4"></div>
+                    <div className="h-8 bg-gray-300 rounded"></div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {paginatedItems.map((item) => (
-              <FoodCard key={item._id} foodItem={item} />
-            ))}
-          </div>
-        )}
+              ))
+            : paginatedItems.map((item) => <FoodCard key={item._id} foodItem={item} />)}
+        </div>
 
-        {/* Pagination Controls */}
+        {/* Pagination */}
         <div className="flex justify-center items-center gap-2 mt-10">
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
@@ -622,6 +569,19 @@ export default function Home() {
       </div>
 
       <Footer />
+    </main>
+  );
+}
+
+// Internal component for features
+function Feature({ icon, title, desc }: { icon: string; title: string; desc: string }) {
+  return (
+    <div className="text-center">
+      <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span className="text-2xl">{icon}</span>
+      </div>
+      <h3 className="text-xl font-semibold text-card-foreground mb-2">{title}</h3>
+      <p className="text-muted-foreground">{desc}</p>
     </div>
   );
 }

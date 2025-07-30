@@ -495,19 +495,19 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Search Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-foreground">
               {searchQuery ? `Search results for "${searchQuery}"` : 'Search Food Items'}
             </h1>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 text-black bg-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              className="flex items-center space-x-2 bg-card px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
               <Filter className="h-5 w-5" />
               <span>Filters</span>
@@ -516,28 +516,28 @@ const SearchPage = () => {
 
           {/* Search Bar */}
           <div className="relative max-w-2xl">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black h-5 w-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for food items, restaurants, cuisines..."
-              className="w-full pl-10 pr-4 py-3 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </div>
 
         {/* Filters Panel */}
         {showFilters && (
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="bg-card rounded-lg shadow-md p-6 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Category Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">Category</label>
                 <select
                   value={filters.category || 'All'}
                   onChange={(e) => handleFilterChange('category', e.target.value)}
-                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>{category}</option>
@@ -547,32 +547,32 @@ const SearchPage = () => {
 
               {/* Price Range */}
               <div>
-                <label className="block text-sm text-black font-medium text-gray-700 mb-2">Price Range</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">Price Range</label>
                 <div className="flex space-x-2">
                   <input
                     type="number"
                     placeholder="Min"
                     value={filters.minPrice || ''}
                     onChange={(e) => handleFilterChange('minPrice', e.target.value ? Number(e.target.value) : undefined)}
-                    className="w-full px-3 py-2 border border-gray-300 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
                   />
                   <input
                     type="number"
                     placeholder="Max"
                     value={filters.maxPrice || ''}
                     onChange={(e) => handleFilterChange('maxPrice', e.target.value ? Number(e.target.value) : undefined)}
-                    className="w-full px-3 py-2 border border-gray-300 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 py-2 border border-border text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>
 
               {/* Vegetarian Filter */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Diet</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">Diet</label>
                 <select
                   value={filters.isVegetarian === undefined ? 'all' : filters.isVegetarian.toString()}
                   onChange={(e) => handleFilterChange('isVegetarian', e.target.value === 'all' ? undefined : e.target.value === 'true')}
-                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
                 >
                   <option value="all">All</option>
                   <option value="true">Vegetarian</option>
@@ -582,12 +582,12 @@ const SearchPage = () => {
 
               {/* Sort By */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-2">Sort By</label>
                 <div className="flex space-x-2">
                   <select
                     value={filters.sortBy || 'rating'}
                     onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-                    className="flex-1 px-3 py-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
                   >
                     <option value="rating">Rating</option>
                     <option value="price">Price</option>
@@ -596,7 +596,7 @@ const SearchPage = () => {
                   <select
                     value={filters.sortOrder || 'desc'}
                     onChange={(e) => handleFilterChange('sortOrder', e.target.value)}
-                    className="px-3 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
                   >
                     <option value="asc">↑</option>
                     <option value="desc">↓</option>
@@ -637,7 +637,7 @@ const SearchPage = () => {
               <div className="text-center mt-12">
                 <button
                   onClick={loadMore}
-                  className="bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
+                  className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary-hover transition-colors"
                 >
                   Load More ({filteredItems.length - displayedItems.length} remaining)
                 </button>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { MapPin, CreditCard } from 'lucide-react';
@@ -158,63 +159,68 @@ const CheckoutPage = () => {
     }
   };
 
+  React.useEffect(() => {
+    if (state.items.length === 0) {
+      router.push('/cart');
+    }
+  }, [state.items.length, router]);
+
   if (state.items.length === 0) {
-    router.push('/cart');
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">Checkout</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Address & Payment */}
           <div className="space-y-6">
             {/* Delivery Address */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-card rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4">
-                <MapPin className="h-5 w-5 text-orange-600 mr-2" />
-                <h2 className="text-xl font-semibold text-gray-800">Delivery Address</h2>
+                <MapPin className="h-5 w-5 text-primary mr-2" />
+                <h2 className="text-xl font-semibold text-foreground">Delivery Address</h2>
               </div>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-black text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
                     Street Address
                   </label>
                   <input
                     type="text"
                     value={address.street}
                     onChange={(e) => handleAddressChange('street', e.target.value)}
-                    className="w-full text-black px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Enter your street address"
                   />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-black text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
                       City
                     </label>
                     <input
                       type="text"
                       value={address.city}
                       onChange={(e) => handleAddressChange('city', e.target.value)}
-                      className="w-full text-black px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="City"
                     />
                   </div>
                   <div>
-                    <label className="block text-black text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
                       State
                     </label>
                     <input
                       type="text"
                       value={address.state}
                       onChange={(e) => handleAddressChange('state', e.target.value)}
-                      className="w-full text-black px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="State"
                     />
                   </div>
@@ -222,40 +228,40 @@ const CheckoutPage = () => {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-black text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
                       ZIP Code
                     </label>
                     <input
                       type="text"
                       value={address.zipCode}
                       onChange={(e) => handleAddressChange('zipCode', e.target.value)}
-                      className="w-full text-black px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="ZIP Code"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-muted-foreground mb-1">
                       Country
                     </label>
                     <input
                       type="text"
                       value={address.country}
                       onChange={(e) => handleAddressChange('country', e.target.value)}
-                      className="w-full text-black px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="Country"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-black text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
                     Landmark (Optional)
                   </label>
                   <input
                     type="text"
                     value={address.landmark}
                     onChange={(e) => handleAddressChange('landmark', e.target.value)}
-                    className="w-full px-3 text-black py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-3 text-foreground py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Nearby landmark"
                   />
                 </div>
@@ -263,30 +269,30 @@ const CheckoutPage = () => {
             </div>
 
             {/* Payment Method */}
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-card rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4">
-                <CreditCard className="h-5 w-5 text-orange-600 mr-2" />
-                <h2 className="text-xl font-semibold text-gray-800">Payment Method</h2>
+                <CreditCard className="h-5 w-5 text-primary mr-2" />
+                <h2 className="text-xl font-semibold text-foreground">Payment Method</h2>
               </div>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Secure payment powered by Razorpay. We accept all major credit cards, debit cards, and UPI.
               </p>
             </div>
           </div>
 
           {/* Right Column - Order Summary */}
-          <div className="bg-white rounded-lg shadow-md p-6 h-fit">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Order Summary</h2>
+          <div className="bg-card rounded-lg shadow-md p-6 h-fit">
+            <h2 className="text-xl font-semibold text-foreground mb-4">Order Summary</h2>
             
             {/* Order Items */}
             <div className="space-y-3 mb-6">
               {state.items.map((item) => (
                 <div key={item.foodItem._id} className="flex justify-between items-center">
                   <div>
-                    <p className="font-medium text-gray-800">{item.foodItem.name}</p>
-                    <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                    <p className="font-medium text-foreground">{item.foodItem.name}</p>
+                    <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                   </div>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-foreground">
                     ₹{(item.foodItem.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
@@ -296,20 +302,20 @@ const CheckoutPage = () => {
             {/* Price Breakdown */}
             <div className="border-t pt-4 space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
-                <span className="text-gray-800">₹{state.totalAmount.toFixed(2)}</span>
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-foreground">₹{state.totalAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Delivery Fee</span>
-                <span className="text-gray-800">₹{deliveryFee.toFixed(2)}</span>
+                <span className="text-muted-foreground">Delivery Fee</span>
+                <span className="text-foreground">₹{deliveryFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Tax (5%)</span>
-                <span className="text-gray-800">₹{tax.toFixed(2)}</span>
+                <span className="text-muted-foreground">Tax (5%)</span>
+                <span className="text-foreground">₹{tax.toFixed(2)}</span>
               </div>
-              <div className="border-t pt-2 flex justify-between">
-                <span className="text-lg font-semibold text-gray-800">Total</span>
-                <span className="text-lg font-bold text-orange-600">₹{finalTotal.toFixed(2)}</span>
+              <div className="border-t border-border pt-2 flex justify-between">
+                <span className="text-lg font-semibold text-foreground">Total</span>
+                <span className="text-lg font-bold text-primary">₹{finalTotal.toFixed(2)}</span>
               </div>
             </div>
 
@@ -317,12 +323,11 @@ const CheckoutPage = () => {
             <button
               onClick={handlePayment}
               disabled={loading}
-              className={`w-full mt-6 py-3 px-6 rounded-lg font-semibold text-white transition-colors ${
+              className={`w-full mt-6 py-3 px-6 rounded-lg font-semibold text-primary-foreground transition-colors ${
                 loading
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-orange-600 hover:bg-orange-700'
-              }`}
-            >
+                  ? 'bg-muted cursor-not-allowed'
+                  : 'bg-primary hover:bg-primary/90'
+              }`}>
               {loading ? 'Processing...' : `Pay ₹${finalTotal.toFixed(2)}`}
             </button>
           </div>

@@ -21,16 +21,16 @@ const CartPage = () => {
 
   if (state.items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background text-foreground">
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <ShoppingBag className="mx-auto h-24 w-24 text-gray-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
-            <p className="text-gray-600 mb-8">Add some delicious food items to get started!</p>
+            <ShoppingBag className="mx-auto h-24 w-24 text-muted-foreground mb-4" />
+            <h2 className="text-2xl font-bold text-foreground mb-2">Your cart is empty</h2>
+            <p className="text-muted-foreground mb-8">Add some delicious food items to get started!</p>
             <Link
               href="/"
-              className="bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-700 transition-colors"
+              className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary-hover transition-colors"
             >
               Browse Food Items
             </Link>
@@ -41,14 +41,14 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Cart</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">Your Cart</h1>
         
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-card rounded-lg shadow-md overflow-hidden border border-border">
           {/* Cart Items */}
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-border">
             {state.items.map((item) => (
               <div key={item.foodItem._id} className="p-6">
                 <div className="flex items-center space-x-4">
@@ -64,15 +64,15 @@ const CartPage = () => {
 
                   {/* Food Details */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-gray-800">
+                    <h3 className="text-lg font-semibold text-foreground">
                       {item.foodItem.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-1">
+                    <p className="text-sm text-muted-foreground mb-1">
                       {typeof item.foodItem.restaurant === 'string'
                         ? item.foodItem.restaurant
                         : item.foodItem.restaurant.name}
                     </p>
-                    <p className="text-lg font-bold text-orange-600">
+                    <p className="text-lg font-bold text-primary">
                       ₹{item.foodItem.price}
                     </p>
                   </div>
@@ -81,24 +81,24 @@ const CartPage = () => {
                   <div className="flex items-center space-x-3">
                     <button
                       onClick={() => handleQuantityChange(item.foodItem._id, item.quantity - 1)}
-                      className="p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="p-1 rounded-full bg-accent hover:bg-accent-hover transition-colors"
                     >
-                      <Minus className="h-4 w-4 text-gray-600" />
+                      <Minus className="h-4 w-4 text-foreground" />
                     </button>
-                    <span className="text-lg font-semibold min-w-[2rem] text-center">
+                    <span className="text-lg font-semibold min-w-[2rem] text-center text-foreground">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() => handleQuantityChange(item.foodItem._id, item.quantity + 1)}
-                      className="p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="p-1 rounded-full bg-accent hover:bg-accent-hover transition-colors"
                     >
-                      <Plus className="h-4 w-4 text-gray-600" />
+                      <Plus className="h-4 w-4 text-foreground" />
                     </button>
                   </div>
 
                   {/* Item Total */}
                   <div className="text-right">
-                    <p className="text-lg font-bold text-gray-800">
+                    <p className="text-lg font-bold text-foreground">
                       ₹{(item.foodItem.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
@@ -116,12 +116,12 @@ const CartPage = () => {
           </div>
 
           {/* Cart Summary */}
-          <div className="bg-gray-50 p-6">
+          <div className="bg-background p-6 border-t border-border">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-lg font-semibold text-gray-800">
+              <span className="text-lg font-semibold text-foreground">
                 Total Items: {state.totalItems}
               </span>
-              <span className="text-2xl font-bold text-gray-800">
+              <span className="text-2xl font-bold text-foreground">
                 ₹{state.totalAmount.toFixed(2)}
               </span>
             </div>
@@ -129,13 +129,13 @@ const CartPage = () => {
             <div className="flex space-x-4">
               <Link
                 href="/"
-                className="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold text-center hover:bg-gray-300 transition-colors"
+                className="flex-1 bg-muted text-muted-foreground py-3 px-6 rounded-lg font-semibold text-center hover:bg-muted-foreground/10 transition-colors"
               >
                 Continue Shopping
               </Link>
               <Link
                 href="/checkout"
-                className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-orange-700 transition-colors"
+                className="flex-1 bg-primary text-primary-foreground py-3 px-6 rounded-lg font-semibold text-center hover:bg-primary-hover transition-colors"
               >
                 Proceed to Checkout
               </Link>
