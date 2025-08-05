@@ -1,12 +1,24 @@
+// src/app/api/create-order-record/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
-import { FoodItem } from '@/types';
+import { CartItem, Address } from '@/types';
 
 // Define a type for the item in the request body
-interface RequestItem {
-  foodItem: FoodItem;
-  quantity: number;
+interface RequestBody {
+  paymentId: string;
+  orderId: string;
+  signature: string;
+  items: {
+    foodItem: string;
+    quantity: number;
+  }[];
+  totalAmount: number;
+  address: Address;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  restaurant: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -21,7 +33,8 @@ export async function POST(request: NextRequest) {
       userId,
       userEmail,
       userName,
-    } = await request.json();
+      restaurant,
+    } = (await request.json()) as RequestBody;
 
     await connectToDatabase();
 
@@ -30,20 +43,19 @@ export async function POST(request: NextRequest) {
       userId,
       userEmail,
       userName,
-      items: items.map((item: RequestItem) => ({
-        foodItem: item.foodItem._id,
-        foodItemName: item.foodItem.name,
+      items: items.map(item => ({
+        foodItem: item.foodItem,
         quantity: item.quantity,
-        price: item.foodItem.price,
       })),
+      restaurant: restaurant,
       totalAmount,
-      address,
+      deliveryAddress: address,
       paymentId,
       razorpayOrderId: orderId,
       paymentSignature: signature,
       status: 'confirmed',
       orderDate: new Date(),
-      estimatedDelivery: new Date(Date.now() + 45 * 60 * 1000), // 45 minutes from now
+      estimatedDeliveryTime: new Date(Date.now() + 45 * 60 * 1000),
     });
 
     await order.save();

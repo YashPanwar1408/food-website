@@ -1,3 +1,4 @@
+// src/app/checkout/page.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -8,9 +9,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
-import { Address, RazorpayOptions, RazorpayResponse, Restaurant } from '@/types';
+import { Address, RazorpayOptions, RazorpayResponse } from '@/types';
 
-// Define a more specific type for the Razorpay object
 interface RazorpayInstance {
   open(): void;
 }
@@ -106,6 +106,11 @@ const CheckoutPage = () => {
           console.log('Payment successful:', response);
           
           try {
+            // Get the restaurant ID from the first item
+            const restaurantId = typeof state.items[0].foodItem.restaurant === 'string'
+              ? state.items[0].foodItem.restaurant
+              : state.items[0].foodItem.restaurant._id;
+
             // Create order in database
             const orderResponse = await fetch('/api/create-order-record', {
               method: 'POST',
@@ -116,21 +121,16 @@ const CheckoutPage = () => {
                 paymentId: response.razorpay_payment_id,
                 orderId: response.razorpay_order_id,
                 signature: response.razorpay_signature,
-                items: state.items.map(item => {
-                  const restaurantId = typeof item.foodItem.restaurant === 'string'
-                    ? item.foodItem.restaurant
-                    : item.foodItem.restaurant._id;
-                  return {
-                    foodItem: item.foodItem._id,
-                    quantity: item.quantity,
-                    restaurant: restaurantId
-                  };
-                }),
+                items: state.items.map(item => ({
+                  foodItem: item.foodItem._id,
+                  quantity: item.quantity,
+                })),
                 totalAmount: finalTotal,
                 address: address,
                 userId: user?.id,
                 userEmail: user?.emailAddresses[0]?.emailAddress,
                 userName: `${user?.firstName} ${user?.lastName}`,
+                restaurant: restaurantId, // Add top-level restaurant ID
               }),
             });
 
