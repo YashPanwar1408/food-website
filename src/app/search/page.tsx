@@ -6,7 +6,7 @@ import { Search, Filter } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FoodCard from '@/components/FoodCard';
 import Footer from '@/components/Footer';
-import { FoodItem, SearchFilters, Restaurant } from '@/types';
+import { FoodItem, SearchFilters } from '@/types';
 import FoodFilters from '@/components/FoodFilters';
 
 // Mock data - complete list with all 24 items
@@ -397,6 +397,8 @@ const SearchPage = () => {
     sortBy: 'rating',
     sortOrder: 'desc'
   });
+
+  const categories = ['All', 'Pizza', 'Biryani', 'Indian', 'Chinese', 'Burger', 'South Indian', 'Dessert', 'Fast Food'];
 
   const filterAndSortItems = useCallback(() => {
     let items = [...mockFoodItems];
