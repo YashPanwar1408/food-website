@@ -1,4 +1,3 @@
-// src/app/checkout/page.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -9,7 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
-import { Address, RazorpayOptions, RazorpayResponse } from '@/types';
+import { Address, RazorpayOptions, RazorpayResponse, Restaurant } from '@/types';
 
 interface RazorpayInstance {
   open(): void;
@@ -130,7 +129,7 @@ const CheckoutPage = () => {
                 userId: user?.id,
                 userEmail: user?.emailAddresses[0]?.emailAddress,
                 userName: `${user?.firstName} ${user?.lastName}`,
-                restaurant: restaurantId, // Add top-level restaurant ID
+                restaurant: restaurantId,
               }),
             });
 

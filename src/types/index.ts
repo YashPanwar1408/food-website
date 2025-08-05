@@ -116,6 +116,9 @@ export interface RazorpayOptions {
   theme: {
     color: string;
   };
+  modal: {
+    ondismiss: () => void;
+  };
 }
 
 export interface RazorpayResponse {

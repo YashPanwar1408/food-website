@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { CartProvider } from '@/context/CartContext';
 import { ThemeProvider } from "@/components/theme-provider";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });

@@ -383,7 +383,7 @@ const mockFoodItems: FoodItem[] = [
 ];
 
 const FoodDetailPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const { addItem } = useCart();

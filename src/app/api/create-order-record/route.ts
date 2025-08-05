@@ -2,17 +2,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
-import { CartItem, Address } from '@/types';
+import { Address } from '@/types';
 
-// Define a type for the item in the request body
+interface RequestItem {
+  foodItem: string;
+  quantity: number;
+}
+
 interface RequestBody {
   paymentId: string;
   orderId: string;
   signature: string;
-  items: {
-    foodItem: string;
-    quantity: number;
-  }[];
+  items: RequestItem[];
   totalAmount: number;
   address: Address;
   userId: string;
@@ -38,16 +39,12 @@ export async function POST(request: NextRequest) {
 
     await connectToDatabase();
 
-    // Create order record
     const order = new Order({
       userId,
       userEmail,
       userName,
-      items: items.map(item => ({
-        foodItem: item.foodItem,
-        quantity: item.quantity,
-      })),
-      restaurant: restaurant,
+      items,
+      restaurant,
       totalAmount,
       deliveryAddress: address,
       paymentId,

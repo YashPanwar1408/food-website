@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
-import { Address, RazorpayOptions, RazorpayResponse, FoodItem } from '@/types';
+import { Address, RazorpayOptions, RazorpayResponse } from '@/types';
 
 interface RazorpayInstance {
   open(): void;
