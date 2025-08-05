@@ -6,7 +6,7 @@ import { Search, Filter } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FoodCard from '@/components/FoodCard';
 import Footer from '@/components/Footer';
-import { FoodItem, SearchFilters } from '@/types';
+import { FoodItem, SearchFilters } from '@/types'; // Removed unused `Restaurant` import
 import FoodFilters from '@/components/FoodFilters';
 
 // Mock data - complete list with all 24 items

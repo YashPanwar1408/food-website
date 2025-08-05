@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
-import { Address, RazorpayOptions, RazorpayResponse, Restaurant } from '@/types';
+import { Address, RazorpayOptions, RazorpayResponse } from '@/types'; // Removed unused `Restaurant` import
 
 interface RazorpayInstance {
   open(): void;

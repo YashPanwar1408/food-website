@@ -1,12 +1,12 @@
 'use client';
 
+'use client';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUser, UserButton, SignInButton } from '@clerk/nextjs';
-import { ShoppingCart, Search, MapPin, Menu, X, ChevronDown, Sun, Moon } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { ShoppingCart, Search, MapPin, Menu, X, ChevronDown } from 'lucide-react';
 import { ModeToggle } from './ui/ModeToggle';
 import { useCart } from '@/context/CartContext';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const categories = [
     { name: t('categories.pizza'), key: 'Pizza', icon: '🍕' },

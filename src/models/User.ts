@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { User as IUser, Address } from '@/types';
 
 const AddressSchema = new Schema<Address>({
