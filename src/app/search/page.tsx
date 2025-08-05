@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+
 import { Search, Filter } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FoodCard from '@/components/FoodCard';
@@ -382,14 +382,14 @@ const mockFoodItems: FoodItem[] = [
 ];
 
 const SearchPage = () => {
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const [isClient, setIsClient] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState<FoodItem[]>([]);
   const [displayedItems, setDisplayedItems] = useState<FoodItem[]>([]);
-  const [showFilters, setShowFilters] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(12);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<SearchFilters>({
-    category: searchParams.get('category') || 'All',
+    category: 'All',
     minPrice: undefined,
     maxPrice: undefined,
     isVegetarian: undefined,
@@ -397,6 +397,27 @@ const SearchPage = () => {
     sortBy: 'rating',
     sortOrder: 'desc'
   });
+
+  useEffect(() => {
+    setIsClient(true);
+    const searchParams = new URLSearchParams(window.location.search);
+    const initialSearchQuery = searchParams.get('q') || '';
+    const initialCategory = searchParams.get('category') || 'All';
+    const initialMinPrice = searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice') as string) : undefined;
+    const initialMaxPrice = searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice') as string) : undefined;
+    const initialIsVegetarian = searchParams.get('isVegetarian') === 'true' ? true : (searchParams.get('isVegetarian') === 'false' ? false : undefined);
+    const initialRating = searchParams.get('rating') ? parseFloat(searchParams.get('rating') as string) : 0;
+
+    setSearchQuery(initialSearchQuery);
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      category: initialCategory,
+      minPrice: initialMinPrice,
+      maxPrice: initialMaxPrice,
+      isVegetarian: initialIsVegetarian,
+      rating: initialRating,
+    }));
+  }, []);
 
   const categories = ['All', 'Pizza', 'Biryani', 'Indian', 'Chinese', 'Burger', 'South Indian', 'Dessert', 'Fast Food'];
 
