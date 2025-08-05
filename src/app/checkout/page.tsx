@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { MapPin, CreditCard } from 'lucide-react';
@@ -9,11 +8,16 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
-import { Address } from '@/types';
+import { Address, RazorpayOptions, RazorpayResponse, Restaurant } from '@/types';
+
+// Define a more specific type for the Razorpay object
+interface RazorpayInstance {
+  open(): void;
+}
 
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
   }
 }
 
@@ -41,7 +45,7 @@ const CheckoutPage = () => {
   };
 
   const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
+    return new Promise<boolean>((resolve) => {
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.onload = () => resolve(true);
@@ -90,14 +94,14 @@ const CheckoutPage = () => {
         throw new Error('Failed to create order');
       }
 
-      const options = {
+      const options: RazorpayOptions = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_7PCMArr5ZUncX9',
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'FoodDelivery',
         description: 'Food Order Payment',
         order_id: orderData.order_id,
-        handler: async function (response: any) {
+        handler: async function (response: RazorpayResponse) {
           // Payment successful
           console.log('Payment successful:', response);
           
@@ -112,11 +116,16 @@ const CheckoutPage = () => {
                 paymentId: response.razorpay_payment_id,
                 orderId: response.razorpay_order_id,
                 signature: response.razorpay_signature,
-                items: state.items.map(item => ({
-                  foodItem: item.foodItem,
-                  quantity: item.quantity,
-                  restaurant: (item.foodItem.restaurant as any)?._id || item.foodItem.restaurant // Ensure restaurant ID is sent
-                })),
+                items: state.items.map(item => {
+                  const restaurantId = typeof item.foodItem.restaurant === 'string'
+                    ? item.foodItem.restaurant
+                    : item.foodItem.restaurant._id;
+                  return {
+                    foodItem: item.foodItem._id,
+                    quantity: item.quantity,
+                    restaurant: restaurantId
+                  };
+                }),
                 totalAmount: finalTotal,
                 address: address,
                 userId: user?.id,
@@ -138,9 +147,9 @@ const CheckoutPage = () => {
           }
         },
         prefill: {
-          name: `${user.firstName} ${user.lastName}`,
-          email: user.emailAddresses[0]?.emailAddress || '',
-          contact: user.phoneNumbers[0]?.phoneNumber || '',
+          name: `${user?.firstName} ${user?.lastName}`,
+          email: user?.emailAddresses[0]?.emailAddress || '',
+          contact: user?.phoneNumbers[0]?.phoneNumber || '',
         },
         theme: {
           color: '#ea580c',

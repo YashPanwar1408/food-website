@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
+import { FoodItem } from '@/types';
+
+// Define a type for the item in the request body
+interface RequestItem {
+  foodItem: FoodItem;
+  quantity: number;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +30,7 @@ export async function POST(request: NextRequest) {
       userId,
       userEmail,
       userName,
-      items: items.map((item: any) => ({
+      items: items.map((item: RequestItem) => ({
         foodItem: item.foodItem._id,
         foodItemName: item.foodItem.name,
         quantity: item.quantity,

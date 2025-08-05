@@ -400,26 +400,20 @@ const SearchPage = () => {
     sortOrder: 'desc'
   });
 
-  useEffect(() => {
-    filterAndSortItems();
-  }, [searchQuery, filters]);
-
-  useEffect(() => {
-    setDisplayedItems(filteredItems.slice(0, itemsToShow));
-  }, [filteredItems, itemsToShow]);
-
   const filterAndSortItems = () => {
     let items = [...mockFoodItems];
 
     // Text search
     if (searchQuery.trim()) {
-      items = items.filter(item =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (typeof item.restaurant === 'string' && 
-         item.restaurant.toLowerCase().includes(searchQuery.toLowerCase()))
-      );
+      items = items.filter(item => {
+        const restaurantName = typeof item.restaurant === 'string' ? item.restaurant : item.restaurant.name;
+        return (
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          restaurantName.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      });
     }
 
     // Category filter
@@ -464,6 +458,14 @@ const SearchPage = () => {
 
     setFilteredItems(items);
   };
+  
+  useEffect(() => {
+    filterAndSortItems();
+  }, [searchQuery, filters]);
+
+  useEffect(() => {
+    setDisplayedItems(filteredItems.slice(0, itemsToShow));
+  }, [filteredItems, itemsToShow]);
 
   const handleFilterChange = (key: keyof SearchFilters, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
