@@ -7,14 +7,15 @@ import Navbar from '@/components/Navbar';
 import FoodCard from '@/components/FoodCard';
 import Footer from '@/components/Footer';
 import { FoodItem, SearchFilters } from '@/types';
+import FoodFilters from '@/components/FoodFilters';
 
 // Mock data - complete list with all 24 items
 const mockFoodItems: FoodItem[] = [
   // Pizza Category
   {
     _id: '1',
-    name: 'Margherita Pizza',
-    description: 'Classic pizza with fresh tomatoes, mozzarella cheese, and basil',
+    name: 'food.margheritaPizza.name',
+    description: 'food.margheritaPizza.desc',
     price: 299,
     image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400',
     category: 'Pizza',
@@ -28,8 +29,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '2',
-    name: 'Pepperoni Pizza',
-    description: 'Delicious pizza topped with pepperoni and mozzarella cheese',
+    name: 'food.pepperoniPizza.name',
+    description: 'food.pepperoniPizza.desc',
     price: 349,
     image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400',
     category: 'Pizza',
@@ -43,8 +44,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '3',
-    name: 'Veggie Supreme Pizza',
-    description: 'Loaded with bell peppers, mushrooms, onions, and olives',
+    name: 'food.veggieSupremePizza.name',
+    description: 'food.veggieSupremePizza.desc',
     price: 329,
     image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400',
     category: 'Pizza',
@@ -120,8 +121,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '8',
-    name: 'Butter Chicken',
-    description: 'Tender chicken in rich, creamy tomato-based sauce',
+    name: 'food.butterChicken.name',
+    description: 'food.butterChicken.desc',
     price: 299,
     image: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=400',
     category: 'Indian',
@@ -135,8 +136,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '9',
-    name: 'Dal Makhani',
-    description: 'Slow-cooked black lentils in creamy, buttery gravy',
+    name: 'food.dalMakhani.name',
+    description: 'food.dalMakhani.desc',
     price: 199,
     image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400',
     category: 'Indian',
@@ -151,8 +152,8 @@ const mockFoodItems: FoodItem[] = [
   // Burger Category
   {
     _id: '10',
-    name: 'Chicken Burger',
-    description: 'Juicy grilled chicken patty with lettuce, tomato, and mayo',
+    name: 'food.chickenBurger.name',
+    description: 'food.chickenBurger.desc',
     price: 199,
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400',
     category: 'Burger',
@@ -166,8 +167,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '11',
-    name: 'Veg Burger',
-    description: 'Crispy vegetable patty with fresh lettuce and special sauce',
+    name: 'food.vegBurger.name',
+    description: 'food.vegBurger.desc',
     price: 149,
     image: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?w=400',
     category: 'Burger',
@@ -181,8 +182,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '12',
-    name: 'Cheese Burger',
-    description: 'Classic beef patty with melted cheese and pickles',
+    name: 'food.cheeseBurger.name',
+    description: 'food.cheeseBurger.desc',
     price: 229,
     image: 'https://images.unsplash.com/photo-1551615593-ef5fe247e8f7?w=400',
     category: 'Burger',
@@ -197,8 +198,8 @@ const mockFoodItems: FoodItem[] = [
   // Chinese Category
   {
     _id: '13',
-    name: 'Veg Hakka Noodles',
-    description: 'Stir-fried noodles with fresh vegetables and soy sauce',
+    name: 'food.vegHakkaNoodles.name',
+    description: 'food.vegHakkaNoodles.desc',
     price: 179,
     image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=400',
     category: 'Chinese',
@@ -212,8 +213,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '14',
-    name: 'Chicken Fried Rice',
-    description: 'Wok-tossed rice with chicken, vegetables, and soy sauce',
+    name: 'food.chickenFriedRice.name',
+    description: 'food.chickenFriedRice.desc',
     price: 219,
     image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400',
     category: 'Chinese',
@@ -227,8 +228,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '15',
-    name: 'Manchurian',
-    description: 'Deep-fried vegetable balls in tangy Manchurian sauce',
+    name: 'food.manchurian.name',
+    description: 'food.manchurian.desc',
     price: 189,
     image: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400',
     category: 'Chinese',
@@ -243,8 +244,8 @@ const mockFoodItems: FoodItem[] = [
   // South Indian Category
   {
     _id: '16',
-    name: 'Masala Dosa',
-    description: 'Crispy rice crepe filled with spiced potato curry',
+    name: 'food.masalaDosa.name',
+    description: 'food.masalaDosa.desc',
     price: 129,
     image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400',
     category: 'South Indian',
@@ -258,8 +259,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '17',
-    name: 'Idli Sambar',
-    description: 'Steamed rice cakes served with lentil curry and chutney',
+    name: 'food.idliSambar.name',
+    description: 'food.idliSambar.desc',
     price: 99,
     image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400',
     category: 'South Indian',
@@ -273,8 +274,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '18',
-    name: 'Uttapam',
-    description: 'Thick pancake topped with vegetables and served with chutney',
+    name: 'food.uttapam.name',
+    description: 'food.uttapam.desc',
     price: 149,
     image: 'https://images.unsplash.com/photo-1630383249896-424e482df921?w=400',
     category: 'South Indian',
@@ -289,10 +290,10 @@ const mockFoodItems: FoodItem[] = [
   // Dessert Category
   {
     _id: '19',
-    name: 'Chocolate Brownie',
-    description: 'Rich and fudgy chocolate brownie with vanilla ice cream',
+    name: 'food.chocolateBrownie.name',
+    description: 'food.chocolateBrownie.desc',
     price: 129,
-    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400',
+    image: 'https://res.cloudinary.com/dykqu1tie/image/upload/v1754395703/Brownie-Recipe-with-Cocoa-Powder_gq7ioe.jpg',
     category: 'Dessert',
     restaurant: 'Sweet Treats',
     rating: 4.6,
@@ -304,8 +305,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '20',
-    name: 'Gulab Jamun',
-    description: 'Soft milk dumplings soaked in rose-flavored sugar syrup',
+    name: 'food.gulabJamun.name',
+    description: 'food.gulabJamun.desc',
     price: 89,
     image: 'https://res.cloudinary.com/dykqu1tie/image/upload/v1753794298/gulab_jamun_kmi4w2.jpg',
     category: 'Dessert',
@@ -319,8 +320,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '21',
-    name: 'Ice Cream Sundae',
-    description: 'Vanilla ice cream with chocolate sauce, nuts, and cherry',
+    name: 'food.iceCreamSundae.name',
+    description: 'food.iceCreamSundae.desc',
     price: 149,
     image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400',
     category: 'Dessert',
@@ -335,8 +336,8 @@ const mockFoodItems: FoodItem[] = [
   // Fast Food Category
   {
     _id: '22',
-    name: 'French Fries',
-    description: 'Crispy golden fries served with ketchup and mayo',
+    name: 'food.frenchFries.name',
+    description: 'food.frenchFries.desc',
     price: 99,
     image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400',
     category: 'Fast Food',
@@ -350,8 +351,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '23',
-    name: 'Chicken Wings',
-    description: 'Spicy buffalo chicken wings with ranch dipping sauce',
+    name: 'food.chickenWings.name',
+    description: 'food.chickenWings.desc',
     price: 249,
     image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400',
     category: 'Fast Food',
@@ -365,8 +366,8 @@ const mockFoodItems: FoodItem[] = [
   },
   {
     _id: '24',
-    name: 'Fish and Chips',
-    description: 'Battered fish fillet with crispy chips and tartar sauce',
+    name: 'food.fishAndChips.name',
+    description: 'food.fishAndChips.desc',
     price: 299,
     image: 'https://images.unsplash.com/photo-1544982503-9f984c14501a?w=400',
     category: 'Fast Food',
@@ -394,7 +395,7 @@ const SearchPage = () => {
     minPrice: undefined,
     maxPrice: undefined,
     isVegetarian: undefined,
-    rating: undefined,
+    rating: 0,
     sortBy: 'rating',
     sortOrder: 'desc'
   });
@@ -432,16 +433,6 @@ const SearchPage = () => {
     }
     if (filters.maxPrice !== undefined) {
       items = items.filter(item => item.price <= filters.maxPrice!);
-    }
-
-    // Vegetarian filter
-    if (filters.isVegetarian !== undefined) {
-      items = items.filter(item => item.isVegetarian === filters.isVegetarian);
-    }
-
-    // Rating filter
-    if (filters.rating !== undefined) {
-      items = items.filter(item => item.rating >= filters.rating!);
     }
 
     // Sorting
@@ -484,7 +475,7 @@ const SearchPage = () => {
       minPrice: undefined,
       maxPrice: undefined,
       isVegetarian: undefined,
-      rating: undefined,
+      rating: 0,
       sortBy: 'rating',
       sortOrder: 'desc'
     });
@@ -566,18 +557,14 @@ const SearchPage = () => {
                 </div>
               </div>
 
-              {/* Vegetarian Filter */}
-              <div>
-                <label className="block text-sm font-medium text-muted-foreground mb-2">Diet</label>
-                <select
-                  value={filters.isVegetarian === undefined ? 'all' : filters.isVegetarian.toString()}
-                  onChange={(e) => handleFilterChange('isVegetarian', e.target.value === 'all' ? undefined : e.target.value === 'true')}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                >
-                  <option value="all">All</option>
-                  <option value="true">Vegetarian</option>
-                  <option value="false">Non-Vegetarian</option>
-                </select>
+              {/* Veg/Non-Veg & Rating Filters (Reusable) */}
+              <div className="col-span-2">
+                <FoodFilters
+                  isVegetarian={filters.isVegetarian}
+                  setIsVegetarian={(v) => handleFilterChange('isVegetarian', v)}
+                  minRating={filters.rating ?? 0}
+                  setMinRating={(v) => handleFilterChange('rating', v)}
+                />
               </div>
 
               {/* Sort By */}

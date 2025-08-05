@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
+import { useTranslation } from 'react-i18next';
 import { Clock, MapPin, CheckCircle, Truck } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -30,6 +31,7 @@ interface Order {
 }
 
 const OrdersPage = () => {
+  const { t } = useTranslation();
   const { user } = useUser();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -87,13 +89,13 @@ const OrdersPage = () => {
   const formatStatus = (status: string) => {
     switch (status) {
       case 'out_for_delivery':
-        return 'Out For Delivery';
+        return t('orderStatus.outForDelivery');
       case 'confirmed':
-        return 'Confirmed';
+        return t('orderStatus.confirmed');
       case 'preparing':
-        return 'Preparing';
+        return t('orderStatus.preparing');
       case 'delivered':
-        return 'Delivered';
+        return t('orderStatus.delivered');
       default:
         return status.charAt(0).toUpperCase() + status.slice(1);
     }
@@ -105,7 +107,7 @@ const OrdersPage = () => {
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-4">Please sign in to view your orders</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-4">{t('ordersPage.pleaseSignIn')}</h1>
           </div>
         </div>
         <Footer />
@@ -118,7 +120,7 @@ const OrdersPage = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl font-bold text-foreground mb-8">Your Orders</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-8">{t('ordersPage.yourOrders')}</h1>
           <div className="space-y-6">
             {[...Array(3)].map((_, index) => (
               <div key={index} className="bg-card rounded-lg shadow-md p-6 animate-pulse">
@@ -141,7 +143,7 @@ const OrdersPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Your Orders</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">{t('ordersPage.yourOrders')}</h1>
         
         {orders.length === 0 ? (
           <div className="text-center py-12">
@@ -150,8 +152,8 @@ const OrdersPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">No orders yet</h3>
-            <p className="text-muted-foreground">When you place orders, they'll appear here.</p>
+            <h3 className="text-lg font-medium text-foreground mb-2">{t('ordersPage.noOrders')}</h3>
+            <p className="text-muted-foreground">{t('ordersPage.noOrdersDesc')}</p>
           </div>
         ) : (
           <div className="space-y-6">

@@ -1,8 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-card text-card-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -57,36 +60,36 @@ const Footer = () => {
 
           {/* Categories */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Categories</h3>
+            <h3 className="text-lg font-semibold text-foreground">{t('categories')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/search?category=Pizza" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Pizza
+                  {t('categories.pizza')}
                 </Link>
               </li>
               <li>
                 <Link href="/search?category=Biryani" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Biryani
+                  {t('categories.biryani')}
                 </Link>
               </li>
               <li>
                 <Link href="/search?category=Indian" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Indian
+                  {t('categories.indian')}
                 </Link>
               </li>
               <li>
                 <Link href="/search?category=Chinese" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Chinese
+                  {t('categories.chinese')}
                 </Link>
               </li>
               <li>
                 <Link href="/search?category=Burger" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Burgers
+                  {t('categories.burger')}
                 </Link>
               </li>
               <li>
                 <Link href="/search?category=Dessert" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                  Desserts
+                  {t('categories.dessert')}
                 </Link>
               </li>
             </ul>
@@ -94,7 +97,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Contact Us</h3>
+            <h3 className="text-lg font-semibold text-foreground">{t('contactUs')}</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-primary" />
@@ -107,8 +110,8 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-orange-500 mt-0.5" />
                 <span className="text-gray-300 text-sm">
-                  123 Food Street,<br />
-                  Delhi, India 110000
+                  {t('addressLine1')}<br />
+                  {t('addressLine2')}
                 </span>
               </div>
             </div>
@@ -119,18 +122,19 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-400 text-sm">
-              © 2025 FoodDelivery. All rights reserved.
+              &copy; 2025 FoodDelivery. {t('allRightsReserved')}
             </div>
-            <div className="flex space-x-6">
+            <div className="flex items-center space-x-6">
               <Link href="/privacy" className="text-gray-400 hover:text-orange-500 transition-colors text-sm">
-                Privacy Policy
+                {t('privacyPolicy')}
               </Link>
               <Link href="/terms" className="text-gray-400 hover:text-orange-500 transition-colors text-sm">
-                Terms of Service
+                {t('termsOfService')}
               </Link>
               <Link href="/support" className="text-gray-400 hover:text-orange-500 transition-colors text-sm">
-                Support
+                {t('support')}
               </Link>
+              <LanguageSwitcher />
             </div>
           </div>
         </div>

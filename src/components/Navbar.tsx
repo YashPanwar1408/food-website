@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ModeToggle } from './ui/ModeToggle';
 import { useCart } from '@/context/CartContext';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const { isSignedIn, user } = useUser();
@@ -18,15 +19,17 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
 
+  const { t, i18n } = useTranslation();
+
   const categories = [
-    { name: 'Pizza', icon: '🍕' },
-    { name: 'Biryani', icon: '🍛' },
-    { name: 'Indian', icon: '🍛' },
-    { name: 'Chinese', icon: '🥡' },
-    { name: 'Burger', icon: '🍔' },
-    { name: 'South Indian', icon: '🥞' },
-    { name: 'Dessert', icon: '🍰' },
-    { name: 'Fast Food', icon: '🍟' },
+    { name: t('categories.pizza'), key: 'Pizza', icon: '🍕' },
+    { name: t('categories.biryani'), key: 'Biryani', icon: '🍛' },
+    { name: t('categories.indian'), key: 'Indian', icon: '🍛' },
+    { name: t('categories.chinese'), key: 'Chinese', icon: '🥡' },
+    { name: t('categories.burger'), key: 'Burger', icon: '🍔' },
+    { name: t('categories.southIndian'), key: 'South Indian', icon: '🥞' },
+    { name: t('categories.dessert'), key: 'Dessert', icon: '🍰' },
+    { name: t('categories.fastFood'), key: 'Fast Food', icon: '🍟' },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -56,7 +59,7 @@ const Navbar = () => {
           {/* Location */}
           <div className="hidden lg:flex items-center space-x-2 text-foreground">
             <MapPin className="h-5 w-5" />
-            <span className="text-sm">Deliver to: Current Location</span>
+            <span className="text-sm">{t('deliverTo')} Current Location</span>
           </div>
 
           {/* Search Bar */}
@@ -67,7 +70,7 @@ const Navbar = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for restaurants, food..."
+                placeholder={t('searchPlaceholder')}
                 className="w-full text-foreground pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-card placeholder:text-muted-foreground"
               />
             </div>
@@ -82,7 +85,7 @@ const Navbar = () => {
                 onClick={() => setCategoriesOpen(!categoriesOpen)}
                 className="flex items-center space-x-1 text-foreground hover:text-primary transition-colors"
               >
-                <span>Categories</span>
+                <span>{t('category')}</span>
                 <ChevronDown className="h-4 w-4" />
               </button>
               
@@ -91,8 +94,8 @@ const Navbar = () => {
                   <div className="grid grid-cols-2 gap-1">
                     {categories.map((category) => (
                       <button
-                        key={category.name}
-                        onClick={() => handleCategoryClick(category.name)}
+                        key={category.key}
+                        onClick={() => handleCategoryClick(category.key)}
                         className="flex items-center space-x-2 px-4 py-2 text-left hover:bg-accent transition-colors"
                       >
                         <span className="text-lg">{category.icon}</span>
@@ -108,7 +111,7 @@ const Navbar = () => {
             {isSignedIn && (
               <div className="hidden md:flex items-center space-x-4">
                 <Link href="/orders" className="text-foreground hover:text-primary transition-colors">
-                  Orders
+                  {t('orders')}
                 </Link>
               </div>
             )}
@@ -127,14 +130,14 @@ const Navbar = () => {
             {isSignedIn ? (
               <div className="flex items-center space-x-3">
                 <span className="hidden md:block text-sm text-foreground">
-                  Hi, {user?.firstName}!
+                  {t('hello')}, {user?.firstName}!
                 </span>
                 <UserButton afterSignOutUrl="/" />
               </div>
             ) : (
               <SignInButton mode="modal">
                 <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary-hover transition-colors">
-                  Sign In
+                  {t('signIn')}
                 </button>
               </SignInButton>
             )}
@@ -169,7 +172,7 @@ const Navbar = () => {
             <div className="space-y-2">
               {/* Mobile Categories */}
               <div className="px-4 py-2">
-                <h3 className="text-sm font-semibold text-foreground mb-2">Categories</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-2">{t('category')}</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {categories.map((category) => (
                     <button

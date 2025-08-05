@@ -1,0 +1,98 @@
+{
+  "margheritaPizza": {
+    "name": "Margherita Pizza",
+    "desc": "Classic pizza with tomato, mozzarella, and basil."
+  },
+  "pepperoniPizza": {
+    "name": "Pepperoni Pizza",
+    "desc": "Delicious pizza topped with pepperoni and mozzarella cheese."
+  },
+  "veggieSupremePizza": {
+    "name": "Veggie Supreme Pizza",
+    "desc": "Loaded with bell peppers, mushrooms, onions, and olives."
+  },
+  "chickenBiryani": {
+    "name": "Chicken Biryani",
+    "desc": "Aromatic basmati rice cooked with tender chicken and spices."
+  },
+  "muttonBiryani": {
+    "name": "Mutton Biryani",
+    "desc": "Rich and flavorful biryani with tender mutton pieces."
+  },
+  "vegBiryani": {
+    "name": "Veg Biryani",
+    "desc": "Fragrant vegetable biryani with mixed vegetables and saffron."
+  },
+  "paneerButterMasala": {
+    "name": "Paneer Butter Masala",
+    "desc": "Creamy tomato-based curry with soft paneer cubes."
+  },
+  "butterChicken": {
+    "name": "Butter Chicken",
+    "desc": "Tender chicken in rich, creamy tomato-based sauce."
+  },
+  "dalMakhani": {
+    "name": "Dal Makhani",
+    "desc": "Slow-cooked black lentils in a creamy, buttery gravy."
+  },
+  "chickenBurger": {
+    "name": "Chicken Burger",
+    "desc": "Juicy grilled chicken patty with lettuce, tomato, and mayo."
+  },
+  "vegBurger": {
+    "name": "Veg Burger",
+    "desc": "Crispy vegetable patty with fresh lettuce and special sauce."
+  },
+  "cheeseBurger": {
+    "name": "Cheese Burger",
+    "desc": "Classic beef patty with melted cheese and pickles."
+  },
+  "vegHakkaNoodles": {
+    "name": "Veg Hakka Noodles",
+    "desc": "Stir-fried noodles with fresh vegetables and soy sauce."
+  },
+  "chickenFriedRice": {
+    "name": "Chicken Fried Rice",
+    "desc": "Wok-tossed rice with chicken, vegetables, and soy sauce."
+  },
+  "manchurian": {
+    "name": "Manchurian",
+    "desc": "Deep-fried vegetable balls in a tangy Manchurian sauce."
+  },
+  "masalaDosa": {
+    "name": "Masala Dosa",
+    "desc": "Crispy rice crepe filled with spiced potato curry."
+  },
+  "idliSambar": {
+    "name": "Idli Sambar",
+    "desc": "Steamed rice cakes served with lentil curry and chutney."
+  },
+  "uttapam": {
+    "name": "Uttapam",
+    "desc": "Thick pancake topped with vegetables and served with chutney."
+  },
+  "chocolateBrownie": {
+    "name": "Chocolate Brownie",
+    "desc": "Rich, fudgy chocolate brownie, a perfect dessert."
+  },
+  "gulabJamun": {
+    "name": "Gulab Jamun",
+    "desc": "Soft milk dumplings soaked in rose-flavored sugar syrup."
+  },
+  "iceCreamSundae": {
+    "name": "Ice Cream Sundae",
+    "desc": "Vanilla ice cream with chocolate sauce, nuts, and a cherry."
+  },
+  "frenchFries": {
+    "name": "French Fries",
+    "desc": "Crispy golden fries served with ketchup and mayo."
+  },
+  "chickenWings": {
+    "name": "Chicken Wings",
+    "desc": "Spicy buffalo chicken wings with ranch dipping sauce."
+  },
+  "fishAndChips": {
+    "name": "Fish and Chips",
+    "desc": "Battered fish fillet with crispy chips and tartar sauce."
+  }
+}

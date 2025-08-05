@@ -6,9 +6,11 @@ import Image from 'next/image';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
 
 const CartPage = () => {
+  const { t } = useTranslation();
   const { state, updateQuantity, removeItem } = useCart();
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
@@ -26,13 +28,13 @@ const CartPage = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <ShoppingBag className="mx-auto h-24 w-24 text-muted-foreground mb-4" />
-            <h2 className="text-2xl font-bold text-foreground mb-2">Your cart is empty</h2>
-            <p className="text-muted-foreground mb-8">Add some delicious food items to get started!</p>
+            <h2 className="text-2xl font-bold text-foreground mb-2">{t('cartPage.empty')}</h2>
+            <p className="text-muted-foreground mb-8">{t('cartPage.emptyDesc')}</p>
             <Link
               href="/"
               className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary-hover transition-colors"
             >
-              Browse Food Items
+              {t('cartPage.browse')}
             </Link>
           </div>
         </div>
@@ -44,7 +46,7 @@ const CartPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Your Cart</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">{t('cartPage.title')}</h1>
         
         <div className="bg-card rounded-lg shadow-md overflow-hidden border border-border">
           {/* Cart Items */}

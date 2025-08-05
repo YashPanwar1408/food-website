@@ -7,6 +7,7 @@ import { useUser } from '@clerk/nextjs';
 import { MapPin, CreditCard } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '@/context/CartContext';
 import { Address } from '@/types';
 
@@ -17,6 +18,7 @@ declare global {
 }
 
 const CheckoutPage = () => {
+  const { t } = useTranslation();
   const { state, clearCart } = useCart();
   const { user } = useUser();
   const router = useRouter();
@@ -50,12 +52,12 @@ const CheckoutPage = () => {
 
   const handlePayment = async () => {
     if (!user) {
-      alert('Please sign in to continue');
+      alert(t('pleaseSignInToContinue'));
       return;
     }
 
     if (!address.street || !address.city || !address.state || !address.zipCode) {
-      alert('Please fill in all address fields');
+      alert(t('pleaseFillAllAddressFields'));
       return;
     }
 
@@ -65,7 +67,7 @@ const CheckoutPage = () => {
       // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
-        alert('Failed to load payment gateway');
+        alert(t('failedToLoadPaymentGateway'));
         setLoading(false);
         return;
       }
@@ -125,14 +127,14 @@ const CheckoutPage = () => {
 
             if (orderResponse.ok) {
               clearCart();
-              alert('Payment successful! Your order has been placed.');
+              alert(t('paymentSuccessOrderPlaced'));
               router.push('/orders');
             } else {
               throw new Error('Failed to create order record');
             }
           } catch (error) {
             console.error('Error creating order:', error);
-            alert('Payment successful but failed to create order record. Please contact support.');
+            alert(t('paymentSuccessButOrderRecordFail'));
           }
         },
         prefill: {
@@ -154,7 +156,7 @@ const CheckoutPage = () => {
       razorpay.open();
     } catch (error) {
       console.error('Payment error:', error);
-      alert('Payment failed. Please try again.');
+      alert(t('paymentFailedTryAgain'));
       setLoading(false);
     }
   };
@@ -173,55 +175,58 @@ const CheckoutPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8">{t('checkout')}</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Address & Payment */}
           <div className="space-y-6">
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-primary" /> {t('deliveryAddress')}
+              </h2>
             {/* Delivery Address */}
             <div className="bg-card rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4">
                 <MapPin className="h-5 w-5 text-primary mr-2" />
-                <h2 className="text-xl font-semibold text-foreground">Delivery Address</h2>
+                <h2 className="text-xl font-semibold text-foreground">{t('deliveryAddress')}</h2>
               </div>
               
               <div className="space-y-4">
                 <div>
                   <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
-                    Street Address
+                    {t('streetAddress')}
                   </label>
                   <input
                     type="text"
                     value={address.street}
                     onChange={(e) => handleAddressChange('street', e.target.value)}
                     className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Enter your street address"
+                    placeholder={t('enterStreetAddress')}
                   />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
-                      City
+                      {t('city')}
                     </label>
                     <input
                       type="text"
                       value={address.city}
                       onChange={(e) => handleAddressChange('city', e.target.value)}
                       className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="City"
+                      placeholder={t('city')}
                     />
                   </div>
                   <div>
                     <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
-                      State
+                      {t('state')}
                     </label>
                     <input
                       type="text"
                       value={address.state}
                       onChange={(e) => handleAddressChange('state', e.target.value)}
                       className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="State"
+                      placeholder={t('state')}
                     />
                   </div>
                 </div>
@@ -229,40 +234,40 @@ const CheckoutPage = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
-                      ZIP Code
+                      {t('zipCode')}
                     </label>
                     <input
                       type="text"
                       value={address.zipCode}
                       onChange={(e) => handleAddressChange('zipCode', e.target.value)}
                       className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="ZIP Code"
+                      placeholder={t('zipCode')}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-muted-foreground mb-1">
-                      Country
+                      {t('country')}
                     </label>
                     <input
                       type="text"
                       value={address.country}
                       onChange={(e) => handleAddressChange('country', e.target.value)}
                       className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                      placeholder="Country"
+                      placeholder={t('country')}
                     />
                   </div>
                 </div>
                 
                 <div>
                   <label className="block text-foreground text-sm font-medium text-muted-foreground mb-1">
-                    Landmark (Optional)
+                    {t('landmarkOptional')}
                   </label>
                   <input
                     type="text"
                     value={address.landmark}
                     onChange={(e) => handleAddressChange('landmark', e.target.value)}
                     className="w-full px-3 text-foreground py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Nearby landmark"
+                    placeholder={t('nearbyLandmark')}
                   />
                 </div>
               </div>
@@ -272,17 +277,17 @@ const CheckoutPage = () => {
             <div className="bg-card rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4">
                 <CreditCard className="h-5 w-5 text-primary mr-2" />
-                <h2 className="text-xl font-semibold text-foreground">Payment Method</h2>
+                <h2 className="text-xl font-semibold text-foreground">{t('paymentMethod')}</h2>
               </div>
               <p className="text-muted-foreground">
-                Secure payment powered by Razorpay. We accept all major credit cards, debit cards, and UPI.
+                {t('securePayment')}
               </p>
             </div>
           </div>
 
           {/* Right Column - Order Summary */}
           <div className="bg-card rounded-lg shadow-md p-6 h-fit">
-            <h2 className="text-xl font-semibold text-foreground mb-4">Order Summary</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-4">{t('orderSummary')}</h2>
             
             {/* Order Items */}
             <div className="space-y-3 mb-6">
@@ -290,7 +295,7 @@ const CheckoutPage = () => {
                 <div key={item.foodItem._id} className="flex justify-between items-center">
                   <div>
                     <p className="font-medium text-foreground">{item.foodItem.name}</p>
-                    <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                    <p className="text-sm text-muted-foreground">{t('qty')}: {item.quantity}</p>
                   </div>
                   <p className="font-semibold text-foreground">
                     ₹{(item.foodItem.price * item.quantity).toFixed(2)}
@@ -302,19 +307,19 @@ const CheckoutPage = () => {
             {/* Price Breakdown */}
             <div className="border-t pt-4 space-y-2">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">{t('subtotal')}</span>
                 <span className="text-foreground">₹{state.totalAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Delivery Fee</span>
+                <span className="text-muted-foreground">{t('deliveryFee')}</span>
                 <span className="text-foreground">₹{deliveryFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Tax (5%)</span>
+                <span className="text-muted-foreground">{t('tax')} (5%)</span>
                 <span className="text-foreground">₹{tax.toFixed(2)}</span>
               </div>
               <div className="border-t border-border pt-2 flex justify-between">
-                <span className="text-lg font-semibold text-foreground">Total</span>
+                <span className="text-lg font-semibold text-foreground">{t('total')}</span>
                 <span className="text-lg font-bold text-primary">₹{finalTotal.toFixed(2)}</span>
               </div>
             </div>
@@ -328,12 +333,13 @@ const CheckoutPage = () => {
                   ? 'bg-muted cursor-not-allowed'
                   : 'bg-primary hover:bg-primary/90'
               }`}>
-              {loading ? 'Processing...' : `Pay ₹${finalTotal.toFixed(2)}`}
+              {loading ? t('processing') : `${t('pay')} ₹${finalTotal.toFixed(2)}`}
             </button>
           </div>
         </div>
       </div>
       <Footer />
+
     </div>
   );
 };
