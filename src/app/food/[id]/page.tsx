@@ -406,6 +406,7 @@ const FoodDetailPage = () => {
       for (let i = 0; i < quantity; i++) {
         addItem(foodItem);
       }
+      // Redirect to cart page after adding items
       router.push('/cart');
     }
   };
