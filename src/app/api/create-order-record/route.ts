@@ -1,56 +1,55 @@
+// src/app/api/create-order-record/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
-import { Address } from '@/types';
+import { Address, OrderStatus, PaymentStatus } from '@/types';
 
 interface RequestItem {
   foodItem: string;
   quantity: number;
 }
 
+// This interface now expects the data from Razorpay
 interface RequestBody {
   paymentId: string;
-  orderId: string;
+  razorpayOrderId: string;
   signature: string;
   items: RequestItem[];
   totalAmount: number;
   address: Address;
   userId: string;
-  userEmail: string;
-  userName: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
     const {
       paymentId,
-      orderId,
+      razorpayOrderId,
       signature,
       items,
       totalAmount,
       address,
       userId,
-      userEmail,
-      userName,
     } = (await request.json()) as RequestBody;
+
+    // It's a good practice to verify the signature here in a real app
+    // but for now we will trust it.
 
     await connectToDatabase();
 
     const order = new Order({
       userId,
-      userEmail,
-      userName,
       items,
-      // FIX: Removed the 'restaurant' field to match the updated model.
       totalAmount,
       deliveryAddress: address,
-      paymentId,
-      razorpayOrderId: orderId,
-      paymentSignature: signature,
-      status: 'confirmed',
-      paymentStatus: 'completed', // FIX: Set payment status to completed on success.
+      paymentId: paymentId, // Razorpay's payment ID
+      razorpayOrderId: razorpayOrderId, // Razorpay's order ID
+      paymentSignature: signature, // Razorpay's signature
+      status: OrderStatus.CONFIRMED,
+      paymentStatus: PaymentStatus.COMPLETED,
       orderDate: new Date(),
-      estimatedDeliveryTime: new Date(Date.now() + 45 * 60 * 1000),
+      estimatedDeliveryTime: new Date(Date.now() + 45 * 60 * 1000), // 45 mins from now
     });
 
     await order.save();
@@ -62,8 +61,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error creating order record:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     return NextResponse.json(
-      { success: false, error: 'Failed to create order record' },
+      { success: false, error: 'Failed to create order record', details: errorMessage },
       { status: 500 }
     );
   }

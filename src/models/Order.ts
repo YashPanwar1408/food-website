@@ -1,3 +1,5 @@
+// src/models/Order.ts
+
 import mongoose, { Schema } from 'mongoose';
 import { Order as IOrder, CartItem, Address, OrderStatus, PaymentStatus } from '@/types';
 
@@ -18,19 +20,19 @@ const CartItemSchema = new Schema<CartItem>({
 const OrderSchema = new Schema<IOrder>({
   userId: { type: String, required: true },
   items: [CartItemSchema],
-  // FIX: Removed the redundant 'restaurant' field that was causing the error.
   totalAmount: { type: Number, required: true, min: 0 },
   deliveryAddress: { type: AddressSchema, required: true },
-  status: { 
-    type: String, 
+  status: {
+    type: String,
     enum: Object.values(OrderStatus),
-    default: OrderStatus.PENDING 
+    default: OrderStatus.PENDING
   },
+  // We only need a generic paymentId now
   paymentId: { type: String },
-  paymentStatus: { 
-    type: String, 
+  paymentStatus: {
+    type: String,
     enum: Object.values(PaymentStatus),
-    default: PaymentStatus.PENDING 
+    default: PaymentStatus.PENDING
   },
   orderDate: { type: Date, default: Date.now },
   estimatedDeliveryTime: { type: Date, required: true },
@@ -40,7 +42,6 @@ const OrderSchema = new Schema<IOrder>({
 });
 
 OrderSchema.index({ userId: 1 });
-OrderSchema.index({ status: 1 });
 OrderSchema.index({ orderDate: -1 });
 
 export default mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema);

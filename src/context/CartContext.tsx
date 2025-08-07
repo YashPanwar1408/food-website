@@ -1,7 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React from 'react';
 import { CartItem, FoodItem } from '@/types';
+
 
 interface CartState {
   items: CartItem[];
@@ -23,10 +24,8 @@ interface CartContextType {
   clearCart: () => void;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = React.createContext<CartContextType | undefined>(undefined);
 
-// FIX: New helper function to reliably calculate totals from the items array.
-// This is the source of truth for all calculations.
 const calculateTotals = (items: CartItem[]) => {
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
     const totalAmount = items.reduce((sum, item) => sum + item.foodItem.price * item.quantity, 0);
@@ -36,48 +35,47 @@ const calculateTotals = (items: CartItem[]) => {
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
+      const newItem = action.payload;
       const existingItemIndex = state.items.findIndex(
-        item => item.foodItem._id === action.payload._id
+        (item) => item.foodItem._id === newItem._id
       );
+      
       let updatedItems: CartItem[];
 
       if (existingItemIndex > -1) {
-        // Item exists, just update quantity
-        updatedItems = state.items.map((item, index) => 
-          index === existingItemIndex ? { ...item, quantity: item.quantity + 1 } : item
+        // Item exists, increase quantity
+        updatedItems = state.items.map((item, index) =>
+          index === existingItemIndex
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       } else {
         // New item, add to cart
-        const newItem: CartItem = { foodItem: action.payload, quantity: 1 };
-        updatedItems = [...state.items, newItem];
+        updatedItems = [...state.items, { foodItem: newItem, quantity: 1 }];
       }
       
-      const { totalItems, totalAmount } = calculateTotals(updatedItems);
-      return { items: updatedItems, totalItems, totalAmount };
+      return { ...state, items: updatedItems, ...calculateTotals(updatedItems) };
     }
 
     case 'REMOVE_ITEM': {
       const updatedItems = state.items.filter(item => item.foodItem._id !== action.payload);
-      const { totalItems, totalAmount } = calculateTotals(updatedItems);
-      return { items: updatedItems, totalItems, totalAmount };
+      return { ...state, items: updatedItems, ...calculateTotals(updatedItems) };
     }
 
     case 'UPDATE_QUANTITY': {
       const { id, quantity } = action.payload;
       
       if (quantity <= 0) {
-        // If quantity is 0 or less, treat it as a remove action
+        // Remove item if quantity is 0 or less
         const updatedItems = state.items.filter(item => item.foodItem._id !== id);
-        const { totalItems, totalAmount } = calculateTotals(updatedItems);
-        return { items: updatedItems, totalItems, totalAmount };
+        return { ...state, items: updatedItems, ...calculateTotals(updatedItems) };
       }
 
       const updatedItems = state.items.map(item =>
         item.foodItem._id === id ? { ...item, quantity } : item
       );
 
-      const { totalItems, totalAmount } = calculateTotals(updatedItems);
-      return { items: updatedItems, totalItems, totalAmount };
+      return { ...state, items: updatedItems, ...calculateTotals(updatedItems) };
     }
 
     case 'CLEAR_CART':
@@ -98,8 +96,8 @@ const initialState: CartState = {
   totalAmount: 0
 };
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState);
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [state, dispatch] = React.useReducer(cartReducer, initialState);
 
   const addItem = (item: FoodItem) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
@@ -131,7 +129,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 };
 
 export const useCart = () => {
-  const context = useContext(CartContext);
+  const context = React.useContext(CartContext);
   if (context === undefined) {
     throw new Error('useCart must be used within a CartProvider');
   }

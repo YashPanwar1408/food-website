@@ -1,7 +1,13 @@
+// src/app/api/orders/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
+import FoodItem from '@/models/FoodItem'; // Ensure FoodItem model is imported
 
+/**
+ * Handles GET requests to fetch all orders for a specific user.
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -16,17 +22,13 @@ export async function GET(request: NextRequest) {
 
     await connectToDatabase();
 
+    // Fetch orders and populate the foodItem details for each item in the order
     const orders = await Order.find({ userId })
       .populate({
         path: 'items.foodItem',
-        model: 'FoodItem',
-        populate: {
-          path: 'restaurant',
-          model: 'Restaurant'
-        }
+        model: FoodItem,
       })
-      .populate('restaurant')
-      .sort({ orderDate: -1 })
+      .sort({ orderDate: -1 }) // Show the newest orders first
       .lean();
 
     return NextResponse.json({
@@ -35,8 +37,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error fetching orders:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch orders' },
+      { success: false, error: 'Failed to fetch orders', details: errorMessage },
       { status: 500 }
     );
   }

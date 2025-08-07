@@ -48,12 +48,12 @@ const Navbar = () => {
 
   return (
     <nav className="bg-background shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-1 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-2xl sm:block hidden">🍕</span>
-            <span className="text-xl sm:text-2xl font-bold text-primary">FoodDelivery</span>
+            <span className="text-lg mr-4 sm:text-xl md:text-2xl font-bold text-primary">FoodDelivery</span>
           </Link>
 
           {/* Location */}
@@ -77,7 +77,7 @@ const Navbar = () => {
           </form>
 
           {/* Right side items */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center space-x-1 sm:space-x-4">
             <ModeToggle />
             {/* Categories Dropdown */}
             <div className="hidden lg:block relative">

@@ -104,10 +104,7 @@ const CartPage = () => {
                 <span className="text-lg font-bold text-primary">₹{finalTotal.toFixed(2)}</span>
               </div>
             </div>
-            <Link
-              href="/checkout"
-              className="w-full mt-6 py-3 px-6 rounded-lg font-semibold text-primary-foreground bg-primary hover:bg-primary/90 transition-colors flex justify-center"
-            >
+            <Link href="/checkout" className="w-full mt-6 py-3 px-6 rounded-lg font-semibold text-foreground bg-transparent border border-foreground/50 hover:bg-foreground/10 transition-colors flex justify-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
               {t('proceedToCheckout')}
             </Link>
           </div>

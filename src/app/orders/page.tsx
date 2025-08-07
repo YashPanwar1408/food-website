@@ -1,223 +1,217 @@
+// src/app/orders/page.tsx
+
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useTranslation } from 'react-i18next';
-import { Clock, MapPin, CheckCircle, Truck } from 'lucide-react';
+import { Clock, CheckCircle, Truck, ShoppingBag, XCircle } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { OrderStatus } from '@/types'; // Import OrderStatus enum
+
+// --- Type Definitions ---
+interface FoodItem {
+  name: string;
+  price: number;
+}
+
+interface OrderItem {
+  foodItem: FoodItem | null;
+  quantity: number;
+}
 
 interface Order {
   _id: string;
   orderDate: string;
-  status: string;
+  status: OrderStatus; // Use the enum for status
   totalAmount: number;
-  items: {
-    foodItem: {
-      name: string;
-      price: number;
-    };
-    quantity: number;
-  }[];
-  deliveryAddress: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-    landmark?: string;
-  };
-  estimatedDeliveryTime: string;
+  items: OrderItem[];
 }
+
+// --- Component ---
 
 const OrdersPage = () => {
   const { t } = useTranslation();
   const { user } = useUser();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // --- Data Fetching ---
   const fetchOrders = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
     try {
-      const response = await fetch(`/api/orders?userId=${user?.id}`);
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data.orders || []);
+      const response = await fetch(`/api/orders?userId=${user.id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch orders');
       }
-    } catch (error) {
-      console.error('Error fetching orders:', error);
+      const data = await response.json();
+      setOrders(data.orders || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      console.error('Error fetching orders:', err);
     } finally {
       setLoading(false);
     }
   }, [user]);
 
   useEffect(() => {
-    if (user) {
-      fetchOrders();
-    }
-  }, [user, fetchOrders]);
+    fetchOrders();
+  }, [fetchOrders]);
 
+  // --- NEW: Cancel Order Handler ---
+  const handleCancelOrder = async (orderId: string) => {
+    if (!confirm('Are you sure you want to cancel this order?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/orders/${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: OrderStatus.CANCELLED }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to cancel order');
+      }
+
+      // Update the state locally to reflect the change immediately
+      setOrders(prevOrders =>
+        prevOrders.map(order =>
+          order._id === orderId ? { ...order, status: OrderStatus.CANCELLED } : order
+        )
+      );
+
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Could not cancel the order.');
+      console.error('Error cancelling order:', err);
+    }
+  };
+  
+  // --- Helper Functions ---
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'delivered':
-        return <CheckCircle className="h-5 w-5 text-success" />;
-      case 'out_for_delivery':
-        return <Truck className="h-5 w-5 text-primary" />;
-      case 'preparing':
-        return <Clock className="h-5 w-5 text-primary" />;
-      case 'confirmed':
-        return <Clock className="h-5 w-5 text-primary" />;
-      default:
-        return <Clock className="h-5 w-5 text-muted-foreground" />;
+      case OrderStatus.DELIVERED: return <CheckCircle className="h-5 w-5 text-green-500" />;
+      case OrderStatus.OUT_FOR_DELIVERY: return <Truck className="h-5 w-5 text-blue-500" />;
+      case OrderStatus.PREPARING: return <Clock className="h-5 w-5 text-yellow-500" />;
+      case OrderStatus.CONFIRMED: return <Clock className="h-5 w-5 text-yellow-500" />;
+      case OrderStatus.CANCELLED: return <XCircle className="h-5 w-5 text-red-500" />;
+      default: return <Clock className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'delivered':
-        return 'text-success bg-success-foreground';
-      case 'out_for_delivery':
-        return 'text-info bg-info-foreground';
-      case 'preparing':
-        return 'text-warning bg-warning-foreground';
-      case 'confirmed':
-        return 'text-info bg-info-foreground';
-      default:
-        return 'text-muted-foreground bg-muted';
+      case OrderStatus.DELIVERED: return 'text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-300';
+      case OrderStatus.OUT_FOR_DELIVERY: return 'text-blue-700 bg-blue-100 dark:bg-blue-900 dark:text-blue-300';
+      case OrderStatus.PREPARING: return 'text-yellow-700 bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-300';
+      case OrderStatus.CONFIRMED: return 'text-yellow-700 bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-300';
+      case OrderStatus.CANCELLED: return 'text-red-700 bg-red-100 dark:bg-red-900 dark:text-red-300';
+      default: return 'text-muted-foreground bg-muted';
     }
+  };
+  
+  const formatStatus = (status: string) => {
+    const formatted = status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return t(`orderStatus.${status}`, formatted);
   };
 
-  const formatStatus = (status: string) => {
-    switch (status) {
-      case 'out_for_delivery':
-        return t('orderStatus.outForDelivery');
-      case 'confirmed':
-        return t('orderStatus.confirmed');
-      case 'preparing':
-        return t('orderStatus.preparing');
-      case 'delivered':
-        return t('orderStatus.delivered');
-      default:
-        return status.charAt(0).toUpperCase() + status.slice(1);
-    }
-  };
+  // --- Render Logic ---
 
   if (!user) {
+    // Render sign-in prompt if user is not logged in
     return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-4">{t('ordersPage.pleaseSignIn')}</h1>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl font-bold text-foreground mb-8">{t('ordersPage.yourOrders')}</h1>
-          <div className="space-y-6">
-            {[...Array(3)].map((_, index) => (
-              <div key={index} className="bg-card rounded-lg shadow-md p-6 animate-pulse">
-                <div className="h-4 bg-muted rounded mb-4 w-1/4"></div>
-                <div className="h-3 bg-muted rounded mb-6 w-1/6"></div>
-                <div className="space-y-2">
-                  <div className="h-3 bg-muted rounded w-3/4"></div>
-                  <div className="h-3 bg-muted rounded w-1/2"></div>
+        <div className="min-h-screen bg-background flex flex-col">
+            <Navbar />
+            <main className="flex-grow flex items-center justify-center">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold text-foreground mb-4">{t('ordersPage.pleaseSignIn')}</h1>
                 </div>
-              </div>
-            ))}
-          </div>
+            </main>
+            <Footer />
         </div>
-        <Footer />
-      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <h1 className="text-3xl font-bold text-foreground mb-8">{t('ordersPage.yourOrders')}</h1>
         
-        {orders.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-muted-foreground mb-4">
-              <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">{t('ordersPage.noOrders')}</h3>
-            <p className="text-muted-foreground">{t('ordersPage.noOrdersDesc')}</p>
+        {loading ? (
+          <div className="text-center py-16">Loading orders...</div>
+        ) : error ? (
+          <div className="text-center py-16 text-red-500">{error}</div>
+        ) : orders.length === 0 ? (
+          <div className="text-center py-16 bg-card rounded-lg border">
+            <ShoppingBag className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+            <h3 className="text-xl font-semibold text-foreground">{t('ordersPage.noOrders')}</h3>
+            <p className="text-muted-foreground mt-2">{t('ordersPage.noOrdersDesc')}</p>
           </div>
         ) : (
           <div className="space-y-6">
-            {orders.map((order) => (
-              <div key={order._id} className="bg-card rounded-lg shadow-md overflow-hidden">
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground">Order #{order._id.slice(-6)}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(order.orderDate).toLocaleDateString()} at {new Date(order.orderDate).toLocaleTimeString()}
-                      </p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      {getStatusIcon(order.status)}
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
+            {orders.map((order) => {
+              const canCancel = order.status === OrderStatus.CONFIRMED || order.status === OrderStatus.PREPARING;
+              return (
+                <div key={order._id} className="bg-card rounded-lg shadow-md overflow-hidden border">
+                  <div className="p-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground">Order #{order._id.slice(-6)}</h3>
+                        <p className="text-sm text-muted-foreground">{new Date(order.orderDate).toLocaleString()}</p>
+                      </div>
+                      <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
                         {formatStatus(order.status)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-2">Items Ordered</h4>
-                      {order.items.map((item, index) => (
-                        <div key={index} className="flex justify-between items-center py-1">
-                          <span className="text-foreground">{item.foodItem.name}</span>
-                          <div className="text-right">
-                            <span className="text-sm text-muted-foreground">Qty: {item.quantity}</span>
-                            <div className="font-semibold text-foreground">₹{(item.foodItem.price * item.quantity).toFixed(2)}</div>
-                          </div>
-                        </div>
-                      ))}
-                      <div className="border-t pt-2 mt-2">
-                        <div className="flex justify-between items-center">
-                          <span className="font-semibold text-foreground">Total</span>
-                          <span className="font-bold text-primary">₹{order.totalAmount.toFixed(2)}</span>
-                        </div>
                       </div>
                     </div>
-
+                    <div className="border-t border-border my-4"></div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-2">Delivery Address</h4>
-                      <div className="flex items-start space-x-2 mb-4">
-                        <MapPin className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
-                        <p className="text-foreground text-sm">
-                          {order.deliveryAddress.street}, {order.deliveryAddress.city}, {order.deliveryAddress.state} {order.deliveryAddress.zipCode}, {order.deliveryAddress.country}
-                        </p>
-                      </div>
-
-                      <div className="text-sm text-muted-foreground">
-                        <p>Estimated Delivery: {new Date(order.estimatedDeliveryTime).toLocaleTimeString()}</p>
-                        {order.status === 'delivered' && (
-                          <p className="text-success font-medium">Delivered</p>
+                      <h4 className="font-semibold text-foreground mb-3">Items</h4>
+                      <ul className="space-y-3">
+                        {order.items.map((item, index) => (
+                          <li key={index} className="flex justify-between items-center text-sm">
+                            {item.foodItem ? (
+                              <>
+                                <span className="text-foreground">{item.foodItem.name} (x{item.quantity})</span>
+                                <span className="font-medium text-foreground">₹{(item.foodItem.price * item.quantity).toFixed(2)}</span>
+                              </>
+                            ) : (
+                              <span className="text-red-500">Item no longer available</span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="border-t border-border my-4"></div>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        {canCancel && (
+                          <button
+                            onClick={() => handleCancelOrder(order._id)}
+                            className="text-sm font-medium text-red-500 hover:text-red-700"
+                          >
+                            Cancel Order
+                          </button>
                         )}
+                      </div>
+                      <div className="text-right">
+                        <span className="font-semibold text-foreground mr-2">Total:</span>
+                        <span className="font-bold text-xl text-primary">₹{order.totalAmount.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
-      </div>
+      </main>
       <Footer />
     </div>
   );
