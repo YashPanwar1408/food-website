@@ -1,4 +1,3 @@
-// src/app/api/create-order-record/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
@@ -9,8 +8,6 @@ interface RequestItem {
   foodItem: string;
   quantity: number;
 }
-
-// This interface now expects the data from Razorpay
 interface RequestBody {
   paymentId: string;
   razorpayOrderId: string;
@@ -32,9 +29,6 @@ export async function POST(request: NextRequest) {
       address,
       userId,
     } = (await request.json()) as RequestBody;
-
-    // It's a good practice to verify the signature here in a real app
-    // but for now we will trust it.
 
     await connectToDatabase();
 

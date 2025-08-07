@@ -1,4 +1,3 @@
-// src/models/Order.ts
 
 import mongoose, { Schema } from 'mongoose';
 import { Order as IOrder, CartItem, Address, OrderStatus, PaymentStatus } from '@/types';

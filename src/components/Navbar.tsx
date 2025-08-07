@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -9,6 +8,7 @@ import { ShoppingCart, Search, MapPin, Menu, X, ChevronDown } from 'lucide-react
 import { ModeToggle } from './ui/ModeToggle';
 import { useCart } from '@/context/CartContext';
 import { useTranslation } from 'react-i18next';
+import '@/i18n'; // <-- Add this import to initialize i18next
 
 const Navbar = () => {
   const { isSignedIn, user } = useUser();
@@ -26,9 +26,11 @@ const Navbar = () => {
     { name: t('categories.indian'), key: 'Indian', icon: '🍛' },
     { name: t('categories.chinese'), key: 'Chinese', icon: '🥡' },
     { name: t('categories.burger'), key: 'Burger', icon: '🍔' },
-    { name: t('categories.southIndian'), key: 'South Indian', icon: '🥞' },
+    // Fix: Changed key to all lowercase to match i18n.ts
+    { name: t('categories.southindian'), key: 'South Indian', icon: '🥞' },
     { name: t('categories.dessert'), key: 'Dessert', icon: '🍰' },
-    { name: t('categories.fastFood'), key: 'Fast Food', icon: '🍟' },
+    // Fix: Changed key to all lowercase to match i18n.ts
+    { name: t('categories.fastfood'), key: 'Fast Food', icon: '🍟' },
   ];
 
   const handleSearch = (e: React.FormEvent) => {

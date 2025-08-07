@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const CartPage = () => {
   const { t } = useTranslation();
-  const { state, addItem, removeItem, updateQuantity } = useCart();
+  const { state, removeItem, updateQuantity } = useCart();
 
   const deliveryFee = 40;
   const tax = Math.round(state.totalAmount * 0.05); // 5% tax

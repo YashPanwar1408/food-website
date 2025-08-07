@@ -1,4 +1,3 @@
-// src/app/checkout/page.tsx
 
 'use client';
 

@@ -1,13 +1,9 @@
-// src/app/api/orders/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
 import FoodItem from '@/models/FoodItem'; // Ensure FoodItem model is imported
 
-/**
- * Handles GET requests to fetch all orders for a specific user.
- */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

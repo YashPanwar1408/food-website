@@ -1,4 +1,4 @@
-/* yashpanwar1408/food-website/food-website-dfe3d219bbbd4abfce9f29fc60afeda7ab3ecb14/src/components/FoodCard.tsx */
+
 'use client';
 
 import React from 'react';

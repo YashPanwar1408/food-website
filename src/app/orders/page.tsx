@@ -1,4 +1,3 @@
-// src/app/orders/page.tsx
 
 'use client';
 

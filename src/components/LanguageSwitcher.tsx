@@ -1,4 +1,4 @@
-/* yashpanwar1408/food-website/food-website-dfe3d219bbbd4abfce9f29fc60afeda7ab3ecb14/src/components/LanguageSwitcher.tsx */
+
 "use client";
 import "../i18n";
 import React from "react";
@@ -18,9 +18,6 @@ const LANGUAGES = [
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
-
-  const currentLanguage = LANGUAGES.find(lang => lang.code === i18n.language);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
