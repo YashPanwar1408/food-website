@@ -1,7 +1,11 @@
+/* yashpanwar1408/food-website/food-website-dfe3d219bbbd4abfce9f29fc60afeda7ab3ecb14/src/components/LanguageSwitcher.tsx */
 "use client";
 import "../i18n";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "./ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Languages } from "lucide-react";
 
 const LANGUAGES = [
   { code: "en", label: "English" },
@@ -14,18 +18,28 @@ const LANGUAGES = [
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
+
+  const currentLanguage = LANGUAGES.find(lang => lang.code === i18n.language);
+
   return (
-    <select
-      className="px-2 py-1 rounded border bg-white text-black border-border focus:outline-none focus:ring-2 focus:ring-primary hover:ring-2 hover:ring-primary transition dark:bg-white dark:text-black dark:border-[#444857] dark:focus:ring-primary dark:shadow-lg"
-      value={i18n.language}
-      onChange={e => i18n.changeLanguage(e.target.value)}
-    >
-      {LANGUAGES.map(lang => (
-        <option key={lang.code} value={lang.code}>
-          {lang.label}
-        </option>
-      ))}
-    </select>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Languages className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">Change language</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {LANGUAGES.map(lang => (
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => i18n.changeLanguage(lang.code)}
+          >
+            {lang.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

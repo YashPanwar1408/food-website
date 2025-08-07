@@ -18,7 +18,7 @@ const CartItemSchema = new Schema<CartItem>({
 const OrderSchema = new Schema<IOrder>({
   userId: { type: String, required: true },
   items: [CartItemSchema],
-  restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
+  // FIX: Removed the redundant 'restaurant' field that was causing the error.
   totalAmount: { type: Number, required: true, min: 0 },
   deliveryAddress: { type: AddressSchema, required: true },
   status: { 
@@ -39,7 +39,6 @@ const OrderSchema = new Schema<IOrder>({
   timestamps: true
 });
 
-// Index for better query performance
 OrderSchema.index({ userId: 1 });
 OrderSchema.index({ status: 1 });
 OrderSchema.index({ orderDate: -1 });

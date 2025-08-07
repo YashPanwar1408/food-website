@@ -1,3 +1,4 @@
+/* yashpanwar1408/food-website/food-website-dfe3d219bbbd4abfce9f29fc60afeda7ab3ecb14/src/components/FoodCard.tsx */
 'use client';
 
 import React from 'react';
@@ -80,8 +81,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem }) => {
 
           {/* Category */}
           <div className="mb-3">
-            <span className="inline-block bg-accent text-muted-foreground px-2 py-1 rounded-full text-xs">
-              <span>{t(`categories.${foodItem.category.replace(/\s/g, '')}`)}</span>
+            <span className="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-medium">
+              {/* FIX: Added .toLowerCase() to match the translation key correctly */}
+              <span>{t(`categories.${foodItem.category.replace(/\s/g, '').toLowerCase()}`)}</span>
             </span>
           </div>
 

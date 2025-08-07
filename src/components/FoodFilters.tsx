@@ -1,3 +1,4 @@
+
 "use client";
 import "../i18n";
 import React from "react";

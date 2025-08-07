@@ -1,4 +1,3 @@
-// src/app/api/create-order-record/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
@@ -19,7 +18,6 @@ interface RequestBody {
   userId: string;
   userEmail: string;
   userName: string;
-  restaurant: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -34,7 +32,6 @@ export async function POST(request: NextRequest) {
       userId,
       userEmail,
       userName,
-      restaurant,
     } = (await request.json()) as RequestBody;
 
     await connectToDatabase();
@@ -44,13 +41,14 @@ export async function POST(request: NextRequest) {
       userEmail,
       userName,
       items,
-      restaurant,
+      // FIX: Removed the 'restaurant' field to match the updated model.
       totalAmount,
       deliveryAddress: address,
       paymentId,
       razorpayOrderId: orderId,
       paymentSignature: signature,
       status: 'confirmed',
+      paymentStatus: 'completed', // FIX: Set payment status to completed on success.
       orderDate: new Date(),
       estimatedDeliveryTime: new Date(Date.now() + 45 * 60 * 1000),
     });

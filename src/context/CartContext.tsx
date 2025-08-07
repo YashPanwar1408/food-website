@@ -25,74 +25,59 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// FIX: New helper function to reliably calculate totals from the items array.
+// This is the source of truth for all calculations.
+const calculateTotals = (items: CartItem[]) => {
+    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+    const totalAmount = items.reduce((sum, item) => sum + item.foodItem.price * item.quantity, 0);
+    return { totalItems, totalAmount };
+};
+
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case 'ADD_ITEM': {
       const existingItemIndex = state.items.findIndex(
         item => item.foodItem._id === action.payload._id
       );
+      let updatedItems: CartItem[];
 
       if (existingItemIndex > -1) {
-        const updatedItems = [...state.items];
-        updatedItems[existingItemIndex].quantity += 1;
-        
-        return {
-          ...state,
-          items: updatedItems,
-          totalItems: state.totalItems + 1,
-          totalAmount: state.totalAmount + action.payload.price
-        };
+        // Item exists, just update quantity
+        updatedItems = state.items.map((item, index) => 
+          index === existingItemIndex ? { ...item, quantity: item.quantity + 1 } : item
+        );
       } else {
-        const newItem: CartItem = {
-          foodItem: action.payload,
-          quantity: 1
-        };
-        
-        return {
-          ...state,
-          items: [...state.items, newItem],
-          totalItems: state.totalItems + 1,
-          totalAmount: state.totalAmount + action.payload.price
-        };
+        // New item, add to cart
+        const newItem: CartItem = { foodItem: action.payload, quantity: 1 };
+        updatedItems = [...state.items, newItem];
       }
+      
+      const { totalItems, totalAmount } = calculateTotals(updatedItems);
+      return { items: updatedItems, totalItems, totalAmount };
     }
 
     case 'REMOVE_ITEM': {
-      const itemToRemove = state.items.find(item => item.foodItem._id === action.payload);
-      if (!itemToRemove) return state;
-
       const updatedItems = state.items.filter(item => item.foodItem._id !== action.payload);
-      
-      return {
-        ...state,
-        items: updatedItems,
-        totalItems: state.totalItems - itemToRemove.quantity,
-        totalAmount: state.totalAmount - (itemToRemove.foodItem.price * itemToRemove.quantity)
-      };
+      const { totalItems, totalAmount } = calculateTotals(updatedItems);
+      return { items: updatedItems, totalItems, totalAmount };
     }
 
     case 'UPDATE_QUANTITY': {
       const { id, quantity } = action.payload;
-      const itemIndex = state.items.findIndex(item => item.foodItem._id === id);
-      
-      if (itemIndex === -1) return state;
-
-      const item = state.items[itemIndex];
-      const quantityDiff = quantity - item.quantity;
       
       if (quantity <= 0) {
-        return cartReducer(state, { type: 'REMOVE_ITEM', payload: id });
+        // If quantity is 0 or less, treat it as a remove action
+        const updatedItems = state.items.filter(item => item.foodItem._id !== id);
+        const { totalItems, totalAmount } = calculateTotals(updatedItems);
+        return { items: updatedItems, totalItems, totalAmount };
       }
 
-      const updatedItems = [...state.items];
-      updatedItems[itemIndex].quantity = quantity;
-      
-      return {
-        ...state,
-        items: updatedItems,
-        totalItems: state.totalItems + quantityDiff,
-        totalAmount: state.totalAmount + (item.foodItem.price * quantityDiff)
-      };
+      const updatedItems = state.items.map(item =>
+        item.foodItem._id === id ? { ...item, quantity } : item
+      );
+
+      const { totalItems, totalAmount } = calculateTotals(updatedItems);
+      return { items: updatedItems, totalItems, totalAmount };
     }
 
     case 'CLEAR_CART':
