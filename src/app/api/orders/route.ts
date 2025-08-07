@@ -1,8 +1,8 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
-import FoodItem from '@/models/FoodItem'; // Ensure FoodItem model is imported
+import FoodItem from '@/models/FoodItem';
+import mongoose from 'mongoose';
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,11 +18,16 @@ export async function GET(request: NextRequest) {
 
     await connectToDatabase();
 
+    // Ensure the FoodItem model is registered
+    if (!mongoose.models.FoodItem) {
+      mongoose.model('FoodItem', FoodItem.schema);
+    }
+
     // Fetch orders and populate the foodItem details for each item in the order
     const orders = await Order.find({ userId })
       .populate({
         path: 'items.foodItem',
-        model: FoodItem,
+        model: 'FoodItem',
       })
       .sort({ orderDate: -1 }) // Show the newest orders first
       .lean();

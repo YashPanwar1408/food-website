@@ -1,22 +1,14 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
 import { OrderStatus } from '@/types';
-
-type PatchContext = {
-  params: {
-    id: string;
-  };
-};
 
 /**
  * Handles PATCH requests to update a single order's status (e.g., for cancellation).
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: PatchContext
+  { params }: { params: { id: string } }
 ) {
   try {
     const { id } = params;
