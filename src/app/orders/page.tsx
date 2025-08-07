@@ -1,10 +1,11 @@
+// src/app/orders/page.tsx
 
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useTranslation } from 'react-i18next';
-import { Clock, CheckCircle, Truck, ShoppingBag, XCircle } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { OrderStatus } from '@/types'; // Import OrderStatus enum
@@ -60,8 +61,9 @@ const OrdersPage = () => {
     fetchOrders();
   }, [fetchOrders]);
 
-  // --- NEW: Cancel Order Handler ---
+  // --- Cancel Order Handler ---
   const handleCancelOrder = async (orderId: string) => {
+    // Use a custom modal in a real app instead of confirm()
     if (!confirm('Are you sure you want to cancel this order?')) {
       return;
     }
@@ -87,23 +89,13 @@ const OrdersPage = () => {
       );
 
     } catch (err) {
+      // Use a custom modal in a real app instead of alert()
       alert(err instanceof Error ? err.message : 'Could not cancel the order.');
       console.error('Error cancelling order:', err);
     }
   };
   
   // --- Helper Functions ---
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case OrderStatus.DELIVERED: return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case OrderStatus.OUT_FOR_DELIVERY: return <Truck className="h-5 w-5 text-blue-500" />;
-      case OrderStatus.PREPARING: return <Clock className="h-5 w-5 text-yellow-500" />;
-      case OrderStatus.CONFIRMED: return <Clock className="h-5 w-5 text-yellow-500" />;
-      case OrderStatus.CANCELLED: return <XCircle className="h-5 w-5 text-red-500" />;
-      default: return <Clock className="h-5 w-5 text-muted-foreground" />;
-    }
-  };
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case OrderStatus.DELIVERED: return 'text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-300';
