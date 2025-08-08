@@ -3,17 +3,19 @@ import connectToDatabase from '@/lib/mongodb';
 import Order from '@/models/Order';
 import { OrderStatus } from '@/types';
 
-/**
- * Handles PATCH requests to update a single order's status (e.g., for cancellation).
- */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: NextRequest) {
   try {
-    const { id } = params;
+    // Extract the ID from the URL pathname
+    const id = request.nextUrl.pathname.split('/').pop();
     const { status } = await request.json();
 
+    if (!id) {
+        return NextResponse.json(
+            { success: false, error: 'Order ID is missing' },
+            { status: 400 }
+        );
+    }
+    
     // For security, only allow updating the status to 'cancelled' via this endpoint.
     if (status !== OrderStatus.CANCELLED) {
       return NextResponse.json(
@@ -42,7 +44,7 @@ export async function PATCH(
       order: updatedOrder,
     });
   } catch (error) {
-    console.error(`Error updating order ${params.id}:`, error);
+    console.error('Error updating order:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     return NextResponse.json(
       { success: false, error: 'Failed to update order', details: errorMessage },
