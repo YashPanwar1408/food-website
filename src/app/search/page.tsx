@@ -1,17 +1,22 @@
-
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, ChevronDown, ArrowUp, ArrowDown } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FoodCard from '@/components/FoodCard';
 import Footer from '@/components/Footer';
 import { FoodItem, SearchFilters } from '@/types';
 import FoodFilters from '@/components/FoodFilters';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-// COPY THIS ENTIRE ARRAY
-
+// This mock data should be replaced with an API call in a real application
 const mockFoodItems = [
   // Pizza
   { _id: '66a50275823161571b04b4d1', name: 'food.margheritaPizza.name', description: 'food.margheritaPizza.desc', price: 299, image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400', category: 'Pizza', restaurant: 'Pizza Palace', rating: 4.5, preparationTime: 25, isVegetarian: true, isAvailable: true, createdAt: new Date(), updatedAt: new Date() },
@@ -63,7 +68,7 @@ const SearchPage = () => {
       sortBy: 'rating',
       sortOrder: 'desc'
     });
-  
+
     useEffect(() => {
       const searchParams = new URLSearchParams(window.location.search);
       setSearchQuery(searchParams.get('q') || '');
@@ -72,16 +77,16 @@ const SearchPage = () => {
         category: searchParams.get('category') || 'All',
       }));
     }, []);
-  
+
     const categories = ['All', 'Pizza', 'Biryani', 'Indian', 'Chinese', 'Burger', 'South Indian', 'Dessert', 'Fast Food'];
-  
+
     const filteredItems = useMemo(() => {
       let items = mockFoodItems.map(item => ({
         ...item,
         name: t(item.name),
         description: t(item.description),
       })) as FoodItem[];
-  
+
       if (searchQuery.trim()) {
         const lowerCaseQuery = searchQuery.toLowerCase();
           items = items.filter(item => {
@@ -94,7 +99,7 @@ const SearchPage = () => {
           );
         });
       }
-  
+
       if (filters.category && filters.category !== 'All') {
         items = items.filter(item => item.category === filters.category);
       }
@@ -110,7 +115,7 @@ const SearchPage = () => {
       if (filters.maxPrice !== undefined) {
         items = items.filter(item => item.price <= filters.maxPrice!);
       }
-  
+
       if (filters.sortBy) {
         items.sort((a, b) => {
           let aValue: number, bValue: number;
@@ -123,18 +128,18 @@ const SearchPage = () => {
           return filters.sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
         });
       }
-  
+
       return items;
     }, [searchQuery, filters, t]);
-  
+
     useEffect(() => {
       setDisplayedItems(filteredItems.slice(0, itemsToShow));
     }, [filteredItems, itemsToShow]);
-  
+
     const handleFilterChange = <K extends keyof SearchFilters>(key: K, value: SearchFilters[K]) => {
       setFilters(prev => ({ ...prev, [key]: value }));
     };
-  
+
     const clearFilters = () => {
       setFilters({
         category: 'All',
@@ -146,31 +151,31 @@ const SearchPage = () => {
         sortOrder: 'desc'
       });
     };
-  
+
     const loadMore = () => {
       setItemsToShow(prev => prev + 12);
     };
-  
+
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Search Header */}
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
               <h1 className="text-3xl font-bold text-foreground">
-                {searchQuery ? `Search results for "${searchQuery}"` : 'Search Food Items'}
+                {searchQuery ? `${t('searchResultsFor')} "${searchQuery}"` : t('searchFoodItems')}
               </h1>
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center space-x-2 bg-card px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-border"
               >
                 <Filter className="h-5 w-5" />
-                <span>Filters</span>
+                <span>{t('filters')}</span>
               </button>
             </div>
-  
+
             {/* Search Bar */}
             <div className="relative max-w-2xl">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
@@ -178,29 +183,38 @@ const SearchPage = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for food items, restaurants, cuisines..."
+                placeholder={t('searchPlaceholder')}
                 className="w-full pl-10 pr-4 py-2 border border-border bg-card rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-foreground placeholder:text-muted-foreground"
               />
             </div>
           </div>
-  
+
           {/* Filters Panel */}
           {showFilters && (
             <div className="bg-card rounded-lg shadow-md p-6 mb-8 border border-border">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-muted-foreground mb-2">{t('category')}</label>
-                  <select
-                    value={filters.category || 'All'}
-                    onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-2 border border-border bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
-                  >
-                    {categories.map(category => (
-                      <option key={category} value={category}>{t(`categories.${category.toLowerCase()}`)}</option>
-                    ))}
-                  </select>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-full justify-between font-normal">
+                        <span>{t(`categories.${(filters.category || 'All').replace(/\s/g, '').toLowerCase()}`)}</span>
+                        <ChevronDown className="h-4 w-4 opacity-50" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      {categories.map(category => (
+                        <DropdownMenuItem
+                          key={category}
+                          onSelect={() => handleFilterChange('category', category)}
+                        >
+                          {t(`categories.${category.replace(/\s/g, '').toLowerCase()}`)}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
-  
+
                 <div>
                   <label className="block text-sm font-medium text-muted-foreground mb-2">{t('priceRange')}</label>
                   <div className="flex space-x-2">
@@ -208,7 +222,7 @@ const SearchPage = () => {
                     <input type="number" placeholder="Max" value={filters.maxPrice || ''} onChange={(e) => handleFilterChange('maxPrice', e.target.value ? Number(e.target.value) : undefined)} className="w-full px-3 py-2 border border-border bg-background text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
                   </div>
                 </div>
-  
+
                 <div className="col-span-1 md:col-span-2">
                   <FoodFilters
                     isVegetarian={filters.isVegetarian}
@@ -217,31 +231,37 @@ const SearchPage = () => {
                     setMinRating={(v) => handleFilterChange('rating', v)}
                   />
                 </div>
-  
+
                 <div>
                   <label className="block text-sm font-medium text-muted-foreground mb-2">{t('sortBy')}</label>
                   <div className="flex space-x-2">
-                    <select
-                      value={filters.sortBy || 'rating'}
-                      onChange={(e) => handleFilterChange('sortBy', e.target.value as 'price' | 'rating' | 'preparationTime')}
-                      className="flex-1 px-3 py-2 border border-border bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="flex-1 justify-between font-normal">
+                          <span>
+                            {filters.sortBy === 'price' ? t('price') : filters.sortBy === 'preparationTime' ? t('prepTime') : t('rating')}
+                          </span>
+                          <ChevronDown className="h-4 w-4 opacity-50" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => handleFilterChange('sortBy', 'rating')}>{t('rating')}</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => handleFilterChange('sortBy', 'price')}>{t('price')}</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => handleFilterChange('sortBy', 'preparationTime')}>{t('prepTime')}</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => handleFilterChange('sortOrder', filters.sortOrder === 'asc' ? 'desc' : 'asc')}
                     >
-                      <option value="rating">{t('rating')}</option>
-                      <option value="price">{t('price')}</option>
-                      <option value="preparationTime">{t('prepTime')}</option>
-                    </select>
-                    <select
-                      value={filters.sortOrder || 'desc'}
-                      onChange={(e) => handleFilterChange('sortOrder', e.target.value as 'asc' | 'desc')}
-                      className="px-3 py-2 border border-border bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
-                    >
-                      <option value="asc">↑</option>
-                      <option value="desc">↓</option>
-                    </select>
+                      {filters.sortOrder === 'asc' ? <ArrowUp className="h-4 w-4" /> : <ArrowDown className="h-4 w-4" />}
+                    </Button>
                   </div>
                 </div>
               </div>
-  
+
               <div className="mt-4 flex justify-end">
                 <button onClick={clearFilters} className="px-4 py-2 text-primary hover:text-primary/80 font-medium">
                   {t('clearFilters')}
@@ -249,14 +269,14 @@ const SearchPage = () => {
               </div>
             </div>
           )}
-  
+
           {/* Results */}
           <div className="mb-4">
             <p className="text-muted-foreground">
               {t('resultsFound', { count: filteredItems.length })}
             </p>
           </div>
-  
+
           {/* Food Items Grid */}
           {filteredItems.length > 0 ? (
             <>
@@ -265,14 +285,14 @@ const SearchPage = () => {
                   <FoodCard key={item._id} foodItem={item} />
                 ))}
               </div>
-              
+
               {displayedItems.length < filteredItems.length && (
                 <div className="text-center mt-12">
                   <button
                     onClick={loadMore}
                     className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary-hover transition-colors"
                   >
-                    {t('loadMore')} ({filteredItems.length - displayedItems.length} remaining)
+                    {t('loadMore')} ({filteredItems.length - displayedItems.length} {t('remaining')})
                   </button>
                 </div>
               )}
@@ -282,7 +302,7 @@ const SearchPage = () => {
               <Search className="mx-auto h-24 w-24 text-muted-foreground mb-4" />
               <h3 className="text-xl font-semibold text-foreground mb-2">{t('noResults')}</h3>
               <p className="text-muted-foreground mb-4">
-                Try adjusting your search terms or filters
+                {t('noResultsDesc')}
               </p>
               <button
                 onClick={() => {
@@ -291,7 +311,7 @@ const SearchPage = () => {
                 }}
                 className="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary-hover transition-colors"
               >
-                Clear Search & Filters
+                {t('clearSearchFilters')}
               </button>
             </div>
           )}
@@ -300,5 +320,5 @@ const SearchPage = () => {
       </div>
     );
 };
-  
+
 export default SearchPage;

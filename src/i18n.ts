@@ -12,7 +12,7 @@ const resources = {
 
       // Orders Page
       ordersPage: { pleaseSignIn: 'Please sign in to view your orders', yourOrders: 'Your Orders', noOrders: 'No orders yet', noOrdersDesc: "When you place orders, they'll appear here." },
-      
+
       // Cart Page
       cartPage: { empty: 'Your cart is empty', emptyDesc: 'Add some delicious food items to get started!', browse: 'Browse Food Items', title: 'Your Cart' },
 
@@ -26,8 +26,16 @@ const resources = {
       'homepage.heroTitle': 'Delicious Food, Delivered Fast', 'homepage.heroSubtitle': 'Order from your favorite restaurants and get it delivered to your doorstep in minutes', 'homepage.browseByCategory': 'Browse by Category', 'homepage.categorySubtitle': 'Find your favorite cuisine from our wide selection', 'homepage.popularItems': 'Popular Food Items', 'homepage.popularItemsSubtitle': 'Discover what everyone else is loving', 'homepage.whyChoose': 'Why Choose FoodDelivery?', 'homepage.fastDelivery': 'Fast Delivery', 'homepage.fastDeliveryDesc': 'Get your food delivered in 30 minutes or less', 'homepage.qualityFood': 'Quality Food', 'homepage.qualityFoodDesc': 'Fresh ingredients and top-rated restaurants', 'homepage.easyPayment': 'Easy Payment', 'homepage.easyPaymentDesc': 'Multiple payment options for your convenience',
 
       // Categories
-      'categories.pizza': 'Pizza', 'categories.biryani': 'Biryani', 'categories.indian': 'Indian', 'categories.chinese': 'Chinese', 'categories.burger': 'Burger', 'categories.southindian': 'South Indian', 'categories.dessert': 'Dessert', 'categories.fastfood': 'Fast Food',
-      
+      'categories.all': 'All',
+      'categories.pizza': 'Pizza',
+      'categories.biryani': 'Biryani',
+      'categories.indian': 'Indian',
+      'categories.chinese': 'Chinese',
+      'categories.burger': 'Burger',
+      'categories.southindian': 'South Indian',
+      'categories.dessert': 'Dessert',
+      'categories.fastfood': 'Fast Food',
+
       // New Pages
       privacyPage: {
         title: 'Privacy Policy', lastUpdated: 'Last updated: August 8, 2025',
@@ -68,7 +76,15 @@ const resources = {
       orderStatus: { outForDelivery: 'डिलीवरी के लिए निकला', confirmed: 'पुष्टि की गई', preparing: 'तैयार किया जा रहा है', delivered: 'डिलीवर किया गया' },
       orders: 'ऑर्डर', signIn: 'साइन इन करें', hello: 'नमस्ते', searchPlaceholder: 'रेस्टोरेंट, खाना खोजें', deliverTo: 'डिलीवर करें:', contactUs: 'संपर्क करें', allRightsReserved: 'सभी अधिकार सुरक्षित।', privacyPolicy: 'गोपनीयता नीति', termsOfService: 'सेवा की शर्तें', support: 'सहायता', addressLine1: '123 फूड स्ट्रीट,', addressLine2: 'नई दिल्ली, भारत 110001', addToCart: 'कार्ट में जोड़ें', outOfStock: 'स्टॉक खत्म', vegetarianLabel: 'शाक', minutes: 'मिनट',
       'homepage.heroTitle': 'स्वादिष्ट भोजन, तेज़ डिलीवरी', 'homepage.heroSubtitle': 'अपने पसंदीदा रेस्टोरेंट से ऑर्डर करें और मिनटों में अपने दरवाजे पर पाएं', 'homepage.browseByCategory': 'श्रेणी अनुसार ब्राउज़ करें', 'homepage.categorySubtitle': 'हमारे विशाल चयन में से अपना पसंदीदा व्यंजन खोजें', 'homepage.popularItems': 'लोकप्रिय भोजन आइटम', 'homepage.popularItemsSubtitle': 'जानिए लोग क्या पसंद कर रहे हैं', 'homepage.whyChoose': 'क्यों चुनें FoodDelivery?', 'homepage.fastDelivery': 'तेज़ डिलीवरी', 'homepage.fastDeliveryDesc': '30 मिनट या उससे कम में भोजन डिलीवर पाएं', 'homepage.qualityFood': 'गुणवत्तापूर्ण भोजन', 'homepage.qualityFoodDesc': 'ताज़ी सामग्री और शीर्ष रेटेड रेस्टोरेंट', 'homepage.easyPayment': 'आसान भुगतान', 'homepage.easyPaymentDesc': 'आपकी सुविधा के लिए कई भुगतान विकल्प',
-      'categories.pizza': 'पिज़्ज़ा', 'categories.biryani': 'बिरयानी', 'categories.indian': 'भारतीय', 'categories.chinese': 'चाइनीज़', 'categories.burger': 'बर्गर', 'categories.southindian': 'दक्षिण भारतीय', 'categories.dessert': 'मिठाई', 'categories.fastfood': 'फास्ट फूड',
+      'categories.all': 'सभी',
+      'categories.pizza': 'पिज़्ज़ा',
+      'categories.biryani': 'बिरयानी',
+      'categories.indian': 'भारतीय',
+      'categories.chinese': 'चाइनीज़',
+      'categories.burger': 'बर्गर',
+      'categories.southindian': 'दक्षिण भारतीय',
+      'categories.dessert': 'मिठाई',
+      'categories.fastfood': 'फास्ट फूड',
       privacyPage: {
         title: 'गोपनीयता नीति', lastUpdated: 'अंतिम अपडेट: 8 अगस्त, 2025',
         introduction: { title: 'परिचय', content: 'FoodDelivery में आपका स्वागत है। हम आपकी गोपनीयता का सम्मान करते हैं और आपके व्यक्तिगत डेटा की सुरक्षा के लिए प्रतिबद्ध हैं। यह गोपनीयता नीति आपको बताएगी कि जब आप हमारी वेबसाइट पर आते हैं तो हम आपके व्यक्तिगत डेटा की देखभाल कैसे करते हैं।' },
@@ -106,7 +122,15 @@ const resources = {
       orderStatus: { outForDelivery: 'En camino', confirmed: 'Confirmado', preparing: 'Preparando', delivered: 'Entregado' },
       orders: 'Pedidos', signIn: 'Iniciar sesión', hello: 'Hola', searchPlaceholder: 'Buscar restaurantes, comida', deliverTo: 'Entregar a:', contactUs: 'Contáctanos', allRightsReserved: 'Todos los derechos reservados.', privacyPolicy: 'Política de privacidad', termsOfService: 'Términos de servicio', support: 'Soporte', addressLine1: 'Calle de la Comida 123,', addressLine2: 'Madrid, España 28001', addToCart: 'Añadir al carrito', outOfStock: 'Agotado', vegetarianLabel: 'VEG', minutes: 'min',
       'homepage.heroTitle': 'Comida deliciosa, entrega rápida', 'homepage.heroSubtitle': 'Pide de tus restaurantes favoritos y recíbelo en minutos', 'homepage.browseByCategory': 'Explorar por categoría', 'homepage.categorySubtitle': 'Encuentra tu cocina favorita entre nuestra amplia selección', 'homepage.popularItems': 'Platos populares', 'homepage.popularItemsSubtitle': 'Descubre lo que a todos les encanta', 'homepage.whyChoose': '¿Por qué elegir FoodDelivery?', 'homepage.fastDelivery': 'Entrega rápida', 'homepage.fastDeliveryDesc': 'Recibe tu comida en 30 minutos o menos', 'homepage.qualityFood': 'Comida de calidad', 'homepage.qualityFoodDesc': 'Ingredientes frescos y restaurantes mejor valorados', 'homepage.easyPayment': 'Pago fácil', 'homepage.easyPaymentDesc': 'Múltiples opciones de pago para tu comodidad',
-      'categories.pizza': 'Pizza', 'categories.biryani': 'Biryani', 'categories.indian': 'India', 'categories.chinese': 'China', 'categories.burger': 'Hamburguesa', 'categories.southindian': 'Sur de India', 'categories.dessert': 'Postre', 'categories.fastfood': 'Comida rápida',
+      'categories.all': 'Todo',
+      'categories.pizza': 'Pizza',
+      'categories.biryani': 'Biryani',
+      'categories.indian': 'India',
+      'categories.chinese': 'China',
+      'categories.burger': 'Hamburguesa',
+      'categories.southindian': 'Sur de India',
+      'categories.dessert': 'Postre',
+      'categories.fastfood': 'Comida rápida',
       privacyPage: {
         title: 'Política de Privacidad', lastUpdated: 'Última actualización: 8 de agosto de 2025',
         introduction: { title: 'Introducción', content: 'Bienvenido a FoodDelivery. Respetamos su privacidad y nos comprometemos a proteger sus datos personales. Esta política de privacidad le informará sobre cómo cuidamos sus datos personales cuando visita nuestro sitio web.' },
@@ -144,7 +168,15 @@ const resources = {
       orderStatus: { outForDelivery: 'En cours de livraison', confirmed: 'Confirmée', preparing: 'En préparation', delivered: 'Livrée' },
       orders: 'Commandes', signIn: 'Connexion', hello: 'Bonjour', searchPlaceholder: 'Rechercher des restaurants, des plats', deliverTo: 'Livrer à :', contactUs: 'Contactez-nous', allRightsReserved: 'Tous droits réservés.', privacyPolicy: 'Politique de confidentialité', termsOfService: "Conditions d'utilisation", support: 'Support', addressLine1: '123 Rue de la Nourriture,', addressLine2: 'Paris, France 75001', addToCart: 'Ajouter au panier', outOfStock: 'Rupture de stock', vegetarianLabel: 'VÉG', minutes: 'min',
       'homepage.heroTitle': 'Des plats délicieux, livrés rapidement', 'homepage.heroSubtitle': 'Commandez dans vos restaurants préférés et faites-vous livrer en quelques minutes', 'homepage.browseByCategory': 'Parcourir par catégorie', 'homepage.categorySubtitle': 'Trouvez votre cuisine préférée parmi notre large sélection', 'homepage.popularItems': 'Plats populaires', 'homepage.popularItemsSubtitle': 'Découvrez ce que tout le monde aime', 'homepage.whyChoose': 'Pourquoi choisir FoodDelivery ?', 'homepage.fastDelivery': 'Livraison rapide', 'homepage.fastDeliveryDesc': 'Faites-vous livrer en 30 minutes ou moins', 'homepage.qualityFood': 'Nourriture de qualité', 'homepage.qualityFoodDesc': 'Ingrédients frais et restaurants les mieux notés', 'homepage.easyPayment': 'Paiement facile', 'homepage.easyPaymentDesc': 'Plusieurs options de paiement pour votre commodité',
-      'categories.pizza': 'Pizza', 'categories.biryani': 'Biryani', 'categories.indian': 'Indien', 'categories.chinese': 'Chinois', 'categories.burger': 'Burger', 'categories.southindian': 'Sud-indien', 'categories.dessert': 'Dessert', 'categories.fastfood': 'Fast Food',
+      'categories.all': 'Tout',
+      'categories.pizza': 'Pizza',
+      'categories.biryani': 'Biryani',
+      'categories.indian': 'Indien',
+      'categories.chinese': 'Chinois',
+      'categories.burger': 'Burger',
+      'categories.southindian': 'Sud-indien',
+      'categories.dessert': 'Dessert',
+      'categories.fastfood': 'Fast Food',
       privacyPage: {
         title: 'Politique de Confidentialité', lastUpdated: 'Dernière mise à jour : 8 août 2025',
         introduction: { title: 'Introduction', content: 'Bienvenue sur FoodDelivery. Nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles. Cette politique de confidentialité vous informera sur la manière dont nous traitons vos données personnelles lorsque vous visitez notre site web.' },
@@ -182,7 +214,15 @@ const resources = {
       orderStatus: { outForDelivery: '正在配送', confirmed: '已确认', preparing: '准备中', delivered: '已送达' },
       orders: '订单', signIn: '登录', hello: '你好', searchPlaceholder: '搜索餐厅、美食', deliverTo: '送达：', contactUs: '联系我们', allRightsReserved: '版权所有。', privacyPolicy: '隐私政策', termsOfService: '服务条款', support: '支持', addressLine1: '美食街123号,', addressLine2: '北京, 中国 100000', addToCart: '加入购物车', outOfStock: '缺货', vegetarianLabel: '素', minutes: '分钟',
       'homepage.heroTitle': '美味佳肴，极速送达', 'homepage.heroSubtitle': '从您喜欢的餐厅订餐，几分钟内送达您家门口', 'homepage.browseByCategory': '按类别浏览', 'homepage.categorySubtitle': '在我们丰富的选择中找到您喜欢的美食', 'homepage.popularItems': '热门美食', 'homepage.popularItemsSubtitle': '发现大家都喜欢什么', 'homepage.whyChoose': '为什么选择 FoodDelivery？', 'homepage.fastDelivery': '快速送达', 'homepage.fastDeliveryDesc': '30分钟内送达您的美食', 'homepage.qualityFood': '优质美食', 'homepage.qualityFoodDesc': '新鲜食材和高评分餐厅', 'homepage.easyPayment': '便捷支付', 'homepage.easyPaymentDesc': '多种支付方式，方便快捷',
-      'categories.pizza': '披萨', 'categories.biryani': '香饭', 'categories.indian': '印度菜', 'categories.chinese': '中餐', 'categories.burger': '汉堡', 'categories.southindian': '南印度菜', 'categories.dessert': '甜点', 'categories.fastfood': '快餐',
+      'categories.all': '全部',
+      'categories.pizza': '披萨',
+      'categories.biryani': '香饭',
+      'categories.indian': '印度菜',
+      'categories.chinese': '中餐',
+      'categories.burger': '汉堡',
+      'categories.southindian': '南印度菜',
+      'categories.dessert': '甜点',
+      'categories.fastfood': '快餐',
       privacyPage: {
         title: '隐私政策', lastUpdated: '最后更新日期：2025年8月8日',
         introduction: { title: '引言', content: '欢迎来到FoodDelivery。我们尊重您的隐私并致力于保护您的个人数据。本隐私政策将告知您在访问我们网站时我们如何处理您的个人数据。' },
@@ -220,7 +260,15 @@ const resources = {
       orderStatus: { outForDelivery: '配達中', confirmed: '確認済み', preparing: '準備中', delivered: '配達済み' },
       orders: '注文', signIn: 'サインイン', hello: 'こんにちは', searchPlaceholder: 'レストラン、料理を検索', deliverTo: '配達先：', contactUs: 'お問い合わせ', allRightsReserved: '全著作権所有。', privacyPolicy: 'プライバシーポリシー', termsOfService: '利用規約', support: 'サポート', addressLine1: 'フードストリート123,', addressLine2: '東京、日本 100-0000', addToCart: 'カートに追加', outOfStock: '在庫切れ', vegetarianLabel: 'ベジ', minutes: '分',
       'homepage.heroTitle': '美味しい料理、迅速な配達', 'homepage.heroSubtitle': 'お気に入りのレストランから注文し、数分でご自宅にお届け', 'homepage.browseByCategory': 'カテゴリーで探す', 'homepage.categorySubtitle': '豊富なセレクションからお好きな料理を見つけよう', 'homepage.popularItems': '人気の料理', 'homepage.popularItemsSubtitle': 'みんなが好きなものを発見しよう', 'homepage.whyChoose': 'FoodDeliveryを選ぶ理由', 'homepage.fastDelivery': '迅速な配達', 'homepage.fastDeliveryDesc': '30分以内にお届け', 'homepage.qualityFood': '高品質な料理', 'homepage.qualityFoodDesc': '新鮮な食材と高評価レストラン', 'homepage.easyPayment': '簡単決済', 'homepage.easyPaymentDesc': '複数の決済方法で便利',
-      'categories.pizza': 'ピザ', 'categories.biryani': 'ビリヤニ', 'categories.indian': 'インド料理', 'categories.chinese': '中華料理', 'categories.burger': 'バーガー', 'categories.southindian': '南インド料理', 'categories.dessert': 'デザート', 'categories.fastfood': 'ファストフード',
+      'categories.all': 'すべて',
+      'categories.pizza': 'ピザ',
+      'categories.biryani': 'ビリヤニ',
+      'categories.indian': 'インド料理',
+      'categories.chinese': '中華料理',
+      'categories.burger': 'バーガー',
+      'categories.southindian': '南インド料理',
+      'categories.dessert': 'デザート',
+      'categories.fastfood': 'ファストフード',
       privacyPage: {
         title: 'プライバシーポリシー', lastUpdated: '最終更新日：2025年8月8日',
         introduction: { title: 'はじめに', content: 'FoodDeliveryへようこそ。当社はお客様のプライバシーを尊重し、個人データの保護に努めています。このプライバシーポリシーは、お客様が当社のウェブサイトを訪問した際に、当社がお客様の個人データをどのように扱うかについて説明するものです。' },
