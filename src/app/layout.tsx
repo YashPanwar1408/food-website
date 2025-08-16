@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { CartProvider } from '@/context/CartContext';
 import { ThemeProvider } from "@/components/theme-provider";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default function RootLayout({
               </main>
               {/* Footer will go here */}
               <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=f0d90ef2933136521a22214fd83eb4c4" ></script>
+    
             </CartProvider>
           </ThemeProvider>
         </body>

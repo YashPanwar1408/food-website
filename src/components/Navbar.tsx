@@ -1,24 +1,41 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useUser, UserButton, SignInButton } from '@clerk/nextjs';
+import { useUser, SignInButton } from '@clerk/nextjs';
 import { ShoppingCart, Search, MapPin, Menu, X, ChevronDown } from 'lucide-react';
 import { ModeToggle } from './ui/ModeToggle';
 import { useCart } from '@/context/CartContext';
+import '@/i18n';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
-import '@/i18n'; // <-- Add this import to initialize i18next
+import { SignOutButton } from "@clerk/nextjs";
 
 const Navbar = () => {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn, user, isLoaded } = useUser();
   const { state } = useCart();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
-
   const { t } = useTranslation();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      fetch(`/api/profile?clerkId=${user.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && data.user && data.user.profileImage) {
+            setProfileImage(data.user.profileImage);
+          } else {
+            setProfileImage(user.imageUrl || null);
+          }
+        })
+        .catch(() => setProfileImage(user.imageUrl || null));
+    }
+  }, [isLoaded, isSignedIn, user]);
 
   const categories = [
     { name: t('categories.pizza'), key: 'Pizza', icon: '🍕' },
@@ -26,10 +43,8 @@ const Navbar = () => {
     { name: t('categories.indian'), key: 'Indian', icon: '🍛' },
     { name: t('categories.chinese'), key: 'Chinese', icon: '🥡' },
     { name: t('categories.burger'), key: 'Burger', icon: '🍔' },
-    // Fix: Changed key to all lowercase to match i18n.ts
     { name: t('categories.southindian'), key: 'South Indian', icon: '🥞' },
     { name: t('categories.dessert'), key: 'Dessert', icon: '🍰' },
-    // Fix: Changed key to all lowercase to match i18n.ts
     { name: t('categories.fastfood'), key: 'Fast Food', icon: '🍟' },
   ];
 
@@ -101,7 +116,7 @@ const Navbar = () => {
                         className="flex items-center space-x-2 px-4 py-2 text-left hover:bg-accent transition-colors w-full"
                       >
                         <span className="text-lg">{category.icon}</span>
-                        <span className="text-sm text-card-foreground">{category.name}</span>
+                        <span className="text-sm text-foreground">{category.name}</span>
                       </button>
                     ))}
                   </div>
@@ -129,12 +144,29 @@ const Navbar = () => {
             </Link>
 
             {/* User Authentication */}
-            {isSignedIn ? (
+            {isLoaded && isSignedIn ? (
               <div className="flex items-center space-x-3">
                 <span className="hidden md:block text-sm text-foreground">
                   {t('hello')}, {user?.firstName}!
                 </span>
-                <UserButton afterSignOutUrl="/" />
+                <Link href="/profile">
+                  <div className="relative h-8 w-8 cursor-pointer">
+                    {(profileImage || user?.imageUrl) && (
+                      <Image
+                        key={profileImage || user?.imageUrl}
+                        src={profileImage || user?.imageUrl}
+                        alt="User profile"
+                        fill
+                        className="rounded-full object-cover"
+                      />
+                    )}
+                  </div>
+                </Link>
+                <SignOutButton>
+                  <button className="ml-2 bg-destructive text-destructive-foreground px-3 py-1 rounded-lg hover:bg-destructive-hover transition-colors">
+                    {t('logout')}
+                  </button>
+                </SignOutButton>
               </div>
             ) : (
               <SignInButton mode="modal">
@@ -182,7 +214,7 @@ const Navbar = () => {
                       className="flex items-center space-x-2 px-3 py-2 text-left hover:bg-accent rounded-lg transition-colors"
                     >
                       <span className="text-sm">{category.icon}</span>
-                      <span className="text-sm text-card-foreground">{category.name}</span>
+                      <span className="text-sm text-foreground">{category.name}</span>
                     </button>
                   ))}
                 </div>

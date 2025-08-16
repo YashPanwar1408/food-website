@@ -137,7 +137,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => document.getElementById('food-items')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-black/20 backdrop-blur-sm border-2 border-white text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary transition-all transform hover:scale-105"
+              className="bg-black/20 backdrop-blur-sm border-2 border-white text-white px-8 py-3 rounded-lg font-semibold text-lg hover:text-primary transition-all transform hover:scale-105"
             >
               {t('viewMenu')}
             </button>

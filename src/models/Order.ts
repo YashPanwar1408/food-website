@@ -1,4 +1,3 @@
-
 import mongoose, { Schema } from 'mongoose';
 import { Order as IOrder, CartItem, Address, OrderStatus, PaymentStatus } from '@/types';
 
@@ -26,7 +25,6 @@ const OrderSchema = new Schema<IOrder>({
     enum: Object.values(OrderStatus),
     default: OrderStatus.PENDING
   },
-  // We only need a generic paymentId now
   paymentId: { type: String },
   paymentStatus: {
     type: String,
@@ -43,4 +41,5 @@ const OrderSchema = new Schema<IOrder>({
 OrderSchema.index({ userId: 1 });
 OrderSchema.index({ orderDate: -1 });
 
+// FIX: Check if the model already exists before defining it
 export default mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema);
