@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import { ClerkProvider } from '@clerk/nextjs';
 import { CartProvider } from '@/context/CartContext';
 import { ThemeProvider } from "@/components/theme-provider";
@@ -22,14 +23,20 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={`${inter.className} min-h-screen flex flex-col`}>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-background focus:text-foreground">
+            Skip to main content
+          </a>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
+            <header>
+              {/* Navbar component will be rendered here by Next.js */}
+            </header>
             <CartProvider>
-              <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <main id="main-content" className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {children}
               </main>
               {/* Footer will go here */}

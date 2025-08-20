@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const ProfilePage = () => {
   const { user, isLoaded } = useUser();
+  const { t } = useTranslation();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -42,12 +44,12 @@ const ProfilePage = () => {
           setPreviewUrl(data.user.profileImage || "");
           setActivityHistory(data.user.activityHistory || []);
         } else {
-          setError(data.error || "Failed to fetch profile");
+          setError(data.error || t('profilePage.fetchError'));
         }
       })
-      .catch(() => setError("Failed to fetch profile"))
+      .catch(() => setError(t('profilePage.fetchError')))
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user, isLoaded, t]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -87,12 +89,12 @@ const ProfilePage = () => {
         profileImage: null, // Clear file input
       });
       setPreviewUrl(data.user.profileImage || ""); // Update preview with new URL from backend
-      setActivityHistory([`Profile updated at ${new Date().toLocaleString()}`, ...activityHistory]);
+      setActivityHistory([t('profilePage.updateActivity', { date: new Date().toLocaleString() }), ...activityHistory]);
       setError("");
-      alert("Profile updated successfully!");
+      alert(t('profilePage.updateSuccess'));
       user.reload();
     } else {
-      setError(data.error || "Failed to update profile");
+      setError(data.error || t('profilePage.updateError'));
     }
   };
 
@@ -120,33 +122,33 @@ const ProfilePage = () => {
         profileImage: null,
       });
       setPreviewUrl("");
-      setActivityHistory([`Profile image removed at ${new Date().toLocaleString()}`, ...activityHistory]);
+      setActivityHistory([t('profilePage.removeActivity', { date: new Date().toLocaleString() }), ...activityHistory]);
       setError("");
-      alert("Profile image removed successfully!");
+      alert(t('profilePage.removeSuccess'));
       user.reload();
     } else {
-      setError(data.error || "Failed to remove profile image");
+      setError(data.error || t('profilePage.removeError'));
     }
   };
 
-  if (loading) return <div className="min-h-screen"><Navbar /><main className="flex-grow">Loading...</main><Footer /></div>;
-  if (error) return <div className="min-h-screen"><Navbar /><main className="flex-grow">Error: {error}</main><Footer /></div>;
+  if (loading) return <div className="min-h-screen"><Navbar /><main className="flex-grow">{t('profilePage.loading')}</main><Footer /></div>;
+  if (error) return <div className="min-h-screen"><Navbar /><main className="flex-grow">{t('profilePage.error', { error: error })}</main><Footer /></div>;
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
       <main className="flex-grow max-w-xl mx-auto px-4 py-8 w-full">
-        <h1 className="text-3xl font-bold mb-6 text-foreground">Profile</h1>
+        <h1 className="text-3xl font-bold mb-6 text-foreground">{t('profilePage.title')}</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col items-center">
-            <label htmlFor="profileImage" className="mb-2 font-medium text-foreground">Profile Image</label>
+            <label htmlFor="profileImage" className="mb-2 font-medium text-foreground">{t('profilePage.profileImage')}</label>
             <div className="flex flex-col items-center">
               <label htmlFor="profileImage" className="cursor-pointer flex flex-col items-center">
                 {previewUrl ? (
                   <img src={previewUrl} alt="Profile Preview" className="rounded-full w-24 h-24 object-cover border-2 bg-background border-border mb-2" />
                 ) : (
                   <div className="w-24 h-24 mx-auto mb-2 rounded-full border-2 border-border flex items-center justify-center cursor-pointer transition-colors duration-150 bg-background hover:bg-muted shadow-md">
-                    <span className="text-center text-sm text-muted-foreground px-2 py-2">Click to add photo</span>
+                    <span className="text-center text-sm text-muted-foreground px-2 py-2">{t('profilePage.addPhoto')}</span>
                   </div>
                 )}
                 <input
@@ -156,45 +158,49 @@ const ProfilePage = () => {
                   accept="image/*"
                   onChange={handleChange}
                   className="hidden"
+                  aria-label={t('profilePage.uploadAriaLabel')}
                 />
               </label>
-              <span className="text-xs text-muted-foreground">Choose a profile picture by clicking above</span>
+              <span className="text-xs text-muted-foreground">{t('profilePage.choosePhoto')}</span>
               {previewUrl && (
                 <button
                   type="button"
                   onClick={handleRemoveProfileImage}
                   className="mt-2 px-4 py-2 rounded-lg border-2 border-border font-medium transition-colors duration-150 text-red-500 hover:bg-muted hover:text-red-700 bg-background"
                 >
-                  Remove Profile Picture
+                  {t('profilePage.removePhoto')}
                 </button>
               )}
             </div>
           </div>
           <div>
-            <label htmlFor="firstName" className="block mb-1 font-medium text-foreground">First Name</label>
+            <label htmlFor="firstName" className="block mb-1 font-medium text-foreground">{t('profilePage.firstName')}</label>
             <input 
               type="text" 
               name="firstName" 
+              id="firstName"
               value={form.firstName} 
               onChange={handleChange} 
               className="w-full border border-border rounded px-3 py-2 bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" 
             />
           </div>
           <div>
-            <label htmlFor="lastName" className="block mb-1 font-medium text-foreground">Last Name</label>
+            <label htmlFor="lastName" className="block mb-1 font-medium text-foreground">{t('profilePage.lastName')}</label>
             <input 
               type="text" 
               name="lastName" 
+              id="lastName"
               value={form.lastName} 
               onChange={handleChange} 
               className="w-full border border-border rounded px-3 py-2 bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" 
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block mb-1 font-medium text-foreground">Phone</label>
+            <label htmlFor="phone" className="block mb-1 font-medium text-foreground">{t('profilePage.phone')}</label>
             <input 
               type="text" 
               name="phone" 
+              id="phone"
               value={form.phone} 
               onChange={handleChange} 
               className="w-full border border-border rounded px-3 py-2 bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" 
@@ -204,17 +210,17 @@ const ProfilePage = () => {
             type="submit" 
             className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-lg border-2 border-primary font-medium transition-colors duration-150 hover:bg-primary/90 shadow-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
           >
-            Update Profile
+            {t('profilePage.updateProfile')}
           </button>
         </form>
 
         {/* Activity History */}
         <section className="mt-10">
-          <h2 className="text-2xl font-bold mb-4 text-foreground">Activity History</h2>
+          <h2 className="text-2xl font-bold mb-4 text-foreground">{t('profilePage.activityHistory')}</h2>
           <ul className="space-y-2">
             {activityHistory.length === 0 ? (
               <li className="text-muted-foreground bg-muted/50 p-3 rounded-lg shadow border border-border">
-                No activity yet.
+                {t('profilePage.noActivity')}
               </li>
             ) : (
               activityHistory.map((activity, idx) => (

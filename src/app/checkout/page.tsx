@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -166,16 +165,16 @@ const CheckoutPage = () => {
             <div className="bg-card rounded-lg shadow-md p-6">
               <div className="flex items-center mb-4"><MapPin className="h-5 w-5 text-primary mr-2" /><h2 className="text-xl font-semibold text-foreground">{t('deliveryAddress')}</h2></div>
               <div className="space-y-4">
-                <div><label className="block text-sm font-medium text-muted-foreground mb-1">{t('streetAddress')}</label><input type="text" value={address.street} onChange={(e) => handleAddressChange('street', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('enterStreetAddress')} /></div>
+                <div><label htmlFor="street" className="block text-sm font-medium text-muted-foreground mb-1">{t('streetAddress')}</label><input id="street" type="text" value={address.street} onChange={(e) => handleAddressChange('street', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('enterStreetAddress')} /></div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div><label className="block text-sm font-medium text-muted-foreground mb-1">{t('city')}</label><input type="text" value={address.city} onChange={(e) => handleAddressChange('city', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('city')} /></div>
-                  <div><label className="block text-sm font-medium text-muted-foreground mb-1">{t('state')}</label><input type="text" value={address.state} onChange={(e) => handleAddressChange('state', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('state')} /></div>
+                  <div><label htmlFor="city" className="block text-sm font-medium text-muted-foreground mb-1">{t('city')}</label><input id="city" type="text" value={address.city} onChange={(e) => handleAddressChange('city', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('city')} /></div>
+                  <div><label htmlFor="state" className="block text-sm font-medium text-muted-foreground mb-1">{t('state')}</label><input id="state" type="text" value={address.state} onChange={(e) => handleAddressChange('state', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('state')} /></div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div><label className="block text-sm font-medium text-muted-foreground mb-1">{t('zipCode')}</label><input type="text" value={address.zipCode} onChange={(e) => handleAddressChange('zipCode', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('zipCode')} /></div>
-                  <div><label className="block text-sm font-medium text-muted-foreground mb-1">{t('country')}</label><input type="text" value={address.country} readOnly className="w-full text-foreground px-3 py-2 border border-border rounded-lg bg-muted" /></div>
+                  <div><label htmlFor="zipCode" className="block text-sm font-medium text-muted-foreground mb-1">{t('zipCode')}</label><input id="zipCode" type="text" value={address.zipCode} onChange={(e) => handleAddressChange('zipCode', e.target.value)} className="w-full text-foreground px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('zipCode')} /></div>
+                  <div><label htmlFor="country" className="block text-sm font-medium text-muted-foreground mb-1">{t('country')}</label><input id="country" type="text" value={address.country} readOnly className="w-full text-foreground px-3 py-2 border border-border rounded-lg bg-muted" /></div>
                 </div>
-                <div><label className="block text-sm font-medium text-muted-foreground mb-1">{t('landmarkOptional')}</label><input type="text" value={address.landmark} onChange={(e) => handleAddressChange('landmark', e.target.value)} className="w-full px-3 text-foreground py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('nearbyLandmark')} /></div>
+                <div><label htmlFor="landmark" className="block text-sm font-medium text-muted-foreground mb-1">{t('landmarkOptional')}</label><input id="landmark" type="text" value={address.landmark} onChange={(e) => handleAddressChange('landmark', e.target.value)} className="w-full px-3 text-foreground py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder={t('nearbyLandmark')} /></div>
               </div>
             </div>
             {/* Payment Method */}

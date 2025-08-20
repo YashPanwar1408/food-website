@@ -64,7 +64,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-background shadow-md sticky top-0 z-50">
+    <nav aria-label="Main navigation" className="bg-background shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-1 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -134,7 +134,7 @@ const Navbar = () => {
             )}
 
             {/* Cart */}
-            <Link href="/cart" className="relative p-2 text-foreground hover:text-primary transition-colors">
+            <Link href="/cart" className="relative p-2 text-foreground hover:text-primary transition-colors" aria-label={`View your cart with ${state.totalItems} items`}>
               <ShoppingCart className="h-6 w-6" />
               {state.totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">

@@ -64,6 +64,31 @@ const resources = {
         stillNeedHelp: { title: 'Still need help?', content: 'Contact our support team at support@fooddelivery.com or call us at +91 90000 00000.' }
       },
 
+      // Profile Page
+      profilePage: {
+        title: 'Profile',
+        profileImage: 'Profile Image',
+        addPhoto: 'Click to add photo',
+        choosePhoto: 'Choose a profile picture by clicking above',
+        removePhoto: 'Remove Profile Picture',
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        phone: 'Phone',
+        updateProfile: 'Update Profile',
+        activityHistory: 'Activity History',
+        noActivity: 'No activity yet.',
+        updateSuccess: 'Profile updated successfully!',
+        removeSuccess: 'Profile image removed successfully!',
+        updateActivity: 'Profile updated at {{date}}',
+        removeActivity: 'Profile image removed at {{date}}',
+        loading: 'Loading...',
+        error: 'Error: {{error}}',
+        fetchError: 'Failed to fetch profile',
+        updateError: 'Failed to update profile',
+        removeError: 'Failed to remove profile image',
+        uploadAriaLabel: 'Upload a new profile image',
+      },
+
       // Food Items
       'food.margheritaPizza.name': 'Margherita Pizza', 'food.margheritaPizza.desc': 'Classic pizza with fresh tomatoes, mozzarella cheese, and basil', 'food.pepperoniPizza.name': 'Pepperoni Pizza', 'food.pepperoniPizza.desc': 'Delicious pizza topped with pepperoni and mozzarella cheese', 'food.veggieSupremePizza.name': 'Veggie Supreme Pizza', 'food.veggieSupremePizza.desc': 'Loaded with bell peppers, mushrooms, onions, and olives', 'food.chickenBiryani.name': 'Chicken Biryani', 'food.chickenBiryani.desc': 'Aromatic basmati rice cooked with tender chicken and spices', 'food.muttonBiryani.name': 'Mutton Biryani', 'food.muttonBiryani.desc': 'Rich and flavorful biryani with tender mutton pieces', 'food.vegBiryani.name': 'Veg Biryani', 'food.vegBiryani.desc': 'Fragrant vegetable biryani with mixed vegetables and saffron', 'food.paneerButterMasala.name': 'Paneer Butter Masala', 'food.paneerButterMasala.desc': 'Creamy tomato-based curry with soft paneer cubes', 'food.butterChicken.name': 'Butter Chicken', 'food.butterChicken.desc': 'Tender chicken in rich, creamy tomato-based sauce', 'food.dalMakhani.name': 'Dal Makhani', 'food.dalMakhani.desc': 'Slow-cooked black lentils in a creamy, buttery gravy', 'food.chickenBurger.name': 'Chicken Burger', 'food.chickenBurger.desc': 'Juicy grilled chicken patty with lettuce, tomato, and mayo', 'food.vegBurger.name': 'Veg Burger', 'food.vegBurger.desc': 'Crispy vegetable patty with fresh lettuce and special sauce', 'food.cheeseBurger.name': 'Cheese Burger', 'food.cheeseBurger.desc': 'Classic beef patty with melted cheese and pickles', 'food.vegHakkaNoodles.name': 'Veg Hakka Noodles', 'food.vegHakkaNoodles.desc': 'Stir-fried noodles with fresh vegetables and soy sauce', 'food.chickenFriedRice.name': 'Chicken Fried Rice', 'food.chickenFriedRice.desc': 'Wok-tossed rice with chicken, vegetables, and soy sauce', 'food.manchurian.name': 'Manchurian', 'food.manchurian.desc': 'Deep-fried vegetable balls in a tangy Manchurian sauce', 'food.masalaDosa.name': 'Masala Dosa', 'food.masalaDosa.desc': 'Crispy rice crepe filled with spiced potato curry', 'food.idliSambar.name': 'Idli Sambar', 'food.idliSambar.desc': 'Steamed rice cakes served with lentil curry and chutney', 'food.uttapam.name': 'Uttapam', 'food.uttapam.desc': 'Thick pancake topped with vegetables and served with chutney', 'food.chocolateBrownie.name': 'Chocolate Brownie', 'food.chocolateBrownie.desc': 'Rich, fudgy chocolate brownie, a perfect dessert.', 'food.gulabJamun.name': 'Gulab Jamun', 'food.gulabJamun.desc': 'Soft milk dumplings soaked in rose-flavored sugar syrup', 'food.iceCreamSundae.name': 'Ice Cream Sundae', 'food.iceCreamSundae.desc': 'Vanilla ice cream with chocolate sauce, nuts, and a cherry', 'food.frenchFries.name': 'French Fries', 'food.frenchFries.desc': 'Crispy golden fries served with ketchup and mayo', 'food.chickenWings.name': 'Chicken Wings', 'food.chickenWings.desc': 'Spicy buffalo chicken wings with ranch dipping sauce', 'food.fishAndChips.name': 'Fish and Chips', 'food.fishAndChips.desc': 'Battered fish fillet with crispy chips and tartar sauce'
     }
@@ -111,6 +136,29 @@ const resources = {
         },
         stillNeedHelp: { title: 'अभी भी सहायता चाहिए?', content: 'हमारी सहायता टीम से support@fooddelivery.com पर संपर्क करें या हमें +91 90000 00000 पर कॉल करें।' }
       },
+      profilePage: {
+        title: 'प्रोफ़ाइल',
+        profileImage: 'प्रोफ़ाइल छवि',
+        addPhoto: 'फोटो जोड़ने के लिए क्लिक करें',
+        choosePhoto: 'ऊपर क्लिक करके एक प्रोफ़ाइल चित्र चुनें',
+        removePhoto: 'प्रोफ़ाइल चित्र हटाएं',
+        firstName: 'पहला नाम',
+        lastName: 'अंतिम नाम',
+        phone: 'फ़ोन',
+        updateProfile: 'प्रोफ़ाइल अपडेट करें',
+        activityHistory: 'गतिविधि इतिहास',
+        noActivity: 'अभी तक कोई गतिविधि नहीं।',
+        updateSuccess: 'प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!',
+        removeSuccess: 'प्रोफ़ाइल छवि सफलतापूर्वक हटा दी गई!',
+        updateActivity: 'प्रोफ़ाइल {{date}} को अपडेट की गई',
+        removeActivity: 'प्रोफ़ाइल छवि {{date}} को हटा दी गई',
+        loading: 'लोड हो रहा है...',
+        error: 'त्रुटि: {{error}}',
+        fetchError: 'प्रोफ़ाइल लाने में विफल',
+        updateError: 'प्रोफ़ाइल अपडेट करने में विफल',
+        removeError: 'प्रोफ़ाइल छवि हटाने में विफल',
+        uploadAriaLabel: 'एक नई प्रोफ़ाइल छवि अपलोड करें',
+      },
       'food.margheritaPizza.name': 'मार्घेरिटा पिज़्ज़ा', 'food.margheritaPizza.desc': 'ताज़े टमाटर, मोज़रेला चीज़ और तुलसी के साथ क्लासिक पिज़्ज़ा', 'food.pepperoniPizza.name': 'पेपरोनी पिज़्ज़ा', 'food.pepperoniPizza.desc': 'पेपरोनी और मोज़रेला चीज़ के साथ स्वादिष्ट पिज़्ज़ा', 'food.veggieSupremePizza.name': 'वेजी सुप्रीम पिज़्ज़ा', 'food.veggieSupremePizza.desc': 'शिमला मिर्च, मशरूम, प्याज और ऑलिव्स के साथ', 'food.chickenBiryani.name': 'चिकन बिरयानी', 'food.chickenBiryani.desc': 'नरम चिकन और मसालों के साथ पकाया गया सुगंधित बासमती चावल।', 'food.muttonBiryani.name': 'मटन बिरयानी', 'food.muttonBiryani.desc': 'नरम मटन के टुकड़ों के साथ समृद्ध और स्वादिष्ट बिरयानी।', 'food.vegBiryani.name': 'वेज बिरयानी', 'food.vegBiryani.desc': 'मिश्रित सब्जियों और केसर के साथ सुगंधित सब्जी बिरयानी।', 'food.paneerButterMasala.name': 'पनीर बटर मसाला', 'food.paneerButterMasala.desc': 'नरम पनीर क्यूब्स के साथ मलाईदार टमाटर आधारित करी।', 'food.butterChicken.name': 'बटर चिकन', 'food.butterChicken.desc': 'समृद्ध, मलाईदार टमाटर आधारित सॉस में नरम चिकन।', 'food.dalMakhani.name': 'दाल मखनी', 'food.dalMakhani.desc': 'मलाईदार, मक्खन वाली ग्रेवी में धीमी गति से पकाई गई काली दाल।', 'food.chickenBurger.name': 'चिकन बर्गर', 'food.chickenBurger.desc': 'सलाद, टमाटर और मेयो के साथ रसदार ग्रिल्ड चिकन पैटी।', 'food.vegBurger.name': 'वेज बर्गर', 'food.vegBurger.desc': 'ताजा सलाद और विशेष सॉस के साथ खस्ता सब्जी पैटी।', 'food.cheeseBurger.name': 'चीज़ बर्गर', 'food.cheeseBurger.desc': 'पिघले हुए पनीर और अचार के साथ क्लासिक बीफ़ पैटी।', 'food.vegHakkaNoodles.name': 'वेज हक्का नूडल्स', 'food.vegHakkaNoodles.desc': 'ताजी सब्जियों और सोया सॉस के साथ तले हुए नूडल्स।', 'food.chickenFriedRice.name': 'चिकन फ्राइड राइस', 'food.chickenFriedRice.desc': 'चिकन, सब्जियों और सोया सॉस के साथ कड़ाही में उछाले गए चावल।', 'food.manchurian.name': 'मंचूरियन', 'food.manchurian.desc': 'तीखी मंचूरियन सॉस में तली हुई सब्जी की गेंदें।', 'food.masalaDosa.name': 'मसाला डोसा', 'food.masalaDosa.desc': 'मसालेदार आलू करी से भरा खस्ता चावल क्रेप।', 'food.idliSambar.name': 'इडली सांभर', 'food.idliSambar.desc': 'उबले हुए चावल के केक दाल करी और चटनी के साथ परोसे जाते हैं।', 'food.uttapam.name': 'उत्तपम', 'food.uttapam.desc': 'सब्जियों के साथ मोटा पैनकेक और चटनी के साथ परोसा जाता है।', 'food.chocolateBrownie.name': 'चॉकलेट ब्राउनी', 'food.chocolateBrownie.desc': 'समृद्ध, फजी चॉकलेट ब्राउनी, एक आदर्श मिठाई।', 'food.gulabJamun.name': 'गुलाब जामुन', 'food.gulabJamun.desc': 'गुलाब के स्वाद वाली चीनी की चाशनी में भिगोए हुए नरम दूध के पकौड़े।', 'food.iceCreamSundae.name': 'आइसक्रीम संडे', 'food.iceCreamSundae.desc': 'चॉकलेट सॉस, नट्स और चेरी के साथ वेनिला आइसक्रीम।', 'food.frenchFries.name': 'फ्रेंच फ्राइज़', 'food.frenchFries.desc': 'केचप और मेयो के साथ परोसे जाने वाले खस्ता सुनहरे फ्राइज़।', 'food.chickenWings.name': 'चिकन विंग्स', 'food.chickenWings.desc': 'खेत की सूई सॉस के साथ मसालेदार भैंस चिकन पंख।', 'food.fishAndChips.name': 'फिश एंड चिप्स', 'food.fishAndChips.desc': 'खस्ता चिप्स और टार्टर सॉस के साथ पीटा हुआ मछली पट्टिका।'
     }
   },
@@ -157,6 +205,29 @@ const resources = {
         },
         stillNeedHelp: { title: '¿Aún necesitas ayuda?', content: 'Póngase en contacto con nuestro equipo de soporte en support@fooddelivery.com o llámenos al +91 90000 00000.' }
       },
+      profilePage: {
+        title: 'Perfil',
+        profileImage: 'Imagen de perfil',
+        addPhoto: 'Haga clic para agregar una foto',
+        choosePhoto: 'Elija una foto de perfil haciendo clic arriba',
+        removePhoto: 'Eliminar foto de perfil',
+        firstName: 'Nombre',
+        lastName: 'Apellido',
+        phone: 'Teléfono',
+        updateProfile: 'Actualizar perfil',
+        activityHistory: 'Historial de actividad',
+        noActivity: 'Aún no hay actividad.',
+        updateSuccess: '¡Perfil actualizado con éxito!',
+        removeSuccess: '¡Imagen de perfil eliminada con éxito!',
+        updateActivity: 'Perfil actualizado el {{date}}',
+        removeActivity: 'Imagen de perfil eliminada el {{date}}',
+        loading: 'Cargando...',
+        error: 'Error: {{error}}',
+        fetchError: 'Error al cargar el perfil',
+        updateError: 'Error al actualizar el perfil',
+        removeError: 'Error al eliminar la imagen de perfil',
+        uploadAriaLabel: 'Sube una nueva imagen de perfil',
+      },
       'food.margheritaPizza.name': 'Pizza Margherita', 'food.margheritaPizza.desc': 'Pizza clásica con tomates frescos, queso mozzarella y albahaca', 'food.pepperoniPizza.name': 'Pizza de Pepperoni', 'food.pepperoniPizza.desc': 'Pizza deliciosa con pepperoni y queso mozzarella', 'food.veggieSupremePizza.name': 'Pizza Vegetariana Suprema', 'food.veggieSupremePizza.desc': 'Cargada con pimientos, champiñones, cebollas y aceitunas', 'food.chickenBiryani.name': 'Biryani de Pollo', 'food.chickenBiryani.desc': 'Arroz basmati aromático cocido con pollo tierno y especias', 'food.muttonBiryani.name': 'Biryani de Cordero', 'food.muttonBiryani.desc': 'Biryani rico y sabroso con tiernos trozos de cordero', 'food.vegBiryani.name': 'Biryani de Verduras', 'food.vegBiryani.desc': 'Fragante biryani de verduras con vegetales mixtos y azafrán', 'food.paneerButterMasala.name': 'Paneer Butter Masala', 'food.paneerButterMasala.desc': 'Curry cremoso a base de tomate con suaves cubos de paneer', 'food.butterChicken.name': 'Pollo a la Mantequilla', 'food.butterChicken.desc': 'Pollo tierno en una rica y cremosa salsa a base de tomate', 'food.dalMakhani.name': 'Dal Makhani', 'food.dalMakhani.desc': 'Lentejas negras cocidas a fuego lento en una salsa cremosa y mantecosa', 'food.chickenBurger.name': 'Hamburguesa de Pollo', 'food.chickenBurger.desc': 'Jugosa hamburguesa de pollo a la parrilla con lechuga, tomate y mayonesa', 'food.vegBurger.name': 'Hamburguesa Vegetariana', 'food.vegBurger.desc': 'Crujiente hamburguesa de verduras con lechuga fresca y salsa especial', 'food.cheeseBurger.name': 'Hamburguesa con Queso', 'food.cheeseBurger.desc': 'Clásica hamburguesa de ternera con queso derretido y pepinillos', 'food.vegHakkaNoodles.name': 'Fideos Hakka Vegetarianos', 'food.vegHakkaNoodles.desc': 'Fideos salteados con verduras frescas y salsa de soja', 'food.chickenFriedRice.name': 'Arroz Frito con Pollo', 'food.chickenFriedRice.desc': 'Arroz salteado al wok con pollo, verduras y salsa de soja', 'food.manchurian.name': 'Manchurian', 'food.manchurian.desc': 'Bolas de verduras fritas en una salsa Manchurian agridulce', 'food.masalaDosa.name': 'Masala Dosa', 'food.masalaDosa.desc': 'Crepe de arroz crujiente relleno de curry de patata especiado', 'food.idliSambar.name': 'Idli Sambar', 'food.idliSambar.desc': 'Pasteles de arroz al vapor servidos con curry de lentejas y chutney', 'food.uttapam.name': 'Uttapam', 'food.uttapam.desc': 'Panqueque grueso cubierto con verduras y servido con chutney', 'food.chocolateBrownie.name': 'Brownie de Chocolate', 'food.chocolateBrownie.desc': 'Brownie de chocolate rico y denso, un postre perfecto', 'food.gulabJamun.name': 'Gulab Jamun', 'food.gulabJamun.desc': 'Bolas de masa de leche suaves remojadas en almíbar de azúcar con sabor a rosa', 'food.iceCreamSundae.name': 'Copa de Helado', 'food.iceCreamSundae.desc': 'Helado de vainilla con salsa de chocolate, nueces y una cereza', 'food.frenchFries.name': 'Patatas Fritas', 'food.frenchFries.desc': 'Crujientes patatas fritas doradas servidas con ketchup y mayonesa', 'food.chickenWings.name': 'Alitas de Pollo', 'food.chickenWings.desc': 'Alitas de pollo picantes estilo búfalo con salsa ranch', 'food.fishAndChips.name': 'Pescado con Patatas Fritas', 'food.fishAndChips.desc': 'Filete de pescado rebozado con patatas fritas crujientes y salsa tártara'
     }
   },
@@ -179,7 +250,7 @@ const resources = {
       'categories.fastfood': 'Fast Food',
       privacyPage: {
         title: 'Politique de Confidentialité', lastUpdated: 'Dernière mise à jour : 8 août 2025',
-        introduction: { title: 'Introduction', content: 'Bienvenue sur FoodDelivery. Nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles. Cette politique de confidentialité vous informera sur la manière dont nous traitons vos données personnelles lorsque vous visitez notre site web.' },
+        introduction: { title: 'Introduction', content: 'Bienvenue sur FoodDelivery. Nous respectons votre vie privée et nous nous engageons à proteger vos données personnelles. Cette politique de confidentialité vous informera sur la manière dont nous traitons vos données personnelles lorsque vous visitez notre site web.' },
         informationWeCollect: { title: 'Informations que nous collectons', content: 'Nous pouvons collecter, utiliser, stocker et transférer différents types de données personnelles vous concernant que nous avons regroupées comme suit :', item1: 'Les Données d’Identité comprennent le prénom, le nom de famille et le nom d’utilisateur.', item2: 'Les Données de Contact comprennent l’adresse de livraison, l’adresse e-mail et les numéros de téléphone.', item3: 'Les Données de Transaction comprennent des détails sur les paiements que vous effectuez et que vous recevez, ainsi que d’autres détails sur les produits et services que vous avez achetés chez nous.' },
         howWeUseInformation: { title: 'Comment nous utilisons vos informations', content: 'Nous n’utiliserons vos données personnelles que lorsque la loi nous y autorise. Le plus souvent, nous utiliserons vos données personnelles pour traiter et livrer votre commande, gérer les paiements et gérer notre relation avec vous.' },
         dataSecurity: { title: 'Sécurité des données', content: 'Nous avons mis en place des mesures de sécurité appropriées pour empêcher que vos données personnelles ne soient accidentellement perdues, utilisées ou consultées de manière non autorisée.' },
@@ -202,6 +273,29 @@ const resources = {
           q4: 'Y a-t-il une valeur de commande minimale ?', a4: 'La valeur de commande minimale peut varier en fonction du restaurant. Veuillez consulter la page du restaurant pour plus de détails.'
         },
         stillNeedHelp: { title: 'Besoin d\'aide ?', content: 'Contactez notre équipe de support à support@fooddelivery.com ou appelez-nous au +91 90000 00000.' }
+      },
+      profilePage: {
+        title: 'Profil',
+        profileImage: 'Image de profil',
+        addPhoto: 'Cliquez pour ajouter une photo',
+        choosePhoto: 'Choisissez une photo de profil en cliquant ci-dessus',
+        removePhoto: 'Supprimer la photo de profil',
+        firstName: 'Prénom',
+        lastName: 'Nom de famille',
+        phone: 'Téléphone',
+        updateProfile: 'Mettre à jour le profil',
+        activityHistory: 'Historique des activités',
+        noActivity: 'Aucune activité pour le moment.',
+        updateSuccess: 'Profil mis à jour avec succès !',
+        removeSuccess: 'Image de profil supprimée avec succès !',
+        updateActivity: 'Profil mis à jour le {{date}}',
+        removeActivity: 'Image de profil supprimée le {{date}}',
+        loading: 'Chargement...',
+        error: 'Erreur : {{error}}',
+        fetchError: 'Échec de la récupération du profil',
+        updateError: 'Échec de la mise à jour du profil',
+        removeError: 'Échec de la suppression de l\'image de profil',
+        uploadAriaLabel: 'Télécharger une nouvelle image de profil',
       },
       'food.margheritaPizza.name': 'Pizza Margherita', 'food.margheritaPizza.desc': 'Pizza classique avec des tomates fraîches, de la mozzarella et du basilic', 'food.pepperoniPizza.name': 'Pizza au Pepperoni', 'food.pepperoniPizza.desc': 'Délicieuse pizza garnie de pepperoni et de mozzarella', 'food.veggieSupremePizza.name': 'Pizza Végétarienne Suprême', 'food.veggieSupremePizza.desc': 'Garnie de poivrons, champignons, oignons et olives', 'food.chickenBiryani.name': 'Biryani au Poulet', 'food.chickenBiryani.desc': 'Riz basmati aromatique cuit avec du poulet tendre et des épices', 'food.muttonBiryani.name': "Biryani à l'Agneau", 'food.muttonBiryani.desc': 'Biryani riche et savoureux avec de tendres morceaux d’agneau', 'food.vegBiryani.name': 'Biryani aux Légumes', 'food.vegBiryani.desc': 'Biryani parfumé aux légumes avec des légumes mélangés et du safran', 'food.paneerButterMasala.name': 'Paneer Butter Masala', 'food.paneerButterMasala.desc': 'Curry crémeux à base de tomates avec des cubes de paneer moelleux', 'food.butterChicken.name': 'Poulet au Beurre', 'food.butterChicken.desc': 'Poulet tendre dans une sauce riche et crémeuse à base de tomates', 'food.dalMakhani.name': 'Dal Makhani', 'food.dalMakhani.desc': 'Lentilles noires cuites lentement dans une sauce crémeuse et beurrée', 'food.chickenBurger.name': 'Burger au Poulet', 'food.chickenBurger.desc': 'Galette de poulet grillée juteuse avec laitue, tomate et mayonnaise', 'food.vegBurger.name': 'Burger Végétarien', 'food.vegBurger.desc': 'Galette de légumes croustillante avec de la laitue fraîche et une sauce spéciale', 'food.cheeseBurger.name': 'Cheeseburger', 'food.cheeseBurger.desc': 'Galette de bœuf classique avec du fromage fondu et des cornichons', 'food.vegHakkaNoodles.name': 'Nouilles Hakka aux Légumes', 'food.vegHakkaNoodles.desc': 'Nouilles sautées avec des légumes frais et de la sauce soja', 'food.chickenFriedRice.name': 'Riz Frit au Poulet', 'food.chickenFriedRice.desc': 'Riz sauté au wok avec du poulet, des légumes et de la sauce soja', 'food.manchurian.name': 'Manchurian', 'food.manchurian.desc': 'Boulettes de légumes frites dans une sauce mandchoue acidulée', 'food.masalaDosa.name': 'Masala Dosa', 'food.masalaDosa.desc': 'Crêpe de riz croustillante farcie de curry de pommes de terre épicé', 'food.idliSambar.name': 'Idli Sambar', 'food.idliSambar.desc': 'Gâteaux de riz cuits à la vapeur servis avec un curry de lentilles et du chutney', 'food.uttapam.name': 'Uttapam', 'food.uttapam.desc': 'Crêpe épaisse garnie de légumes et servie avec du chutney', 'food.chocolateBrownie.name': 'Brownie au Chocolat', 'food.chocolateBrownie.desc': 'Brownie au chocolat riche et fondant, un dessert parfait', 'food.gulabJamun.name': 'Gulab Jamun', 'food.gulabJamun.desc': 'Boulettes de lait tendres trempées dans un sirop de sucre à la rose', 'food.iceCreamSundae.name': 'Sundae à la Glace', 'food.iceCreamSundae.desc': 'Glace à la vanille avec sauce au chocolat, noix et une cerise', 'food.frenchFries.name': 'Frites', 'food.frenchFries.desc': 'Frites dorées et croustillantes servies avec du ketchup et de la mayonnaise', 'food.chickenWings.name': 'Ailes de Poulet', 'food.chickenWings.desc': 'Ailes de poulet buffalo épicées avec sauce ranch', 'food.fishAndChips.name': 'Fish and Chips', 'food.fishAndChips.desc': 'Filet de poisson pané avec des frites croustillantes et de la sauce tartare'
     }
@@ -249,6 +343,29 @@ const resources = {
         },
         stillNeedHelp: { title: '仍需帮助？', content: '请通过 support@fooddelivery.com 联系我们的支持团队，或致电 +91 90000 00000。' }
       },
+      profilePage: {
+        title: '个人资料',
+        profileImage: '个人资料图片',
+        addPhoto: '点击添加照片',
+        choosePhoto: '点击上方选择个人资料图片',
+        removePhoto: '删除个人资料图片',
+        firstName: '名',
+        lastName: '姓',
+        phone: '电话',
+        updateProfile: '更新个人资料',
+        activityHistory: '活动历史',
+        noActivity: '暂无活动。',
+        updateSuccess: '个人资料更新成功！',
+        removeSuccess: '个人资料图片已成功删除！',
+        updateActivity: '个人资料更新于 {{date}}',
+        removeActivity: '个人资料图片删除于 {{date}}',
+        loading: '加载中...',
+        error: '错误：{{error}}',
+        fetchError: '获取个人资料失败',
+        updateError: '更新个人资料失败',
+        removeError: '删除个人资料图片失败',
+        uploadAriaLabel: '上传新的个人资料图片',
+      },
       'food.margheritaPizza.name': '玛格丽塔披萨', 'food.margheritaPizza.desc': '经典披萨，配以新鲜番茄、马苏里拉奶酪和罗勒', 'food.pepperoniPizza.name': '意大利辣香肠披萨', 'food.pepperoniPizza.desc': '美味披萨，配以辣香肠和马苏里拉奶酪', 'food.veggieSupremePizza.name': '素食至尊披萨', 'food.veggieSupremePizza.desc': '配有青椒、蘑菇、洋葱和橄榄', 'food.chickenBiryani.name': '鸡肉香饭', 'food.chickenBiryani.desc': '用嫩鸡和香料烹制的香米饭', 'food.muttonBiryani.name': '羊肉香饭', 'food.muttonBiryani.desc': '用嫩羊肉块烹制的浓郁可口的香饭', 'food.vegBiryani.name': '蔬菜香饭', 'food.vegBiryani.desc': '用混合蔬菜和藏红花烹制的芬芳蔬菜香饭', 'food.paneerButterMasala.name': '印度奶酪黄油马萨拉', 'food.paneerButterMasala.desc': '奶油番茄咖喱配软印度奶酪块', 'food.butterChicken.name': '黄油鸡', 'food.butterChicken.desc': '浓郁奶油番茄酱中的嫩鸡肉', 'food.dalMakhani.name': '奶油黑豆咖喱', 'food.dalMakhani.desc': '在奶油黄油肉汁中慢煮的黑扁豆', 'food.chickenBurger.name': '鸡肉汉堡', 'food.chickenBurger.desc': '多汁的烤鸡肉饼配生菜、番茄和蛋黄酱', 'food.vegBurger.name': '素食汉堡', 'food.vegBurger.desc': '脆皮蔬菜饼配新鲜生菜和特制酱汁', 'food.cheeseBurger.name': '芝士汉堡', 'food.cheeseBurger.desc': '经典牛肉饼配融化芝士和泡菜', 'food.vegHakkaNoodles.name': '素食客家面', 'food.vegHakkaNoodles.desc': '用新鲜蔬菜和酱油炒制的面条', 'food.chickenFriedRice.name': '鸡肉炒饭', 'food.chickenFriedRice.desc': '用鸡肉、蔬菜和酱油炒制的米饭', 'food.manchurian.name': '满洲丸子', 'food.manchurian.desc': '酸甜满洲酱中的油炸蔬菜丸子', 'food.masalaDosa.name': '马萨拉多萨', 'food.masalaDosa.desc': '夹有香料土豆咖喱的脆皮米饼', 'food.idliSambar.name': '蒸米浆糕配扁豆汤', 'food.idliSambar.desc': '蒸米糕配扁豆咖喱和酸辣酱', 'food.uttapam.name': '蔬菜厚米饼', 'food.uttapam.desc': '上面铺有蔬菜的厚煎饼，配酸辣酱', 'food.chocolateBrownie.name': '巧克力布朗尼', 'food.chocolateBrownie.desc': '浓郁、软糯的巧克力布朗尼，完美的甜点', 'food.gulabJamun.name': ' गुलाब जामुन', 'food.gulabJamun.desc': '浸泡在玫瑰味糖浆中的软牛奶饺子', 'food.iceCreamSundae.name': '冰淇淋圣代', 'food.iceCreamSundae.desc': '香草冰淇淋配巧克力酱、坚果和樱桃', 'food.frenchFries.name': '炸薯条', 'food.frenchFries.desc': '配番茄酱和蛋黄酱的香脆金黄薯条', 'food.chickenWings.name': '鸡翅', 'food.chickenWings.desc': '辣味水牛城鸡翅配牧场蘸酱', 'food.fishAndChips.name': '炸鱼薯条', 'food.fishAndChips.desc': '裹糊炸鱼柳配香脆薯条和鞑靼酱'
     }
   },
@@ -294,6 +411,29 @@ const resources = {
           q4: '最低注文額はありますか？', a4: '最低注文額はレストランによって異なる場合があります。詳細については、レストランのページをご確認ください。'
         },
         stillNeedHelp: { title: 'まだお困りですか？', content: 'サポートチーム（support@fooddelivery.com）にご連絡いただくか、+91 90000 00000までお電話ください。' }
+      },
+      profilePage: {
+        title: 'プロフィール',
+        profileImage: 'プロフィール画像',
+        addPhoto: 'クリックして写真を追加',
+        choosePhoto: '上をクリックしてプロフィール写真を選択してください',
+        removePhoto: 'プロフィール写真を削除',
+        firstName: '名',
+        lastName: '姓',
+        phone: '電話',
+        updateProfile: 'プロフィールを更新',
+        activityHistory: 'アクティビティ履歴',
+        noActivity: 'まだアクティビティはありません。',
+        updateSuccess: 'プロフィールが正常に更新されました！',
+        removeSuccess: 'プロフィール画像が正常に削除されました！',
+        updateActivity: 'プロフィールは{{date}}に更新されました',
+        removeActivity: 'プロフィール画像は{{date}}に削除されました',
+        loading: '読み込み中...',
+        error: 'エラー: {{error}}',
+        fetchError: 'プロフィールの取得に失敗しました',
+        updateError: 'プロフィールの更新に失敗しました',
+        removeError: 'プロフィール画像の削除に失敗しました',
+        uploadAriaLabel: '新しいプロフィール画像をアップロード',
       },
       'food.margheritaPizza.name': 'マルゲリータピザ', 'food.margheritaPizza.desc': '新鮮なトマト、モッツァレラチーズ、バジルを使ったクラシックピザ', 'food.pepperoniPizza.name': 'ペパロニピザ', 'food.pepperoniPizza.desc': 'ペパロニとモッツァレラチーズがのった美味しいピザ', 'food.veggieSupremePizza.name': 'ベジ・シュプリームピザ', 'food.veggieSupremePizza.desc': 'ピーマン、マッシュルーム、玉ねぎ、オリーブ入り', 'food.chickenBiryani.name': 'チキンビリヤニ', 'food.chickenBiryani.desc': '柔らかい鶏肉とスパイスで炊き上げた香り高いバスマティライス', 'food.muttonBiryani.name': 'マトンビリヤニ', 'food.muttonBiryani.desc': '柔らかいマトン肉を使ったリッチで風味豊かなビリヤニ', 'food.vegBiryani.name': '野菜ビリヤニ', 'food.vegBiryani.desc': 'ミックス野菜とサフランを使った香り高い野菜ビリヤニ', 'food.paneerButterMasala.name': 'パニールバターマサラ', 'food.paneerButterMasala.desc': '柔らかいパニールのキューブが入ったクリーミーなトマトベースのカレー', 'food.butterChicken.name': 'バターチキン', 'food.butterChicken.desc': 'リッチでクリーミーなトマトベースのソースで煮込んだ柔らかいチキン', 'food.dalMakhani.name': 'ダルマカニ', 'food.dalMakhani.desc': 'クリーミーでバター風味のグレービーでじっくり煮込んだ黒レンズ豆', 'food.chickenBurger.name': 'チキンバーガー', 'food.chickenBurger.desc': 'レタス、トマト、マヨネーズが入ったジューシーなグリルチキンパティ', 'food.vegBurger.name': 'ベジバーガー', 'food.vegBurger.desc': '新鮮なレタスと特製ソースを使ったカリカリの野菜パティ', 'food.cheeseBurger.name': 'チーズバーガー', 'food.cheeseBurger.desc': '溶けたチーズとピクルスが入ったクラシックなビーフパティ', 'food.vegHakkaNoodles.name': '野菜ハッカヌードル', 'food.vegHakkaNoodles.desc': '新鮮な野菜と醤油で炒めた麺', 'food.chickenFriedRice.name': 'チキンチャーハン', 'food.chickenFriedRice.desc': '鶏肉、野菜、醤油で炒めたご飯', 'food.manchurian.name': 'マンチュリアン', 'food.manchurian.desc': '甘酸っぱい満州ソースで揚げた野菜ボール', 'food.masalaDosa.name': 'マサラドーサ', 'food.masalaDosa.desc': 'スパイスの効いたポテトカレーを詰めたカリカリの米クレープ', 'food.idliSambar.name': 'イドリサンバル', 'food.idliSambar.desc': 'レンズ豆のカレーとチャツネを添えた蒸し米ケーキ', 'food.uttapam.name': 'ウッタパム', 'food.uttapam.desc': '野菜をトッピングし、チャツネを添えた厚いパンケーキ', 'food.chocolateBrownie.name': 'チョコレートブラウニー', 'food.chocolateBrownie.desc': '濃厚でしっとりとしたチョコレートブラウニー、完璧なデザート', 'food.gulabJamun.name': 'グラブジャムン', 'food.gulabJamun.desc': 'ローズ風味のシュガーシロップに浸した柔らかいミルク団子', 'food.iceCreamSundae.name': 'アイスクリームサンデー', 'food.iceCreamSundae.desc': 'バニラアイスクリームにチョコレートソース、ナッツ、チェリーを添えて', 'food.frenchFries.name': 'フライドポテト', 'food.frenchFries.desc': 'ケチャップとマヨネーズを添えたカリカリの黄金色のフライドポテト', 'food.chickenWings.name': '手羽先', 'food.chickenWings.desc': 'ランチディップソース付きのスパイシーなバッファローチキンウィング', 'food.fishAndChips.name': 'フィッシュアンドチップス', 'food.fishAndChips.desc': 'カリカリのチップスとタルタルソースを添えた魚のフリッター'
     }

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -31,7 +30,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem }) => {
         <div className="relative h-48 w-full">
           <Image
             src={foodItem.image}
-            alt={t(foodItem.name)}
+            alt={`${t(foodItem.name)} - a delicious food item`}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

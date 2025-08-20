@@ -22,16 +22,18 @@
 }
 
 html.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --primary-hover: 210 40% 80%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --card-hover: 217.2 32.6% 17.5%;
-  --border: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
+  --background: 222.2 84% 4.9%; /* almost black */
+  --foreground: 210 40% 98%; /* almost white */
+  --primary: 210 40% 98%; /* almost white */
+  --primary-foreground: 222.2 47.4% 11.2%; /* almost black */
+  --primary-hover: 210 40% 80%; /* lighter gray */
+  --card: 222.2 84% 4.9%; /* almost black */
+  --card-foreground: 210 40% 98%; /* almost white */
+  
+  /* --- ADJUSTED VALUES --- */
+  --card-hover: 217.2 32.6% 22%;  /* Made hover slightly lighter */
+  --border: 217.2 32.6% 22%;      /* Made border slightly lighter */
+  --muted-foreground: 215 20.2% 75.1%; /* Made muted text much lighter */
   --accent: 217.2 32.6% 17.5%;
 }
 
