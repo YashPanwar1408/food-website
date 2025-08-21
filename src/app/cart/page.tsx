@@ -86,7 +86,7 @@ const CartPage = () => {
           {/* Order Summary */}
           <div className="lg:col-span-1 bg-card rounded-lg shadow-md p-6 h-fit">
             <h2 className="text-xl font-semibold text-foreground mb-4">{t('orderSummary')}</h2>
-            <div className="space-y-2">
+            <div className="space-y-2" aria-live="polite">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t('subtotal')}</span>
                 <span className="text-foreground">₹{state.totalAmount.toFixed(2)}</span>

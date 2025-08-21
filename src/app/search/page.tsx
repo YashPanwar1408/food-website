@@ -271,7 +271,7 @@ const SearchPage = () => {
           )}
 
           {/* Results */}
-          <div className="mb-4">
+          <div className="mb-4" aria-live="polite">
             <p className="text-muted-foreground">
               {t('resultsFound', { count: filteredItems.length })}
             </p>
