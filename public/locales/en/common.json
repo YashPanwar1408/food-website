@@ -1,4 +1,5 @@
 {
+  "restaurant": "Restaurant",
   "food": {
     "margheritaPizza": {
       "name": "Margherita Pizza",
